@@ -150,6 +150,7 @@ public class TipiPaymentJspBean
      */
     private boolean isTipiPaymentAlreadyProcessed( Tipi tipi )
     {
+        // TODO : change this to !StringUtils.isEmpty( tipi.getResultTransaction( ) )
         return !StringUtils.isEmpty( tipi.getIdOp( ) );
     }
 
