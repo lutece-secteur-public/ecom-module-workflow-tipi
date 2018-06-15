@@ -68,7 +68,7 @@ public class TipiTask extends SimpleTask
     @Override
     public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale local )
     {
-        // Nothing to do
+        // TODO : save the task id in the table workflow_task_tipi_refdet_history
     }
 
     /**
