@@ -49,6 +49,8 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
  */
 public class TipiTask extends SimpleTask
 {
+    // Message
+    private static final String MESSAGE_TASK_TITLE = "module.workflow.tipi.task_title";
 
     @Inject
     private TaskTipiConfigDAO _taskTipiConfigDAO;
@@ -57,8 +59,7 @@ public class TipiTask extends SimpleTask
     @Override
     public String getTitle( Locale local )
     {
-        String taskName = "Workflow-tipi.tipi_task_title";
-        return I18nService.getLocalizedString( taskName, local );
+        return I18nService.getLocalizedString( MESSAGE_TASK_TITLE, local );
     }
 
     /**
