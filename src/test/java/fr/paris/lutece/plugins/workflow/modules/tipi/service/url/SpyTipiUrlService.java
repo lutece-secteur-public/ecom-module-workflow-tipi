@@ -33,46 +33,44 @@
  */
 package fr.paris.lutece.plugins.workflow.modules.tipi.service.url;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.ITipiUrlService;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 
-/**
- * This interface represents a service for TIPI URLs
- *
- */
-public interface ITipiUrlService
+public class SpyTipiUrlService implements ITipiUrlService
 {
-    /**
-     * Generated the URL for the TIPI payment. This URL points to the JSP DoProcessPayment.jsp.
-     * 
-     * @param resourceHistory
-     *            the resource history used to generate the URL
-     * @param task
-     *            the task used to generate the URL
-     * @param request
-     *            the request used to generate the URL
-     * @return the generated URL
-     */
-    String generatePaymentUrl( ResourceHistory resourceHistory, ITask task, HttpServletRequest request );
+    private static final String URL_PAYMENT = "FakeTipiUrlService_payment";
+    private static final String URL_TIPI = "FakeTipiUrlService_tipi";
+    private static final Random _random = new Random( );
 
-    /**
-     * Tests whether the request is authenticated or not
-     * 
-     * @param request
-     *            the request to test
-     * @return {@code true} if the request is authenticated, {@code false} otherwise
-     */
-    boolean isPaymentUrlAuthenticated( HttpServletRequest request );
+    public String _strGeneratedPaymentUrl;
+    public boolean _bIsPaymentUrlAuthenticated = true;
+    public String _strGeneratedTipiUrl;
 
-    /**
-     * Generates the URL of the TIPI service
-     * 
-     * @param tipi
-     *            the TIPI object used to generate the URL
-     * @return the generated URL
-     */
-    String generateTipiUrl( Tipi tipi );
+    @Override
+    public String generatePaymentUrl( ResourceHistory resourceHistory, ITask task, HttpServletRequest request )
+    {
+        _strGeneratedPaymentUrl = URL_PAYMENT + _random.nextInt( 50 );
+
+        return _strGeneratedPaymentUrl;
+    }
+
+    @Override
+    public boolean isPaymentUrlAuthenticated( HttpServletRequest request )
+    {
+        return _bIsPaymentUrlAuthenticated;
+    }
+
+    @Override
+    public String generateTipiUrl( Tipi tipi )
+    {
+        _strGeneratedTipiUrl = URL_TIPI + _random.nextInt( 50 );
+
+        return _strGeneratedTipiUrl;
+    }
 }

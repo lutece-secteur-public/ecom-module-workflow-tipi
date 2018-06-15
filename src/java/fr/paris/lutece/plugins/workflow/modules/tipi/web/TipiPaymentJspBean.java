@@ -46,6 +46,10 @@ import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
+/**
+ * This class is a controller for the TIPI payment
+ *
+ */
 public class TipiPaymentJspBean
 {
     // Parameters
@@ -63,16 +67,34 @@ public class TipiPaymentJspBean
     // Services
     private final ITipiUrlService _tipiUrlService;
 
+    /**
+     * Constructor
+     */
     public TipiPaymentJspBean( )
     {
         _tipiUrlService = SpringContextService.getBean( BEAN_URL_SERVICE );
     }
 
+    /**
+     * Constructor
+     * 
+     * @param tipiUrlService
+     *            the TIPI URL service
+     */
     public TipiPaymentJspBean( ITipiUrlService tipiUrlService )
     {
         _tipiUrlService = tipiUrlService;
     }
 
+    /**
+     * Do process the TIPI payment
+     * 
+     * @param request
+     *            the request
+     * @return the URL of the TIPI service
+     * @throws SiteMessageException
+     *             if there is an error during the process
+     */
     public String doProcessPayment( HttpServletRequest request ) throws SiteMessageException
     {
         String strTipiUrl = StringUtils.EMPTY;
@@ -89,6 +111,15 @@ public class TipiPaymentJspBean
         return strTipiUrl;
     }
 
+    /**
+     * Do process the TIPI payment. Internal method.
+     * 
+     * @param request
+     *            the request
+     * @return the URL of the TIPI service
+     * @throws SiteMessageException
+     *             if there is an error during the process
+     */
     private String doProcessPaymentInternal( HttpServletRequest request ) throws SiteMessageException
     {
         int nIdHistory = NumberUtils.toInt( request.getParameter( PARAMETER_ID_HISTORY ), ID_NOT_SET );
@@ -110,11 +141,25 @@ public class TipiPaymentJspBean
         return _tipiUrlService.generateTipiUrl( tipi );
     }
 
+    /**
+     * Tests whether the TIPI payment has already been processed.
+     * 
+     * @param tipi
+     *            the TIPI object to test
+     * @return {@code true} if the TIPI payment has already been processed, {@code false} otherwise
+     */
     private boolean isTipiPaymentAlreadyProcessed( Tipi tipi )
     {
         return !StringUtils.isEmpty( tipi.getIdOp( ) );
     }
 
+    /**
+     * Tests whether the TIPI payment has already been paid.
+     * 
+     * @param tipi
+     *            the TIPI object to test
+     * @return {@code true} if the TIPI payment has already been paid, {@code false} otherwise
+     */
     // TODO : implements this method
     private boolean isTipiPaymentAlreadyPaid( Tipi tipi )
     {

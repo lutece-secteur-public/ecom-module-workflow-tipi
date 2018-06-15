@@ -31,48 +31,19 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.tipi.service.url;
+package fr.paris.lutece.plugins.workflow.modules.unittree.util;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Random;
 
-import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
-import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
-import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
-
-/**
- * This interface represents a service for TIPI URLs
- *
- */
-public interface ITipiUrlService
+public class IdGenerator
 {
-    /**
-     * Generated the URL for the TIPI payment. This URL points to the JSP DoProcessPayment.jsp.
-     * 
-     * @param resourceHistory
-     *            the resource history used to generate the URL
-     * @param task
-     *            the task used to generate the URL
-     * @param request
-     *            the request used to generate the URL
-     * @return the generated URL
-     */
-    String generatePaymentUrl( ResourceHistory resourceHistory, ITask task, HttpServletRequest request );
+    private static final Random _random = new Random( );
+    private static int _id = 0;
 
-    /**
-     * Tests whether the request is authenticated or not
-     * 
-     * @param request
-     *            the request to test
-     * @return {@code true} if the request is authenticated, {@code false} otherwise
-     */
-    boolean isPaymentUrlAuthenticated( HttpServletRequest request );
-
-    /**
-     * Generates the URL of the TIPI service
-     * 
-     * @param tipi
-     *            the TIPI object used to generate the URL
-     * @return the generated URL
-     */
-    String generateTipiUrl( Tipi tipi );
+    public static int generateId( )
+    {
+        // Add 1 at the end to prevent to return the same id (nextInt( ) can return 0)
+        _id += _random.nextInt( 50 ) + 1;
+        return _id;
+    }
 }

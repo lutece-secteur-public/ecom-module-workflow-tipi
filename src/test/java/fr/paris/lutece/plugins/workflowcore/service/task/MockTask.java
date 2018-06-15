@@ -31,48 +31,35 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.tipi.service.url;
+package fr.paris.lutece.plugins.workflowcore.service.task;
+
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
-import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
-import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
+import fr.paris.lutece.plugins.workflow.modules.unittree.util.IdGenerator;
 
-/**
- * This interface represents a service for TIPI URLs
- *
- */
-public interface ITipiUrlService
+public class MockTask extends SimpleTask
 {
-    /**
-     * Generated the URL for the TIPI payment. This URL points to the JSP DoProcessPayment.jsp.
-     * 
-     * @param resourceHistory
-     *            the resource history used to generate the URL
-     * @param task
-     *            the task used to generate the URL
-     * @param request
-     *            the request used to generate the URL
-     * @return the generated URL
-     */
-    String generatePaymentUrl( ResourceHistory resourceHistory, ITask task, HttpServletRequest request );
 
-    /**
-     * Tests whether the request is authenticated or not
-     * 
-     * @param request
-     *            the request to test
-     * @return {@code true} if the request is authenticated, {@code false} otherwise
-     */
-    boolean isPaymentUrlAuthenticated( HttpServletRequest request );
+    @Override
+    public String getTitle( Locale locale )
+    {
+        return null;
+    }
 
-    /**
-     * Generates the URL of the TIPI service
-     * 
-     * @param tipi
-     *            the TIPI object used to generate the URL
-     * @return the generated URL
-     */
-    String generateTipiUrl( Tipi tipi );
+    @Override
+    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
+    {
+
+    }
+
+    public static ITask create( )
+    {
+        ITask task = new MockTask( );
+        task.setId( IdGenerator.generateId( ) );
+
+        return task;
+    }
+
 }
