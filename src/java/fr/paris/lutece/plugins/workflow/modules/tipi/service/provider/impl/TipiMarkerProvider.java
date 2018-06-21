@@ -46,6 +46,10 @@ import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.ITipiUrlService
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 
+/**
+ * This class provides the TIPI URL in a Notify GRU marker
+ *
+ */
 public class TipiMarkerProvider implements IMarkerProvider
 {
     private static final String ID = "workflow-tipi.tipiMarkerProvider";
@@ -59,6 +63,12 @@ public class TipiMarkerProvider implements IMarkerProvider
 
     private final ITipiUrlService _tipiUrlService;
 
+    /**
+     * Constructor
+     * 
+     * @param tipiUrlService
+     *            the service which generates the TIPI URL
+     */
     @Inject
     public TipiMarkerProvider( ITipiUrlService tipiUrlService )
     {

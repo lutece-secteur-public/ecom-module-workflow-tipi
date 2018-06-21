@@ -31,53 +31,46 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.tipi.service.task;
+package fr.paris.lutece.plugins.workflow.modules.tipi.service.url;
 
-import java.util.Locale;
+import java.util.Random;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.plugins.workflow.modules.tipi.business.task.TaskTipiConfigDAO;
-import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
-import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.ITipiUrlService;
+import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
+import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 
-/**
- * 
- * Service for processing the tipi task and delete the config of the tipi task
- *
- */
-public class TipiTask extends SimpleTask
+public class SpyTipiUrlService implements ITipiUrlService
 {
-    // Message
-    private static final String MESSAGE_TASK_TITLE = "module.workflow.tipi.task_title";
+    private static final String URL_PAYMENT = "FakeTipiUrlService_payment";
+    private static final String URL_TIPI = "FakeTipiUrlService_tipi";
+    private static final Random _random = new Random( );
 
-    @Inject
-    private TaskTipiConfigDAO _taskTipiConfigDAO;
+    public String _strGeneratedPaymentUrl;
+    public boolean _bIsPaymentUrlAuthenticated = true;
+    public String _strGeneratedTipiUrl;
 
-    // GET
     @Override
-    public String getTitle( Locale local )
+    public String generatePaymentUrl( ResourceHistory resourceHistory, ITask task, HttpServletRequest request )
     {
-        return I18nService.getLocalizedString( MESSAGE_TASK_TITLE, local );
+        _strGeneratedPaymentUrl = URL_PAYMENT + _random.nextInt( 50 );
+
+        return _strGeneratedPaymentUrl;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale local )
+    public boolean isPaymentUrlAuthenticated( HttpServletRequest request )
     {
-        // TODO : save the task id in the table workflow_task_tipi_refdet_history
+        return _bIsPaymentUrlAuthenticated;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void doRemoveConfig( )
+    public String generateTipiUrl( Tipi tipi )
     {
-        _taskTipiConfigDAO.delete( getId( ) );
-    }
+        _strGeneratedTipiUrl = URL_TIPI + _random.nextInt( 50 );
 
+        return _strGeneratedTipiUrl;
+    }
 }

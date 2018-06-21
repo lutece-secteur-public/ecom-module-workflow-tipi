@@ -31,53 +31,19 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.tipi.service.task;
+package fr.paris.lutece.plugins.workflow.modules.unittree.util;
 
-import java.util.Locale;
+import java.util.Random;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-
-import fr.paris.lutece.plugins.workflow.modules.tipi.business.task.TaskTipiConfigDAO;
-import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
-import fr.paris.lutece.portal.service.i18n.I18nService;
-
-/**
- * 
- * Service for processing the tipi task and delete the config of the tipi task
- *
- */
-public class TipiTask extends SimpleTask
+public class IdGenerator
 {
-    // Message
-    private static final String MESSAGE_TASK_TITLE = "module.workflow.tipi.task_title";
+    private static final Random _random = new Random( );
+    private static int _id = 0;
 
-    @Inject
-    private TaskTipiConfigDAO _taskTipiConfigDAO;
-
-    // GET
-    @Override
-    public String getTitle( Locale local )
+    public static int generateId( )
     {
-        return I18nService.getLocalizedString( MESSAGE_TASK_TITLE, local );
+        // Add 1 at the end to prevent to return the same id (nextInt( ) can return 0)
+        _id += _random.nextInt( 50 ) + 1;
+        return _id;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale local )
-    {
-        // TODO : save the task id in the table workflow_task_tipi_refdet_history
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void doRemoveConfig( )
-    {
-        _taskTipiConfigDAO.delete( getId( ) );
-    }
-
 }

@@ -31,53 +31,17 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.tipi.service.task;
+package fr.paris.lutece.plugins.workflowcore.business.resource;
 
-import java.util.Locale;
+import fr.paris.lutece.plugins.workflow.modules.unittree.util.IdGenerator;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-
-import fr.paris.lutece.plugins.workflow.modules.tipi.business.task.TaskTipiConfigDAO;
-import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
-import fr.paris.lutece.portal.service.i18n.I18nService;
-
-/**
- * 
- * Service for processing the tipi task and delete the config of the tipi task
- *
- */
-public class TipiTask extends SimpleTask
+public class MockResourceHistory
 {
-    // Message
-    private static final String MESSAGE_TASK_TITLE = "module.workflow.tipi.task_title";
-
-    @Inject
-    private TaskTipiConfigDAO _taskTipiConfigDAO;
-
-    // GET
-    @Override
-    public String getTitle( Locale local )
+    public static ResourceHistory create( )
     {
-        return I18nService.getLocalizedString( MESSAGE_TASK_TITLE, local );
-    }
+        ResourceHistory resourceHistory = new ResourceHistory( );
+        resourceHistory.setId( IdGenerator.generateId( ) );
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale local )
-    {
-        // TODO : save the task id in the table workflow_task_tipi_refdet_history
+        return resourceHistory;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void doRemoveConfig( )
-    {
-        _taskTipiConfigDAO.delete( getId( ) );
-    }
-
 }

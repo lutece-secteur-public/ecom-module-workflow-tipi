@@ -49,6 +49,10 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.signrequest.AbstractPrivateKeyAuthenticator;
 import fr.paris.lutece.util.url.UrlItem;
 
+/**
+ * This class represents a service for TIPI URLs
+ *
+ */
 public class TipiUrlService implements ITipiUrlService
 {
     private static final String PARAMETER_TIPI_JSP_PAYMENT = "jsp/site/plugins/workflow/modules/tipi/DoProcessPayment.jsp";
@@ -60,6 +64,12 @@ public class TipiUrlService implements ITipiUrlService
 
     private final AbstractPrivateKeyAuthenticator _requestAuthenticator;
 
+    /**
+     * Constructor
+     * 
+     * @param requestAuthenticator
+     *            the request authenticator used to authenticate the request
+     */
     public TipiUrlService( AbstractPrivateKeyAuthenticator requestAuthenticator )
     {
         _requestAuthenticator = requestAuthenticator;
