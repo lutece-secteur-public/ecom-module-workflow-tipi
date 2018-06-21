@@ -31,38 +31,78 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.tipi.util;
+package fr.paris.lutece.plugins.workflow.modules.tipi.business;
 
 /**
- * 
- * Constants used
- *
+ * This is the business class for the object TipiRefDetHistory
  */
-public final class TipiConstants
+public class TipiRefDetHistory
 {
-
-    // BEANS
-    public static final String BEAN_TIPI_CONFIG_SERVICE = "workflow-tipi.taskTipiConfigService";
-    public static final String BEAN_TIPI_SERVICE = "workflow-tipi.tipiWorkflowStateService";
-
-    // MARKS
-    public static final String MARK_CONFIG = "config";
-    public static final String MARK_LIST_STATES = "list_states";
-
-    // CONSTANTS
-    public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String ID_NULL = "-1";
-    public static final String PROPERTY_TIPI_REFERENCE_CLIENT = "tipi.numcli";
+    // Variables declarations
+    private int _nIdHistory;
+    private int _nIdTask;
+    private String _strRefDet;
 
     /**
+     * Returns the IdHistory
      * 
-     * Constructor
-     * 
+     * @return The IdHistory
      */
-    private TipiConstants( )
+    public int getIdHistory( )
     {
-
+        return _nIdHistory;
     }
 
+    /**
+     * Sets the IdHistory
+     * 
+     * @param nIdHistory
+     *            The IdHistory
+     */
+    public void setIdHistory( int nIdHistory )
+    {
+        _nIdHistory = nIdHistory;
+    }
+
+    /**
+     * Returns the IdTask
+     * 
+     * @return The IdTask
+     */
+    public int getIdTask( )
+    {
+        return _nIdTask;
+    }
+
+    /**
+     * Sets the IdTask
+     * 
+     * @param nIdTask
+     *            The IdTask
+     */
+    public void setIdTask( int nIdTask )
+    {
+        _nIdTask = nIdTask;
+    }
+
+    /**
+     * Returns the RefDet
+     * 
+     * @return The RefDet
+     */
+    public String getRefDet( )
+    {
+        return _strRefDet;
+    }
+
+    /**
+     * Sets the RefDet
+     * 
+     * @param strRefDet
+     *            The RefDet
+     */
+    public void setRefDet( String strRefDet )
+    {
+        _strRefDet = strRefDet;
+    }
 }

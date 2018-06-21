@@ -33,47 +33,43 @@
  */
 package fr.paris.lutece.plugins.workflow.modules.tipi.business;
 
-import fr.paris.lutece.plugins.workflowcore.business.config.TaskConfig;
-
 /**
- * 
- * TIPI object for communication with TIPI
- *
+ * This is the business class for the object Tipi
  */
-public class Tipi extends TaskConfig
+public class Tipi
 {
-
-    private int _nRefDet;
+    // Variables declarations
+    private String _strRefDet;
     private double _dAmount;
     private String _strEmail;
     private String _strIdOp;
-    private Boolean _bResultTransaction;
+    private String _strResultTransaction;
 
     /**
-     * Get the reference of the debt
+     * Returns the RefDet
      * 
-     * @return the _nRefDet
+     * @return The RefDet
      */
-    public int getRefDet( )
+    public String getRefDet( )
     {
-        return _nRefDet;
+        return _strRefDet;
     }
 
     /**
-     * Set the reference of the debt
+     * Sets the RefDet
      * 
-     * @param refDet
-     *            the _nRefDet to set
+     * @param strRefDet
+     *            The RefDet
      */
-    public void setRefDet( int refDet )
+    public void setRefDet( String strRefDet )
     {
-        _nRefDet = refDet;
+        _strRefDet = strRefDet;
     }
 
     /**
-     * Get the Amount
+     * Returns the Amount
      * 
-     * @return the _dAmount
+     * @return The Amount
      */
     public double getAmount( )
     {
@@ -81,20 +77,20 @@ public class Tipi extends TaskConfig
     }
 
     /**
-     * Set the reference of the debt
+     * Sets the Amount
      * 
-     * @param amount
-     *            the _dAmount to set
+     * @param dAmount
+     *            The Amount
      */
-    public void setAmount( double amount )
+    public void setAmount( double dAmount )
     {
-        _dAmount = amount;
+        _dAmount = dAmount;
     }
 
     /**
-     * Get the email
+     * Returns the Email
      * 
-     * @return the _strEmail
+     * @return The Email
      */
     public String getEmail( )
     {
@@ -102,20 +98,20 @@ public class Tipi extends TaskConfig
     }
 
     /**
-     * Set the email
+     * Sets the Email
      * 
-     * @param email
-     *            the _strEmail to set
+     * @param strEmail
+     *            The Email
      */
-    public void setEmail( String email )
+    public void setEmail( String strEmail )
     {
-        _strEmail = email;
+        _strEmail = strEmail;
     }
 
     /**
-     * Get the Idop number
+     * Returns the IdOp
      * 
-     * @return the _strIdOp
+     * @return The IdOp
      */
     public String getIdOp( )
     {
@@ -123,35 +119,34 @@ public class Tipi extends TaskConfig
     }
 
     /**
-     * Set the Idop number
+     * Sets the IdOp
      * 
-     * @param idOp
-     *            the _strIdOp to set
+     * @param strIdOp
+     *            The IdOp
      */
-    public void setIdOp( String idOp )
+    public void setIdOp( String strIdOp )
     {
-        _strIdOp = idOp;
+        _strIdOp = strIdOp;
     }
 
     /**
-     * Get the result of the transaction
+     * Returns the ResultTransaction
      * 
-     * @return the _bResultTransaction
+     * @return The ResultTransaction
      */
-    public Boolean getResultTransaction( )
+    public String getResultTransaction( )
     {
-        return _bResultTransaction;
+        return _strResultTransaction;
     }
 
     /**
-     * Set the result of the transaction
+     * Sets the ResultTransaction
      * 
-     * @param resultTransaction
-     *            the _bResultTransaction to set
+     * @param strResultTransaction
+     *            The ResultTransaction
      */
-    public void setResultTransaction( Boolean resultTransaction )
+    public void setResultTransaction( String strResultTransaction )
     {
-        _bResultTransaction = resultTransaction;
+        _strResultTransaction = strResultTransaction;
     }
-
 }

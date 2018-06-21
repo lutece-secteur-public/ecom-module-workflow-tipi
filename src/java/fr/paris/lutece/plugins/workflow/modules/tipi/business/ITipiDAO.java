@@ -31,38 +31,54 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.tipi.util;
+
+package fr.paris.lutece.plugins.workflow.modules.tipi.business;
 
 /**
- * 
- * Constants used
- *
+ * ITipiDAO Interface
  */
-public final class TipiConstants
+
+public interface ITipiDAO
 {
 
-    // BEANS
-    public static final String BEAN_TIPI_CONFIG_SERVICE = "workflow-tipi.taskTipiConfigService";
-    public static final String BEAN_TIPI_SERVICE = "workflow-tipi.tipiWorkflowStateService";
+    /**
+     * Insert a new record in the table.
+     * 
+     * @param tipi
+     *            instance of the Tipi object to inssert
+     */
 
-    // MARKS
-    public static final String MARK_CONFIG = "config";
-    public static final String MARK_LIST_STATES = "list_states";
-
-    // CONSTANTS
-    public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String ID_NULL = "-1";
-    public static final String PROPERTY_TIPI_REFERENCE_CLIENT = "tipi.numcli";
+    void insert( Tipi tipi );
 
     /**
+     * Update the record in the table
      * 
-     * Constructor
-     * 
+     * @param tipi
+     *            the reference of the Tipi
      */
-    private TipiConstants( )
-    {
 
-    }
+    void store( Tipi tipi );
+
+    /**
+     * Delete a record from the table
+     * 
+     * @param nIdTipi
+     *            int identifier of the Tipi to delete
+     */
+
+    void delete( int nIdTipi );
+
+    // /////////////////////////////////////////////////////////////////////////
+    // Finders
+
+    /**
+     * Load the data from the table
+     * 
+     * @param refDet
+     *            The identifier of the tipi
+     * @return The instance of the tipi
+     */
+
+    Tipi load( String refDet );
 
 }

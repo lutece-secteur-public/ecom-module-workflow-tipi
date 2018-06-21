@@ -39,12 +39,17 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiRefDetHistoryService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiServiceCaller;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.ITipiUrlService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.vdp.tipi.create.url.enumeration.TransactionResult;
 
 public class TipiPaymentJspBean
 {
@@ -62,10 +67,16 @@ public class TipiPaymentJspBean
 
     // Services
     private final ITipiUrlService _tipiUrlService;
+    private TipiService _tipiService;
+    private TipiRefDetHistoryService _tipiRefDetHistoryService;
+    private TipiServiceCaller _tipiServiceCaller;
 
     public TipiPaymentJspBean( )
     {
         _tipiUrlService = SpringContextService.getBean( BEAN_URL_SERVICE );
+        _tipiService = SpringContextService.getBean( TipiService.BEAN_NAME );
+        _tipiServiceCaller = SpringContextService.getBean( TipiServiceCaller.BEAN_NAME );
+        _tipiRefDetHistoryService = SpringContextService.getBean( TipiRefDetHistoryService.BEAN_NAME );
     }
 
     public TipiPaymentJspBean( ITipiUrlService tipiUrlService )
@@ -92,32 +103,32 @@ public class TipiPaymentJspBean
     private String doProcessPaymentInternal( HttpServletRequest request ) throws SiteMessageException
     {
         int nIdHistory = NumberUtils.toInt( request.getParameter( PARAMETER_ID_HISTORY ), ID_NOT_SET );
-        Tipi tipi = new Tipi( ); // TODO : finds Tipi object from database instead of creating one
 
-        if ( isTipiPaymentAlreadyProcessed( tipi ) )
+        TipiRefDetHistory tipiRefDetHistory = _tipiRefDetHistoryService.findByPrimaryKey( nIdHistory );
+
+        String refDetHistory = tipiRefDetHistory.getRefDet( );
+
+        Tipi tipi = _tipiService.findByPrimaryKey( refDetHistory );
+
+        if ( isTipiPaymentAlreadyPaid( tipi ) )
         {
-            if ( isTipiPaymentAlreadyPaid( tipi ) )
-            {
-                SiteMessageService.setMessage( request, MESSAGE_REFDET_ALREADY_PAID, SiteMessage.TYPE_INFO );
-            }
+            SiteMessageService.setMessage( request, MESSAGE_REFDET_ALREADY_PAID, SiteMessage.TYPE_INFO );
         }
-        else
-        {
-            // TODO : Calls TIPI service to get back IdOp
-            // TODO : Saves IdOp in database
-        }
+
+        String email = tipi.getEmail( );
+        double amount = tipi.getAmount( );
+        String refDet = tipi.getRefDet( );
+
+        String strIdop = _tipiServiceCaller.getIdop( email, refDet, amount );
+
+        tipi.setIdOp( strIdop );
+        _tipiService.update( tipi );
 
         return _tipiUrlService.generateTipiUrl( tipi );
     }
 
-    private boolean isTipiPaymentAlreadyProcessed( Tipi tipi )
-    {
-        return !StringUtils.isEmpty( tipi.getIdOp( ) );
-    }
-
-    // TODO : implements this method
     private boolean isTipiPaymentAlreadyPaid( Tipi tipi )
     {
-        return true;
+        return tipi.getResultTransaction( ) != null && tipi.getResultTransaction( ).equalsIgnoreCase( TransactionResult.PAYMENT_SUCCEEDED.getValueStr( ) );
     }
 }

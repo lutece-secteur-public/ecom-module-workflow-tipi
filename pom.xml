@@ -58,8 +58,13 @@
             <version>[2.0.1,)</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>fr.paris.vdp.tipi</groupId>
+            <artifactId>construction-url</artifactId>
+            <version>1.5.0</version>
+        </dependency>
 	</dependencies>
-	
+
 	<properties>
 		<componentName>workflow-tipi</componentName>
 		<jiraProjectName>MODWFTIPI</jiraProjectName>

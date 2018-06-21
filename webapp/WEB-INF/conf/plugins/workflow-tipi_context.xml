@@ -6,7 +6,7 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-<!-- TASK TIPI -->
+	<!-- TASK TIPI -->
 	<bean id="workflow-tipi.tipiTask"
 		class="fr.paris.lutece.plugins.workflow.modules.tipi.service.task.TipiTask"
 		scope="prototype" />
@@ -38,30 +38,53 @@
 		p:taskConfigService-ref="workflow-tipi.taskTipiConfigService"
 		scope="prototype" />
 
-    <!-- Services -->
-    <bean id="workflow-tipi.tipiWorkflowStateService"
-        class="fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiWorkflowStateService" />
-    <bean id="workflow-tipi.tipiUrlService"
-        class="fr.paris.lutece.plugins.workflow.modules.tipi.service.url.TipiUrlService" >
-        <constructor-arg ref="workflow-tipi.tipiRequestAuthenticator"/>
-    </bean>
+	<!-- Services -->
+	<bean id="workflow-tipi.tipiWorkflowStateService"
+		class="fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiWorkflowStateService" />
+	
+	<bean id="workflow-tipi.tipiUrlService"
+		class="fr.paris.lutece.plugins.workflow.modules.tipi.service.url.TipiUrlService">
+		<constructor-arg
+			ref="workflow-tipi.tipiRequestAuthenticator" />
+	</bean>
 
-    <bean id="workflow-tipi.tipiMarkerProvider"
-        class="fr.paris.lutece.plugins.workflow.modules.tipi.service.provider.impl.TipiMarkerProvider" />
+	<bean id="workflow-tipi.tipiMarkerProvider"
+		class="fr.paris.lutece.plugins.workflow.modules.tipi.service.provider.impl.TipiMarkerProvider" />
 
-    <!-- SignRequest -->
-    <bean id="workflow-tipi.hashService" class="fr.paris.lutece.util.signrequest.security.Sha1HashService" />
-    <bean id="workflow-tipi.tipiRequestAuthenticator" class="fr.paris.lutece.util.signrequest.RequestHashAuthenticator" >
-        <property name="hashService" ref="workflow-tipi.hashService" />
-        <property name="signatureElements" >
-            <list>
-                <value>id_history</value>
-                <value>id_task</value>
-            </list>
-        </property>
-        <property name="privateKey">
-            <value>change me</value>
-        </property>
-    </bean>
+	<bean id="workflow-tipi.tipiService"
+		class="fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiService"/>
+
+	<bean id="workflow-tipi.tipiServiceCaller"
+		class="fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiServiceCaller"/>
+		
+	<bean id="workflow-tipi.tipiRefDetHistoryService"
+		class="fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiRefDetHistoryService"/>
+
+
+	<!-- TIPI OBJECT BEAN -->
+	<bean id="workflow-tipi.tipiDAO"
+		class="fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiDAO"
+		scope="prototype" />
+
+	<bean id="workflow-tipi.tipiRefDetHistoryDAO"
+		class="fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistoryDAO"
+		scope="prototype" />
+	
+	<!-- SignRequest -->
+	<bean id="workflow-tipi.hashService"
+		class="fr.paris.lutece.util.signrequest.security.Sha1HashService" />
+	<bean id="workflow-tipi.tipiRequestAuthenticator"
+		class="fr.paris.lutece.util.signrequest.RequestHashAuthenticator">
+		<property name="hashService" ref="workflow-tipi.hashService" />
+		<property name="signatureElements">
+			<list>
+				<value>id_history</value>
+				<value>id_task</value>
+			</list>
+		</property>
+		<property name="privateKey">
+			<value>change me</value>
+		</property>
+	</bean>
 
 </beans>
