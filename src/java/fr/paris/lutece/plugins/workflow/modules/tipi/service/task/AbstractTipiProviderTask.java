@@ -76,7 +76,7 @@ public abstract class AbstractTipiProviderTask extends SimpleTask
     {
         Tipi tipi = new Tipi( );
 
-        tipi.setRefDet( Integer.parseInt( strRefDet ) );
+        tipi.setRefDet( strRefDet );
         tipi.setAmount( nAmount );
         tipi.setEmail( strEmail );
 
@@ -104,10 +104,10 @@ public abstract class AbstractTipiProviderTask extends SimpleTask
      * 
      * @param nIdResourceHistory
      *            the resource history linked to the RefDet
-     * @param nRefDet
+     * @param strRefDet
      *            the RefDet to save
      */
-    private void saveRefDetHistory( int nIdResourceHistory, int nRefDet )
+    private void saveRefDetHistory( int nIdResourceHistory, String strRefDet )
     {
         // TODO : save the resource history id and the RefDet in the table workflow_task_tipi_refdet_history
     }
