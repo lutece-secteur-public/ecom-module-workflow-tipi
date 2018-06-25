@@ -36,9 +36,6 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.business;
 
 import fr.paris.lutece.util.sql.DAOUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This class provides Data Access methods for TipiRefDetHistory objects
  */
@@ -88,6 +85,7 @@ public final class TipiRefDetHistoryDAO implements ITipiRefDetHistoryDAO
             tipiRefDetHistory.setIdHistory( daoUtil.getInt( ++nIndex ) );
             tipiRefDetHistory.setIdTask( daoUtil.getInt( ++nIndex ) );
             tipiRefDetHistory.setRefDet( daoUtil.getString( ++nIndex ) );
+
         }
 
         daoUtil.close( );
@@ -118,6 +116,7 @@ public final class TipiRefDetHistoryDAO implements ITipiRefDetHistoryDAO
         daoUtil.setInt( ++nIndex, tipiRefDetHistory.getIdHistory( ) );
         daoUtil.setInt( ++nIndex, tipiRefDetHistory.getIdTask( ) );
         daoUtil.setString( ++nIndex, tipiRefDetHistory.getRefDet( ) );
+        daoUtil.setInt( ++nIndex, tipiRefDetHistory.getIdHistory( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.close( );
