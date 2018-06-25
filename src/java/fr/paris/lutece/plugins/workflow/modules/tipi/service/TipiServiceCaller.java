@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
+import java.io.File;
 import java.rmi.RemoteException;
+import java.util.Calendar;
 
 import javax.xml.rpc.ServiceException;
 
@@ -41,6 +43,7 @@ import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.tipi.generated.CreerPaiementSecuriseRequest;
+import fr.paris.vdp.tipi.create.url.enumeration.PaymentType;
 import fr.paris.vdp.tipi.create.url.webservice.CreateURLWebService;
 
 /**
@@ -51,6 +54,9 @@ import fr.paris.vdp.tipi.create.url.webservice.CreateURLWebService;
 
 public class TipiServiceCaller implements ITipiServiceCaller
 {
+    // CONTANTS
+    private static final String X = "X";
+    private static final String W = "W";
 
     /**
      * {@inheritDoc }
@@ -88,14 +94,58 @@ public class TipiServiceCaller implements ITipiServiceCaller
     public CreerPaiementSecuriseRequest createRequest( String email, String refDet, int amount )
     {
         CreerPaiementSecuriseRequest request = new CreerPaiementSecuriseRequest( );
+        Calendar calendar = Calendar.getInstance( );
 
         request.setMel( email );
         request.setMontant( String.valueOf( ( amount ) ) );
         request.setRefdet( refDet );
         request.setNumcli( AppPropertiesService.getProperty( TipiConstants.PROPERTY_REFERENCE_CLIENT ) );
         request.setUrlnotif( AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_NOTIF ) );
+        request.setUrlredirect( AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_REDIRECT ) );
+        request.setExer( String.valueOf( calendar.get( Calendar.YEAR ) ) );
+        request.setObjet( AppPropertiesService.getProperty( TipiConstants.PROPERTY_TIPI_OBJET ) );
+
+        String saisie = AppPropertiesService.getProperty( TipiConstants.PROPERTY_PAYMENT_TYPE );
+
+        if ( W.equalsIgnoreCase( saisie ) )
+        {
+            request.setSaisie( PaymentType.PRODUCTION_WS.getStringValues( ) );
+        }
+        else
+            if ( X.equalsIgnoreCase( saisie ) )
+            {
+                request.setSaisie( PaymentType.ACTIVATION.getStringValues( ) );
+            }
+            else
+            {
+                request.setSaisie( PaymentType.TEST.getStringValues( ) );
+            }
 
         return request;
+    }
+
+    /**
+     * 
+     * Method to set the certificate to TIPI
+     * 
+     */
+    // TODO use this method
+    private void setCertificateValues( )
+    {
+        if ( AppPropertiesService.getProperty( TipiConstants.PROPERTY_KEYSTORE ).isEmpty( ) )
+        {
+            File file = new File( getClass( ).getClassLoader( ).getResource( "security/cacerts" ).getFile( ) );
+            System.setProperty( "javax.net.ssl.trustStore", file.getAbsolutePath( ) );
+            System.setProperty( "javax.net.ssl.keyStore", file.getAbsolutePath( ) );
+        }
+        else
+        {
+            System.setProperty( "javax.net.ssl.trustStore", AppPropertiesService.getProperty( TipiConstants.PROPERTY_TRUSTSTORE ) );
+            System.setProperty( "javax.net.ssl.keyStore", AppPropertiesService.getProperty( TipiConstants.PROPERTY_KEYSTORE ) );
+        }
+
+        System.setProperty( "javax.net.ssl.trustStorePassword", AppPropertiesService.getProperty( TipiConstants.PROPERTY_TRUSTSTORE_PASSWORD ) );
+        System.setProperty( "javax.net.ssl.keyStorePassword", AppPropertiesService.getProperty( TipiConstants.PROPERTY_KEYSTORE_PASSWORD ) );
     }
 
 }

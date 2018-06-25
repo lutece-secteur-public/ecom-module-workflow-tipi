@@ -40,11 +40,17 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.util;
  */
 public final class TipiConstants
 {
-
+    // PROPERTIES
+    public static final String PROPERTY_TRUSTSTORE = "tipi.ssl.truststore";
+    public static final String PROPERTY_TRUSTSTORE_PASSWORD = "tipi.ssl.truststore.password";
+    public static final String PROPERTY_KEYSTORE = "tipi.ssl.keystore";
+    public static final String PROPERTY_KEYSTORE_PASSWORD = "tipi.ssl.keystore.password";
     public static final String PROPERTY_URLWDSL = "tipi.urlwsdl";
     public static final String PROPERTY_REFERENCE_CLIENT = "tipi.numcli";
+    public static final String PROPERTY_TIPI_OBJET = "tipi.objet";
     public static final String PROPERTY_URL_NOTIF = "tipi.urlnotif";
     public static final String PROPERTY_URL_REDIRECT = "tipi.urlredirect";
+    public static final String PROPERTY_PAYMENT_TYPE = "tipi.saisie";
     public static final String PROPERTY_TIPI_URL = "tipi.url";
 
     /**
