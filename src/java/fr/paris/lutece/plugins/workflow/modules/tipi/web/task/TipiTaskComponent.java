@@ -69,6 +69,9 @@ public class TipiTaskComponent extends AbstractTaskComponent
     @Named( TipiConstants.BEAN_TIPI_CONFIG_SERVICE )
     private ITaskConfigService _taskConfigService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String doValidateTask( int arg0, String arg1, HttpServletRequest arg2, Locale arg3, ITask arg4 )
     {

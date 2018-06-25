@@ -56,7 +56,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 public class TipiWorkflowStateService
 {
-
     // SERVICES
     @Inject
     private IActionService _actionService;

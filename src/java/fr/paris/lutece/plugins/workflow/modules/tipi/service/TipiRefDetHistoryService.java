@@ -85,13 +85,13 @@ public final class TipiRefDetHistoryService
     /**
      * Remove the tipiRefDetHistory whose identifier is specified in parameter
      * 
-     * @param nTipiRefDetHistoryId
-     *            The tipiRefDetHistory Id
+     * @param nIdHistory
+     *            The idHistory
      */
 
-    public void remove( int nTipiRefDetHistoryId )
+    public void remove( int nIdHistory )
     {
-        _dao.delete( nTipiRefDetHistoryId );
+        _dao.delete( nIdHistory );
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ public final class TipiRefDetHistoryService
     /**
      * Returns an instance of a tipiRefDetHistory whose identifier is specified in parameter
      * 
-     * @param nKey
+     * @param nIdHistory
      *            The tipiRefDetHistory primary key
      * @return an instance of TipiRefDetHistory
      */

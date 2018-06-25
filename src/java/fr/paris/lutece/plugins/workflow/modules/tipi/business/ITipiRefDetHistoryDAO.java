@@ -62,11 +62,11 @@ public interface ITipiRefDetHistoryDAO
     /**
      * Delete a record from the table
      * 
-     * @param nIdTipiRefDetHistory
+     * @param nIdHistory
      *            int identifier of the TipiRefDetHistory to delete
      */
 
-    void delete( int nIdTipiRefDetHistory );
+    void delete( int nIdHistory );
 
     // /////////////////////////////////////////////////////////////////////////
     // Finders

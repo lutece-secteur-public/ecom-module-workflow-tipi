@@ -44,7 +44,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
  *
  */
 
-public class TipiPlugin extends PluginDefaultImplementation
+public final class TipiPlugin extends PluginDefaultImplementation
 {
 
     public static final String PLUGIN_NAME = "workflow-tipi";

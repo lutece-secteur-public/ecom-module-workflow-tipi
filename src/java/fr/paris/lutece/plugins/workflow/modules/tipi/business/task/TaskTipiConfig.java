@@ -105,7 +105,7 @@ public class TaskTipiConfig extends TaskConfig
     /**
      * Set the state after a canceled payment
      * 
-     * @param idStateAftercanceledPayment
+     * @param idStateAfterCanceledPayment
      *            the idStateAftercanceledPayment to set
      */
     public void setIdStateAfterCanceledPayment( int idStateAfterCanceledPayment )

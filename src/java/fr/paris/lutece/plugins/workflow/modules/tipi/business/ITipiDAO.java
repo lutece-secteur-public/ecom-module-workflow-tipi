@@ -74,11 +74,11 @@ public interface ITipiDAO
     /**
      * Load the data from the table
      * 
-     * @param refDet
+     * @param strRefDet
      *            The identifier of the tipi
      * @return The instance of the tipi
      */
 
-    Tipi load( String refDet );
+    Tipi load( String strRefDet );
 
 }

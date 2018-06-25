@@ -100,14 +100,14 @@ public final class TipiService
     /**
      * Returns an instance of a tipi whose identifier is specified in parameter
      * 
-     * @param nKey
-     *            The tipi primary key
+     * @param strRefDet
+     *            The RefDet
      * @return an instance of Tipi
      */
 
-    public Tipi findByPrimaryKey( String refDet )
+    public Tipi findByPrimaryKey( String strRefDet )
     {
-        return _dao.load( refDet );
+        return _dao.load( strRefDet );
     }
 
 }
