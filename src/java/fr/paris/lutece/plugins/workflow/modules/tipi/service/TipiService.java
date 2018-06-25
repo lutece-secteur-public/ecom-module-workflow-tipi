@@ -85,13 +85,13 @@ public final class TipiService
     /**
      * Remove the tipi whose identifier is specified in parameter
      * 
-     * @param nTipiId
-     *            The tipi Id
+     * @param strRefDet
+     *            The RefDet
      */
 
-    public void remove( int nTipiId )
+    public void remove( String strRefDet )
     {
-        _dao.delete( nTipiId );
+        _dao.delete( strRefDet );
     }
 
     // /////////////////////////////////////////////////////////////////////////

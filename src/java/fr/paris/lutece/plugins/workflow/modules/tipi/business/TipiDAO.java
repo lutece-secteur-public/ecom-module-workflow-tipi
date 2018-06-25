@@ -99,10 +99,10 @@ public final class TipiDAO implements ITipiDAO
      * {@inheritDoc }
      */
     @Override
-    public void delete( int refDet )
+    public void delete( String refDet )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, refDet );
+        daoUtil.setString( 1, refDet );
         daoUtil.executeUpdate( );
         daoUtil.close( );
     }

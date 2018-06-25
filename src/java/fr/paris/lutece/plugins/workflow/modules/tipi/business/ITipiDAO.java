@@ -62,11 +62,11 @@ public interface ITipiDAO
     /**
      * Delete a record from the table
      * 
-     * @param nIdTipi
-     *            int identifier of the Tipi to delete
+     * @param strRefDet
+     *            string identifier of the Tipi to delete
      */
 
-    void delete( int nIdTipi );
+    void delete( String strRefDet );
 
     // /////////////////////////////////////////////////////////////////////////
     // Finders
