@@ -28,7 +28,7 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
+ * 
  * License 1.0
  */
 package fr.paris.lutece.plugins.workflow.modules.tipi.web.task;
@@ -48,7 +48,6 @@ import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiWorkflowStateService;
-import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 
 /**
  * 
@@ -57,6 +56,10 @@ import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
  */
 public class TipiTaskComponent extends AbstractTaskComponent
 {
+    // MARKS
+    private static final String MARK_CONFIG = "config";
+    private static final String MARK_LIST_STATES = "list_states";
+
     // BEAN
     private static final String BEAN_CONFIG_SERVICE = "workflow-tipi.taskTipiConfigService";
 
@@ -88,8 +91,8 @@ public class TipiTaskComponent extends AbstractTaskComponent
     {
 
         Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( TipiConstants.MARK_CONFIG, _taskConfigService.findByPrimaryKey( task.getId( ) ) );
-        model.put( TipiConstants.MARK_LIST_STATES, _tipiWorkFlowStateService.getListStates( task.getAction( ).getId( ) ) );
+        model.put( MARK_CONFIG, _taskConfigService.findByPrimaryKey( task.getId( ) ) );
+        model.put( MARK_LIST_STATES, _tipiWorkFlowStateService.getListStates( task.getAction( ).getId( ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TASK_CONFIG, locale, model );
 

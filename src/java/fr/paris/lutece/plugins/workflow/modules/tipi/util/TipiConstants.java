@@ -41,19 +41,11 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.util;
 public final class TipiConstants
 {
 
-    // BEANS
-    public static final String BEAN_TIPI_CONFIG_SERVICE = "workflow-tipi.taskTipiConfigService";
-    public static final String BEAN_TIPI_SERVICE = "workflow-tipi.tipiWorkflowStateService";
-
-    // MARKS
-    public static final String MARK_CONFIG = "config";
-    public static final String MARK_LIST_STATES = "list_states";
-
-    // CONSTANTS
-    public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String ID_NULL = "-1";
-    public static final String PROPERTY_TIPI_REFERENCE_CLIENT = "tipi.numcli";
+    public static final String PROPERTY_URLWDSL = "tipi.urlwsdl";
+    public static final String PROPERTY_REFERENCE_CLIENT = "tipi.numcli";
+    public static final String PROPERTY_URL_NOTIF = "tipi.urlnotif";
+    public static final String PROPERTY_URL_REDIRECT = "tipi.urlredirect";
+    public static final String PROPERTY_TIPI_URL = "tipi.url";
 
     /**
      * 

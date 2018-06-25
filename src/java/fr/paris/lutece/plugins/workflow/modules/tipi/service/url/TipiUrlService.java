@@ -42,6 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
+import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -60,7 +61,6 @@ public class TipiUrlService implements ITipiUrlService
     private static final String PARAMETER_ID_TASK = "id_task";
     private static final String PARAMETER_SIGNATURE = "signature";
     private static final String PARAMETER_TIMESTAMP = "timestamp";
-    private static final String PROPERTY_TIPI_URL = "tipi.url";
 
     private final AbstractPrivateKeyAuthenticator _requestAuthenticator;
 
@@ -119,6 +119,6 @@ public class TipiUrlService implements ITipiUrlService
     @Override
     public String generateTipiUrl( Tipi tipi )
     {
-        return AppPropertiesService.getProperty( PROPERTY_TIPI_URL ) + tipi.getIdOp( );
+        return AppPropertiesService.getProperty( TipiConstants.PROPERTY_TIPI_URL ) + tipi.getIdOp( );
     }
 }

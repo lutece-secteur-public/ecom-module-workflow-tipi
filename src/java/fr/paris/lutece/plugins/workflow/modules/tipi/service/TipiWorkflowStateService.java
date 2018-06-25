@@ -39,7 +39,6 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 
-import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.plugins.workflowcore.business.state.StateFilter;
@@ -56,6 +55,11 @@ import fr.paris.lutece.util.ReferenceList;
 
 public class TipiWorkflowStateService implements ITipiWorkflowStateService
 {
+    // CONSTANTS
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String ID_NULL = "-1";
+
     // SERVICES
     @Inject
     private IActionService _actionService;
@@ -76,8 +80,8 @@ public class TipiWorkflowStateService implements ITipiWorkflowStateService
 
         List<State> listStates = _stateService.getListStateByFilter( stateFilter );
 
-        referenceListStates.addItem( TipiConstants.ID_NULL, StringUtils.EMPTY );
-        referenceListStates.addAll( ReferenceList.convert( listStates, TipiConstants.ID, TipiConstants.NAME, true ) );
+        referenceListStates.addItem( ID_NULL, StringUtils.EMPTY );
+        referenceListStates.addAll( ReferenceList.convert( listStates, ID, NAME, true ) );
 
         return referenceListStates;
     }

@@ -51,7 +51,6 @@ import fr.paris.vdp.tipi.create.url.webservice.CreateURLWebService;
 
 public class TipiServiceCaller implements ITipiServiceCaller
 {
-    private static final String URLWDSL = "tipi.urlwsdl";
 
     /**
      * {@inheritDoc }
@@ -60,7 +59,7 @@ public class TipiServiceCaller implements ITipiServiceCaller
     public String getIdop( String email, String refDet, int amount )
     {
 
-        final String urlWsdl = AppPropertiesService.getProperty( URLWDSL );
+        final String urlWsdl = AppPropertiesService.getProperty( TipiConstants.PROPERTY_URLWDSL );
 
         CreerPaiementSecuriseRequest request = createRequest( email, refDet, amount );
 
@@ -93,7 +92,8 @@ public class TipiServiceCaller implements ITipiServiceCaller
         request.setMel( email );
         request.setMontant( String.valueOf( ( amount ) ) );
         request.setRefdet( refDet );
-        request.setNumcli( AppPropertiesService.getProperty( TipiConstants.PROPERTY_TIPI_REFERENCE_CLIENT ) );
+        request.setNumcli( AppPropertiesService.getProperty( TipiConstants.PROPERTY_REFERENCE_CLIENT ) );
+        request.setUrlnotif( AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_NOTIF ) );
 
         return request;
     }
