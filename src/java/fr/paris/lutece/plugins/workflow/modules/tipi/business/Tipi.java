@@ -40,10 +40,10 @@ public class Tipi
 {
     // Variables declarations
     private String _strRefDet;
-    private double _dAmount;
+    private int _nAmount;
     private String _strEmail;
     private String _strIdOp;
-    private String _strResultTransaction;
+    private String _strTransactionResult;
 
     /**
      * Returns the RefDet
@@ -71,20 +71,20 @@ public class Tipi
      * 
      * @return The Amount
      */
-    public double getAmount( )
+    public int getAmount( )
     {
-        return _dAmount;
+        return _nAmount;
     }
 
     /**
      * Sets the Amount
      * 
-     * @param dAmount
+     * @param nAmount
      *            The Amount
      */
-    public void setAmount( double dAmount )
+    public void setAmount( int nAmount )
     {
-        _dAmount = dAmount;
+        _nAmount = nAmount;
     }
 
     /**
@@ -130,23 +130,23 @@ public class Tipi
     }
 
     /**
-     * Returns the ResultTransaction
+     * Returns the TransactionResult
      * 
-     * @return The ResultTransaction
+     * @return The _strTransactionResult
      */
-    public String getResultTransaction( )
+    public String getTransactionResult( )
     {
-        return _strResultTransaction;
+        return _strTransactionResult;
     }
 
     /**
-     * Sets the ResultTransaction
+     * Sets the TransactionResult
      * 
-     * @param strResultTransaction
-     *            The ResultTransaction
+     * @param strTransactionResult
+     *            The TransactionResult
      */
-    public void setResultTransaction( String strResultTransaction )
+    public void setTransactionResult( String strTransactionResult )
     {
-        _strResultTransaction = strResultTransaction;
+        _strTransactionResult = strTransactionResult;
     }
 }

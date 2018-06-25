@@ -21,10 +21,10 @@ PRIMARY KEY (id_task)
 
 CREATE TABLE workflow_tipi_tipi(
 ref_det INT DEFAULT 0 NOT NULL,
-amount DOUBLE DEFAULT 0 NOT NULL,
+amount INT DEFAULT 0 NOT NULL,
 email VARCHAR(255),
 id_op VARCHAR(255),
-result_transaction VARCHAR(1),
+transaction_result VARCHAR(1),
 PRIMARY KEY (ref_det)
 );
 

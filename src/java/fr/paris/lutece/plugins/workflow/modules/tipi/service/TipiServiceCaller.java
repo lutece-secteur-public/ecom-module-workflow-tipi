@@ -64,7 +64,7 @@ public class TipiServiceCaller
      * @param amount
      * @return TipiCallWebService
      */
-    public String getIdop( String email, String refDet, double amount )
+    public String getIdop( String email, String refDet, int amount )
     {
 
         final String urlWsdl = AppPropertiesService.getProperty( URLWDSL );
@@ -97,7 +97,7 @@ public class TipiServiceCaller
      * @param amount
      * @return Request
      */
-    public CreerPaiementSecuriseRequest createRequest( String email, String refDet, double amount )
+    public CreerPaiementSecuriseRequest createRequest( String email, String refDet, int amount )
     {
         CreerPaiementSecuriseRequest request = new CreerPaiementSecuriseRequest( );
 

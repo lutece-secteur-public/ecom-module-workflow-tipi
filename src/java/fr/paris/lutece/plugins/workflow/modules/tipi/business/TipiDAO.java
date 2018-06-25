@@ -44,10 +44,10 @@ public final class TipiDAO implements ITipiDAO
 {
 
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT ref_det, amount, email, id_op, result_transaction FROM workflow_tipi_tipi WHERE ref_det = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO workflow_tipi_tipi ( ref_det, amount, email, id_op, result_transaction ) VALUES ( ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_SELECT = "SELECT ref_det, amount, email, id_op, transaction_result FROM workflow_tipi_tipi WHERE ref_det = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO workflow_tipi_tipi ( ref_det, amount, email, id_op, transaction_result ) VALUES ( ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM workflow_tipi_tipi WHERE ref_det = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE workflow_tipi_tipi SET ref_det = ?, amount = ?, email = ?, id_op = ?, result_transaction = ? WHERE ref_det = ?";
+    private static final String SQL_QUERY_UPDATE = "UPDATE workflow_tipi_tipi SET ref_det = ?, amount = ?, email = ?, id_op = ?, transaction_result = ? WHERE ref_det = ?";
 
     /**
      * {@inheritDoc }
@@ -58,10 +58,10 @@ public final class TipiDAO implements ITipiDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
         daoUtil.setString( 1, tipi.getRefDet( ) );
-        daoUtil.setDouble( 2, tipi.getAmount( ) );
+        daoUtil.setInt( 2, tipi.getAmount( ) );
         daoUtil.setString( 3, tipi.getEmail( ) );
         daoUtil.setString( 4, tipi.getIdOp( ) );
-        daoUtil.setString( 5, tipi.getResultTransaction( ) );
+        daoUtil.setString( 5, tipi.getTransactionResult( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.close( );
@@ -84,10 +84,10 @@ public final class TipiDAO implements ITipiDAO
             tipi = new Tipi( );
             int nIndex = 0;
             tipi.setRefDet( daoUtil.getString( ++nIndex ) );
-            tipi.setAmount( daoUtil.getDouble( ++nIndex ) );
+            tipi.setAmount( daoUtil.getInt( ++nIndex ) );
             tipi.setEmail( daoUtil.getString( ++nIndex ) );
             tipi.setIdOp( daoUtil.getString( ++nIndex ) );
-            tipi.setResultTransaction( daoUtil.getString( ++nIndex ) );
+            tipi.setTransactionResult( daoUtil.getString( ++nIndex ) );
         }
 
         daoUtil.close( );
@@ -117,10 +117,10 @@ public final class TipiDAO implements ITipiDAO
 
         int nIndex = 0;
         daoUtil.setString( ++nIndex, tipi.getRefDet( ) );
-        daoUtil.setDouble( ++nIndex, tipi.getAmount( ) );
+        daoUtil.setInt( ++nIndex, tipi.getAmount( ) );
         daoUtil.setString( ++nIndex, tipi.getEmail( ) );
         daoUtil.setString( ++nIndex, tipi.getIdOp( ) );
-        daoUtil.setString( ++nIndex, tipi.getResultTransaction( ) );
+        daoUtil.setString( ++nIndex, tipi.getTransactionResult( ) );
         daoUtil.setString( ++nIndex, tipi.getRefDet( ) );
 
         daoUtil.executeUpdate( );

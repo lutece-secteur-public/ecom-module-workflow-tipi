@@ -147,7 +147,7 @@ public class TipiPaymentJspBean
         }
 
         String email = tipi.getEmail( );
-        double amount = tipi.getAmount( );
+        int amount = tipi.getAmount( );
         String refDet = tipi.getRefDet( );
 
         String strIdop = _tipiServiceCaller.getIdop( email, refDet, amount );
@@ -167,6 +167,6 @@ public class TipiPaymentJspBean
      */
     private boolean isTipiPaymentAlreadyPaid( Tipi tipi )
     {
-        return tipi.getResultTransaction( ) != null && tipi.getResultTransaction( ).equalsIgnoreCase( TransactionResult.PAYMENT_SUCCEEDED.getValueStr( ) );
+        return tipi.getTransactionResult( ) != null && tipi.getTransactionResult( ).equalsIgnoreCase( TransactionResult.PAYMENT_SUCCEEDED.getValueStr( ) );
     }
 }
