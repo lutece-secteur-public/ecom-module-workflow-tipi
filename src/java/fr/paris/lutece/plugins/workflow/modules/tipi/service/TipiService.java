@@ -43,23 +43,16 @@ import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
  * This class provides instances management methods (create, find, ...) for Tipi objects
  */
 
-public final class TipiService
+public final class TipiService implements ITipiService
 {
-
-    // BEAN
-    public static final String BEAN_NAME = "workflow-tipi.tipiService";
 
     @Inject
     private ITipiDAO _dao;
 
     /**
-     * Create an instance of the tipi class
-     * 
-     * @param tipi
-     *            The instance of the Tipi which contains the informations to store
-     * @return The instance of tipi which has been created with its primary key.
+     * {@inheritDoc }
      */
-
+    @Override
     public Tipi create( Tipi tipi )
     {
         _dao.insert( tipi );
@@ -68,13 +61,9 @@ public final class TipiService
     }
 
     /**
-     * Update of the tipi data specified in parameter
-     * 
-     * @param tipi
-     *            The instance of the Tipi which contains the data to store
-     * @return The instance of the tipi which has been updated
+     * {@inheritDoc }
      */
-
+    @Override
     public Tipi update( Tipi tipi )
     {
         _dao.store( tipi );
@@ -83,12 +72,9 @@ public final class TipiService
     }
 
     /**
-     * Remove the tipi whose identifier is specified in parameter
-     * 
-     * @param strRefDet
-     *            The RefDet
+     * {@inheritDoc }
      */
-
+    @Override
     public void remove( String strRefDet )
     {
         _dao.delete( strRefDet );
@@ -98,13 +84,9 @@ public final class TipiService
     // Finders
 
     /**
-     * Returns an instance of a tipi whose identifier is specified in parameter
-     * 
-     * @param strRefDet
-     *            The RefDet
-     * @return an instance of Tipi
+     * {@inheritDoc }
      */
-
+    @Override
     public Tipi findByPrimaryKey( String strRefDet )
     {
         return _dao.load( strRefDet );

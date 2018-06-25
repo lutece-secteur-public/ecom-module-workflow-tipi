@@ -49,21 +49,14 @@ import fr.paris.vdp.tipi.create.url.webservice.CreateURLWebService;
  *
  */
 
-public class TipiServiceCaller
+public class TipiServiceCaller implements ITipiServiceCaller
 {
-    public static final String BEAN_NAME = "workflow-tipi.tipiServiceCaller";
-
     private static final String URLWDSL = "tipi.urlwsdl";
 
     /**
-     * 
-     * Method to get the id_op
-     * 
-     * @param email
-     * @param refDet
-     * @param amount
-     * @return TipiCallWebService
+     * {@inheritDoc }
      */
+    @Override
     public String getIdop( String email, String refDet, int amount )
     {
 
@@ -90,13 +83,9 @@ public class TipiServiceCaller
     }
 
     /**
-     * Method to create a payment request
-     * 
-     * @param email
-     * @param refDet
-     * @param amount
-     * @return Request
+     * {@inheritDoc }
      */
+    @Override
     public CreerPaiementSecuriseRequest createRequest( String email, String refDet, int amount )
     {
         CreerPaiementSecuriseRequest request = new CreerPaiementSecuriseRequest( );

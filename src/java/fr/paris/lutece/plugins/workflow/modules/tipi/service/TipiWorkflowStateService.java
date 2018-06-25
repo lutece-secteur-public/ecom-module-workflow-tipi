@@ -54,7 +54,7 @@ import fr.paris.lutece.util.ReferenceList;
  *
  */
 
-public class TipiWorkflowStateService
+public class TipiWorkflowStateService implements ITipiWorkflowStateService
 {
     // SERVICES
     @Inject
@@ -63,13 +63,9 @@ public class TipiWorkflowStateService
     private IStateService _stateService;
 
     /**
-     * Get The List of States
-     * 
-     * @param nIdAction
-     *            the Action Id
-     * 
-     * @return a list of states
+     * {@inheritDoc }
      */
+    @Override
     public ReferenceList getListStates( int nIdAction )
     {
         ReferenceList referenceListStates = new ReferenceList( );

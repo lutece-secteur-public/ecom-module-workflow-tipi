@@ -43,23 +43,15 @@ import javax.inject.Inject;
  * This class provides instances management methods (create, find, ...) for TipiRefDetHistory objects
  */
 
-public final class TipiRefDetHistoryService
+public final class TipiRefDetHistoryService implements ITipiRefDetHistoryService
 {
-
-    // BEAN
-    public static final String BEAN_NAME = "workflow-tipi.tipiRefDetHistoryService";
-
     @Inject
     private ITipiRefDetHistoryDAO _dao;
 
     /**
-     * Create an instance of the tipiRefDetHistory class
-     * 
-     * @param tipiRefDetHistory
-     *            The instance of the TipiRefDetHistory which contains the informations to store
-     * @return The instance of tipiRefDetHistory which has been created with its primary key.
+     * {@inheritDoc }
      */
-
+    @Override
     public TipiRefDetHistory create( TipiRefDetHistory tipiRefDetHistory )
     {
         _dao.insert( tipiRefDetHistory );
@@ -68,13 +60,9 @@ public final class TipiRefDetHistoryService
     }
 
     /**
-     * Update of the tipiRefDetHistory data specified in parameter
-     * 
-     * @param tipiRefDetHistory
-     *            The instance of the TipiRefDetHistory which contains the data to store
-     * @return The instance of the tipiRefDetHistory which has been updated
+     * {@inheritDoc }
      */
-
+    @Override
     public TipiRefDetHistory update( TipiRefDetHistory tipiRefDetHistory )
     {
         _dao.store( tipiRefDetHistory );
@@ -83,12 +71,9 @@ public final class TipiRefDetHistoryService
     }
 
     /**
-     * Remove the tipiRefDetHistory whose identifier is specified in parameter
-     * 
-     * @param nIdHistory
-     *            The idHistory
+     * {@inheritDoc }
      */
-
+    @Override
     public void remove( int nIdHistory )
     {
         _dao.delete( nIdHistory );
@@ -98,13 +83,9 @@ public final class TipiRefDetHistoryService
     // Finders
 
     /**
-     * Returns an instance of a tipiRefDetHistory whose identifier is specified in parameter
-     * 
-     * @param nIdHistory
-     *            The tipiRefDetHistory primary key
-     * @return an instance of TipiRefDetHistory
+     * {@inheritDoc }
      */
-
+    @Override
     public TipiRefDetHistory findByPrimaryKey( int nIdHistory )
     {
         return _dao.load( nIdHistory );

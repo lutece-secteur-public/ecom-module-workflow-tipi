@@ -45,6 +45,9 @@ import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
  */
 public interface ITipiUrlService
 {
+    // BEAN
+    String BEAN_NAME = "workflow-tipi.tipiUrlService";
+
     /**
      * Generated the URL for the TIPI payment. This URL points to the JSP DoProcessPayment.jsp.
      * 

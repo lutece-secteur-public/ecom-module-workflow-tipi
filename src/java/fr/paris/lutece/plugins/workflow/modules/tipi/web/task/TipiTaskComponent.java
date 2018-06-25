@@ -47,7 +47,7 @@ import fr.paris.lutece.plugins.workflowcore.service.config.ITaskConfigService;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiWorkflowStateService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiWorkflowStateService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 
 /**
@@ -57,16 +57,18 @@ import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
  */
 public class TipiTaskComponent extends AbstractTaskComponent
 {
+    // BEAN
+    private static final String BEAN_CONFIG_SERVICE = "workflow-tipi.taskTipiConfigService";
 
     // TEMPLATE
     private static final String TEMPLATE_TASK_CONFIG = "admin/plugins/workflow/modules/tipi/tipi_task_config.html";
 
     // SERVICE
     @Inject
-    @Named( TipiConstants.BEAN_TIPI_SERVICE )
-    private TipiWorkflowStateService _tipiWorkFlowStateService;
+    @Named( ITipiWorkflowStateService.BEAN_NAME )
+    private ITipiWorkflowStateService _tipiWorkFlowStateService;
     @Inject
-    @Named( TipiConstants.BEAN_TIPI_CONFIG_SERVICE )
+    @Named( BEAN_CONFIG_SERVICE )
     private ITaskConfigService _taskConfigService;
 
     /**

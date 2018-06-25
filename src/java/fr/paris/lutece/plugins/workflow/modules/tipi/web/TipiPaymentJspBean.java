@@ -40,9 +40,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
-import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiRefDetHistoryService;
-import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiService;
-import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiServiceCaller;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetHistoryService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiServiceCaller;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.ITipiUrlService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
@@ -63,27 +63,24 @@ public class TipiPaymentJspBean
     // Messages
     private static final String MESSAGE_REFDET_ALREADY_PAID = "module.workflow.tipi.message.refdet.already.paid";
 
-    // Beans
-    private static final String BEAN_URL_SERVICE = "workflow-tipi.tipiUrlService";
-
     // Other constants
     private static final int ID_NOT_SET = -1;
 
     // Services
-    private final ITipiUrlService _tipiUrlService;
-    private TipiService _tipiService;
-    private TipiRefDetHistoryService _tipiRefDetHistoryService;
-    private TipiServiceCaller _tipiServiceCaller;
+    private ITipiUrlService _tipiUrlService;
+    private ITipiService _tipiService;
+    private ITipiRefDetHistoryService _tipiRefDetHistoryService;
+    private ITipiServiceCaller _tipiServiceCaller;
 
     /**
      * Constructor
      */
     public TipiPaymentJspBean( )
     {
-        _tipiUrlService = SpringContextService.getBean( BEAN_URL_SERVICE );
-        _tipiService = SpringContextService.getBean( TipiService.BEAN_NAME );
-        _tipiServiceCaller = SpringContextService.getBean( TipiServiceCaller.BEAN_NAME );
-        _tipiRefDetHistoryService = SpringContextService.getBean( TipiRefDetHistoryService.BEAN_NAME );
+        _tipiUrlService = SpringContextService.getBean( ITipiUrlService.BEAN_NAME );
+        _tipiService = SpringContextService.getBean( ITipiService.BEAN_NAME );
+        _tipiServiceCaller = SpringContextService.getBean( ITipiRefDetHistoryService.BEAN_NAME );
+        _tipiRefDetHistoryService = SpringContextService.getBean( ITipiRefDetHistoryService.BEAN_NAME );
     }
 
     /**
