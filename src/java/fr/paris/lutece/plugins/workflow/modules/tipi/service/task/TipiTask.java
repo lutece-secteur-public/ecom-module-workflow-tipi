@@ -38,7 +38,10 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.task.TaskTipiConfigDAO;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetHistoryService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
@@ -54,6 +57,8 @@ public class TipiTask extends SimpleTask
 
     @Inject
     private TaskTipiConfigDAO _taskTipiConfigDAO;
+    @Inject
+    private ITipiRefDetHistoryService _tipiRefDetHistoryService;
 
     // GET
     @Override
@@ -66,9 +71,11 @@ public class TipiTask extends SimpleTask
      * {@inheritDoc}
      */
     @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale local )
+    public void processTask( int nIdHistory, HttpServletRequest request, Locale local )
     {
-        // TODO : save the task id in the table workflow_task_tipi_refdet_history
+        TipiRefDetHistory tipiRefDetHistory = _tipiRefDetHistoryService.findByPrimaryKey( nIdHistory );
+        tipiRefDetHistory.setIdTask( getId( ) );
+        _tipiRefDetHistoryService.update( tipiRefDetHistory );
     }
 
     /**
