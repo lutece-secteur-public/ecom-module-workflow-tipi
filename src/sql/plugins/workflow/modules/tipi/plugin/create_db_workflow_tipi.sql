@@ -20,10 +20,10 @@ PRIMARY KEY (id_task)
 --
 
 CREATE TABLE workflow_tipi_tipi(
-ref_det INT DEFAULT 0 NOT NULL,
+ref_det VARCHAR(50) NOT NULL,
 amount INT DEFAULT 0 NOT NULL,
-email VARCHAR(255),
-id_op VARCHAR(255),
+email VARCHAR(2500),
+id_op VARCHAR(50),
 transaction_result VARCHAR(1),
 PRIMARY KEY (ref_det)
 );
@@ -35,6 +35,6 @@ PRIMARY KEY (ref_det)
 CREATE TABLE workflow_task_tipi_refdet_history(
 id_history INT DEFAULT 0 NOT NULL,
 id_task INT DEFAULT 0 NOT NULL,
-ref_det INT DEFAULT 0 NOT NULL,
+ref_det VARCHAR(50) NOT NULL,
 PRIMARY KEY (id_history)
 );
