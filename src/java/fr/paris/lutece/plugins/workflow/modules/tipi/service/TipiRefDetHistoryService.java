@@ -91,4 +91,14 @@ public final class TipiRefDetHistoryService implements ITipiRefDetHistoryService
         return _dao.load( nIdHistory );
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public TipiRefDetHistory findByRefDet( String strRefDet )
+    {
+        // TODO : implement this method
+        return new TipiRefDetHistory( );
+    }
+
 }

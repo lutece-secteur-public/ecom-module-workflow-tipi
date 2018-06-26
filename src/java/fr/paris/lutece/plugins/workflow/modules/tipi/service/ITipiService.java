@@ -47,4 +47,13 @@ public interface ITipiService
 
     Tipi findByPrimaryKey( String strRefDet );
 
+    /**
+     * Returns an instance of a tipi associated to the specified idop
+     * 
+     * @param strIdop
+     *            the idop
+     * @return an instance of Tipi
+     */
+    Tipi findByIdop( String strIdop );
+
 }

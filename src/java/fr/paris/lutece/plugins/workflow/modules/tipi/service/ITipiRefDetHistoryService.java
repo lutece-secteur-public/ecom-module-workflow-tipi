@@ -47,4 +47,13 @@ public interface ITipiRefDetHistoryService
 
     TipiRefDetHistory findByPrimaryKey( int nIdHistory );
 
+    /**
+     * Returns an instance of a tipiRefDetHistory associated to the specified RefDet
+     * 
+     * @param strRefDet
+     *            the RefDet
+     * @return an instance of TipiRefDetHistory
+     */
+    TipiRefDetHistory findByRefDet( String strRefDet );
+
 }

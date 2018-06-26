@@ -31,38 +31,26 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.tipi.util;
+package fr.paris.lutece.plugins.workflow.modules.tipi.service;
+
+import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TipiNotFoundException;
+import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
 
 /**
- * 
- * Constants used
+ * This interface represents a service for the TIPI payment
  *
  */
-public final class TipiConstants
+public interface ITipiPaymentService
 {
-    public static final String TRANSACTION_RESULT_PAYMENT_CANCELED = "A";
-
-    // PROPERTIES
-    public static final String PROPERTY_TRUSTSTORE = "tipi.ssl.truststore";
-    public static final String PROPERTY_TRUSTSTORE_PASSWORD = "tipi.ssl.truststore.password";
-    public static final String PROPERTY_KEYSTORE = "tipi.ssl.keystore";
-    public static final String PROPERTY_KEYSTORE_PASSWORD = "tipi.ssl.keystore.password";
-    public static final String PROPERTY_URLWDSL = "tipi.urlwsdl";
-    public static final String PROPERTY_REFERENCE_CLIENT = "tipi.numcli";
-    public static final String PROPERTY_TIPI_OBJET = "tipi.objet";
-    public static final String PROPERTY_URL_NOTIF = "tipi.urlnotif";
-    public static final String PROPERTY_URL_REDIRECT = "tipi.urlredirect";
-    public static final String PROPERTY_PAYMENT_TYPE = "tipi.saisie";
-    public static final String PROPERTY_TIPI_URL = "tipi.url";
-
     /**
+     * Method to be called when the TIPI payment is processed by the TIPI service
      * 
-     * Constructor
-     * 
+     * @param strIdop
+     *            the idop of the TIPI payment
+     * @throws TransactionResultException
+     *             if there is an error getting the TIPI transaction result
+     * @throws TipiNotFoundException
+     *             if there is no TIPI object associated to the specified idop
      */
-    private TipiConstants( )
-    {
-
-    }
-
+    void paymentProcessed( String strIdop ) throws TransactionResultException, TipiNotFoundException;
 }

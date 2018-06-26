@@ -39,6 +39,7 @@ import java.util.Calendar;
 
 import javax.xml.rpc.ServiceException;
 
+import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
 import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -126,6 +127,16 @@ public class TipiServiceCaller implements ITipiServiceCaller
             }
 
         return request;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getTransactionResult( String strIdop ) throws TransactionResultException
+    {
+        // TODO : implement this method
+        return null;
     }
 
     /**

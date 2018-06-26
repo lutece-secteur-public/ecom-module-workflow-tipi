@@ -18,4 +18,14 @@ public interface ITipiWorkflowStateService
      */
     ReferenceList getListStates( int nIdAction );
 
+    /**
+     * Changes the workflow state of a workflow resource
+     * 
+     * @param nIdState
+     *            the id of the target state
+     * @param nIdResourceHistory
+     *            the id of the resource history associated to the workflow resource
+     */
+    void changeState( int nIdState, int nIdResourceHistory );
+
 }

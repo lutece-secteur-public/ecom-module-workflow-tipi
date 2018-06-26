@@ -31,38 +31,49 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.tipi.util;
+package fr.paris.lutece.plugins.workflow.modules.tipi.exception;
 
 /**
- * 
- * Constants used
+ *
+ * Exception thrown when getting the TIPI transaction result
  *
  */
-public final class TipiConstants
+public class TransactionResultException extends Exception
 {
-    public static final String TRANSACTION_RESULT_PAYMENT_CANCELED = "A";
-
-    // PROPERTIES
-    public static final String PROPERTY_TRUSTSTORE = "tipi.ssl.truststore";
-    public static final String PROPERTY_TRUSTSTORE_PASSWORD = "tipi.ssl.truststore.password";
-    public static final String PROPERTY_KEYSTORE = "tipi.ssl.keystore";
-    public static final String PROPERTY_KEYSTORE_PASSWORD = "tipi.ssl.keystore.password";
-    public static final String PROPERTY_URLWDSL = "tipi.urlwsdl";
-    public static final String PROPERTY_REFERENCE_CLIENT = "tipi.numcli";
-    public static final String PROPERTY_TIPI_OBJET = "tipi.objet";
-    public static final String PROPERTY_URL_NOTIF = "tipi.urlnotif";
-    public static final String PROPERTY_URL_REDIRECT = "tipi.urlredirect";
-    public static final String PROPERTY_PAYMENT_TYPE = "tipi.saisie";
-    public static final String PROPERTY_TIPI_URL = "tipi.url";
+    /**
+     * Generated serial ID
+     */
+    private static final long serialVersionUID = 2441579697506698846L;
 
     /**
-     * 
      * Constructor
-     * 
+     *
+     * @param strMessage
+     *            The error message
      */
-    private TipiConstants( )
+    public TransactionResultException( String strMessage )
     {
-
+        super( strMessage );
     }
 
+    /**
+     * Constructor
+     *
+     * @param strMessage
+     *            The error message
+     * @param exception
+     *            The initial exception
+     */
+    public TransactionResultException( String strMessage, Exception exception )
+    {
+        super( strMessage, exception );
+    }
+
+    /**
+     * Constructor
+     */
+    public TransactionResultException( )
+    {
+        super( );
+    }
 }

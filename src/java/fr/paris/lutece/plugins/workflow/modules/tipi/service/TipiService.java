@@ -92,4 +92,14 @@ public final class TipiService implements ITipiService
         return _dao.load( strRefDet );
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Tipi findByIdop( String strIdop )
+    {
+        // TODO : implements this method
+        return new Tipi( );
+    }
+
 }

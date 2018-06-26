@@ -60,6 +60,12 @@
 	<bean id="workflow-tipi.tipiRefDetHistoryService"
 		class="fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiRefDetHistoryService"/>
 
+    <bean id="workflow-tipi.tipiCallbackRestService"
+        class="fr.paris.lutece.plugins.workflow.modules.tipi.web.rs.TipiCallbackRestService"/>
+
+    <bean id="workflow-tipi.tipiPaymentService"
+        class="fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiPaymentService"/>
+
 
 	<!-- TIPI OBJECT BEAN -->
 	<bean id="workflow-tipi.tipiDAO"

@@ -86,4 +86,13 @@ public class TipiWorkflowStateService implements ITipiWorkflowStateService
         return referenceListStates;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void changeState( int nIdState, int nIdResourceHistory )
+    {
+        // TODO : implement this method
+    }
+
 }
