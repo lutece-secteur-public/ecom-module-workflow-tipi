@@ -88,10 +88,14 @@ public class TipiServiceCaller implements ITipiServiceCaller
     }
 
     /**
-     * {@inheritDoc }
+     * Method to create a payment request
+     * 
+     * @param email
+     * @param refDet
+     * @param amount
+     * @return Request
      */
-    @Override
-    public CreerPaiementSecuriseRequest createRequest( String email, String refDet, int amount )
+    private CreerPaiementSecuriseRequest createRequest( String email, String refDet, int amount )
     {
         CreerPaiementSecuriseRequest request = new CreerPaiementSecuriseRequest( );
         Calendar calendar = Calendar.getInstance( );
