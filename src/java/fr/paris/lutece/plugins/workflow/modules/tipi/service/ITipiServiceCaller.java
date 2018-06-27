@@ -35,6 +35,11 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
 
+/**
+ * 
+ * Interface for communication whit the TIPI web service
+ *
+ */
 public interface ITipiServiceCaller
 {
 
@@ -45,15 +50,15 @@ public interface ITipiServiceCaller
      * 
      * Gives the idop
      * 
-     * @param email
+     * @param strEmail
      *            the email
-     * @param refDet
+     * @param strRefDet
      *            the RefDet
-     * @param amount
+     * @param nAmount
      *            the amount
      * @return the idop
      */
-    String getIdop( String email, String refDet, int amount );
+    String getIdop( String strEmail, String strRefDet, int nAmount );
 
     /**
      * Gives the transaction result associated to the specified idop

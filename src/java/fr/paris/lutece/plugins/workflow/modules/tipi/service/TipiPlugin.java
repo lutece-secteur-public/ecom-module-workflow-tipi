@@ -56,7 +56,7 @@ public final class TipiPlugin extends PluginDefaultImplementation
      */
     private TipiPlugin( )
     {
-
+        super( );
     }
 
     /**

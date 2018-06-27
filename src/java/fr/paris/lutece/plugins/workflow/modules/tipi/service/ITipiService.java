@@ -35,6 +35,11 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 
+/**
+ * 
+ * Interface for managment method of Tipi object
+ *
+ */
 public interface ITipiService
 {
 

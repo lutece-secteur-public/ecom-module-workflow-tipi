@@ -56,19 +56,19 @@ import fr.paris.vdp.tipi.create.url.webservice.CreateURLWebService;
 public class TipiServiceCaller implements ITipiServiceCaller
 {
     // CONTANTS
-    private static final String X = "X";
-    private static final String W = "W";
+    private static final String ACTIVATION_PAYMENT = "X";
+    private static final String REAL_PAYMENT = "W";
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getIdop( String email, String refDet, int amount )
+    public String getIdop( String strEmail, String strRefDet, int nAmount )
     {
 
         final String urlWsdl = AppPropertiesService.getProperty( TipiConstants.PROPERTY_URLWDSL );
 
-        CreerPaiementSecuriseRequest request = createRequest( email, refDet, amount );
+        CreerPaiementSecuriseRequest request = createRequest( strEmail, strRefDet, nAmount );
 
         String strIdop = null;
 
@@ -91,19 +91,23 @@ public class TipiServiceCaller implements ITipiServiceCaller
     /**
      * Method to create a payment request
      * 
-     * @param email
-     * @param refDet
-     * @param amount
+     * @param strEmail
+     *            the email
+     * @param strRefDet
+     *            the RefDet
+     * @param nAmount
+     *            the amount
      * @return Request
+     *
      */
-    private CreerPaiementSecuriseRequest createRequest( String email, String refDet, int amount )
+    private CreerPaiementSecuriseRequest createRequest( String strEmail, String strRefDet, int nAmount )
     {
         CreerPaiementSecuriseRequest request = new CreerPaiementSecuriseRequest( );
         Calendar calendar = Calendar.getInstance( );
 
-        request.setMel( email );
-        request.setMontant( String.valueOf( ( amount ) ) );
-        request.setRefdet( refDet );
+        request.setMel( strEmail );
+        request.setMontant( String.valueOf( ( nAmount ) ) );
+        request.setRefdet( strRefDet );
         request.setNumcli( AppPropertiesService.getProperty( TipiConstants.PROPERTY_REFERENCE_CLIENT ) );
         request.setUrlnotif( AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_NOTIF ) );
         request.setUrlredirect( AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_REDIRECT ) );
@@ -112,12 +116,12 @@ public class TipiServiceCaller implements ITipiServiceCaller
 
         String saisie = AppPropertiesService.getProperty( TipiConstants.PROPERTY_PAYMENT_TYPE );
 
-        if ( W.equalsIgnoreCase( saisie ) )
+        if ( REAL_PAYMENT.equalsIgnoreCase( saisie ) )
         {
             request.setSaisie( PaymentType.PRODUCTION_WS.getStringValues( ) );
         }
         else
-            if ( X.equalsIgnoreCase( saisie ) )
+            if ( ACTIVATION_PAYMENT.equalsIgnoreCase( saisie ) )
             {
                 request.setSaisie( PaymentType.ACTIVATION.getStringValues( ) );
             }

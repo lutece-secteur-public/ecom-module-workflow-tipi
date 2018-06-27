@@ -67,7 +67,7 @@ public class TipiPaymentJspBean
     private static final int ID_NOT_SET = -1;
 
     // Services
-    private ITipiUrlService _tipiUrlService;
+    private final ITipiUrlService _tipiUrlService;
     private ITipiService _tipiService;
     private ITipiRefDetHistoryService _tipiRefDetHistoryService;
     private ITipiServiceCaller _tipiServiceCaller;
@@ -143,11 +143,11 @@ public class TipiPaymentJspBean
             SiteMessageService.setMessage( request, MESSAGE_REFDET_ALREADY_PAID, SiteMessage.TYPE_INFO );
         }
 
-        String email = tipi.getEmail( );
-        int amount = tipi.getAmount( );
-        String refDet = tipi.getRefDet( );
+        String strEmail = tipi.getEmail( );
+        int nAmount = tipi.getAmount( );
+        String strRefDet = tipi.getRefDet( );
 
-        String strIdop = _tipiServiceCaller.getIdop( email, refDet, amount );
+        String strIdop = _tipiServiceCaller.getIdop( strEmail, strRefDet, nAmount );
 
         tipi.setIdOp( strIdop );
         _tipiService.update( tipi );

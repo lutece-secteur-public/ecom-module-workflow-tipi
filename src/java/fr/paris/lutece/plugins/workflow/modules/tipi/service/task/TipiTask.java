@@ -41,7 +41,6 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.task.TaskTipiConfigDAO;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetHistoryService;
-import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 

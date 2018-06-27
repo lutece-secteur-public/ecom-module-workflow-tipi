@@ -35,6 +35,11 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
 import fr.paris.lutece.util.ReferenceList;
 
+/**
+ * 
+ * Interface for managment of the states of the Tipi task
+ *
+ */
 public interface ITipiWorkflowStateService
 {
 

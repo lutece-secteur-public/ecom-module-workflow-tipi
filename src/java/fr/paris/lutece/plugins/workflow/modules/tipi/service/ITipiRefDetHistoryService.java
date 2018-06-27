@@ -35,6 +35,11 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
 
+/**
+ * 
+ * Interface for managment of TipiRefDetHistory object
+ *
+ */
 public interface ITipiRefDetHistoryService
 {
 
