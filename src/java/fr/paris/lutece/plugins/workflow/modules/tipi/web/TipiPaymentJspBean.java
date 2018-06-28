@@ -79,7 +79,7 @@ public class TipiPaymentJspBean
     {
         _tipiUrlService = SpringContextService.getBean( ITipiUrlService.BEAN_NAME );
         _tipiService = SpringContextService.getBean( ITipiService.BEAN_NAME );
-        _tipiServiceCaller = SpringContextService.getBean( ITipiRefDetHistoryService.BEAN_NAME );
+        _tipiServiceCaller = SpringContextService.getBean( ITipiServiceCaller.BEAN_NAME );
         _tipiRefDetHistoryService = SpringContextService.getBean( ITipiRefDetHistoryService.BEAN_NAME );
     }
 
