@@ -60,6 +60,14 @@ public class TipiServiceCaller implements ITipiServiceCaller
     private static final String REAL_PAYMENT = "W";
 
     /**
+     * Constructor
+     */
+    public TipiServiceCaller( )
+    {
+        setCertificateValues( );
+    }
+
+    /**
      * {@inheritDoc }
      */
     @Override
@@ -150,7 +158,6 @@ public class TipiServiceCaller implements ITipiServiceCaller
      * Method to set the certificate to TIPI
      * 
      */
-    // TODO use this method
     private void setCertificateValues( )
     {
         if ( AppPropertiesService.getProperty( TipiConstants.PROPERTY_KEYSTORE ).isEmpty( ) )
