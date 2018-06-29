@@ -121,4 +121,13 @@ public class TipiUrlService implements ITipiUrlService
     {
         return AppPropertiesService.getProperty( TipiConstants.PROPERTY_TIPI_URL ) + tipi.getIdOp( );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String generateNotificationUrl( HttpServletRequest request )
+    {
+        return AppPathService.getBaseUrl( request ) + TipiConstants.URL_NOTIFICATION_BASE + TipiConstants.URL_NOTIFICATION_PAYMENT;
+    }
 }

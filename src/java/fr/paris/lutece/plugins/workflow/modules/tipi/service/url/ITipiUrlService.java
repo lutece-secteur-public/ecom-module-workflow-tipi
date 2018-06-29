@@ -78,4 +78,13 @@ public interface ITipiUrlService
      * @return the generated URL
      */
     String generateTipiUrl( Tipi tipi );
+
+    /**
+     * Generates the URL for the TIPI notifications
+     * 
+     * @param request
+     *            the request
+     * @return the generated URL
+     */
+    String generateNotificationUrl( HttpServletRequest request );
 }

@@ -46,11 +46,13 @@ public class SpyTipiUrlService implements ITipiUrlService
 {
     private static final String URL_PAYMENT = "FakeTipiUrlService_payment";
     private static final String URL_TIPI = "FakeTipiUrlService_tipi";
+    private static final String URL_NOTIFICATION = "FakeTipiUrlService_notification";
     private static final Random _random = new Random( );
 
     public String _strGeneratedPaymentUrl;
     public boolean _bIsPaymentUrlAuthenticated = true;
     public String _strGeneratedTipiUrl;
+    public String _strGeneratedNotificationUrl;
 
     @Override
     public String generatePaymentUrl( ResourceHistory resourceHistory, ITask task, HttpServletRequest request )
@@ -72,5 +74,13 @@ public class SpyTipiUrlService implements ITipiUrlService
         _strGeneratedTipiUrl = URL_TIPI + _random.nextInt( 50 );
 
         return _strGeneratedTipiUrl;
+    }
+
+    @Override
+    public String generateNotificationUrl( HttpServletRequest request )
+    {
+        _strGeneratedNotificationUrl = URL_NOTIFICATION + _random.nextInt( 50 );
+
+        return _strGeneratedNotificationUrl;
     }
 }

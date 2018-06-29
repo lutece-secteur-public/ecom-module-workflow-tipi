@@ -146,8 +146,8 @@ public class TipiPaymentJspBean
         String strEmail = tipi.getEmail( );
         int nAmount = tipi.getAmount( );
         String strRefDet = tipi.getRefDet( );
-
-        String strIdop = _tipiServiceCaller.getIdop( strEmail, strRefDet, nAmount );
+        String strNotificationUrl = _tipiUrlService.generateNotificationUrl( request );
+        String strIdop = _tipiServiceCaller.getIdop( strEmail, strRefDet, nAmount, strNotificationUrl );
 
         tipi.setIdOp( strIdop );
         _tipiService.update( tipi );

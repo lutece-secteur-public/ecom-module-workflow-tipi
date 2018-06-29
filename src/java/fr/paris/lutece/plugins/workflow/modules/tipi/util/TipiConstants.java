@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.workflow.modules.tipi.util;
 
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiPlugin;
+
 /**
  * 
  * Constants used
@@ -41,6 +43,9 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.util;
 public final class TipiConstants
 {
     public static final String TRANSACTION_RESULT_PAYMENT_CANCELED = "A";
+
+    public static final String URL_NOTIFICATION_BASE = "rest/" + TipiPlugin.PLUGIN_NAME + "/callback/";
+    public static final String URL_NOTIFICATION_PAYMENT = "payment";
 
     // PROPERTIES
     public static final String PROPERTY_TRUSTSTORE = "tipi.ssl.truststore";
