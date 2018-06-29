@@ -35,9 +35,13 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.service.task;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetHistoryService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiService;
 import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
 
 /**
@@ -46,6 +50,26 @@ import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
  */
 public abstract class AbstractTipiProviderTask extends SimpleTask
 {
+    private final ITipiService _tipiService;
+    private final ITipiRefDetHistoryService _tipiRefDetHistoryService;
+
+    /**
+     * Constructor
+     * 
+     * @param tipiService
+     *            the TIPI service
+     * @param tipiRefDetHistoryService
+     *            the TIPI RefDet history service
+     */
+    @Inject
+    public AbstractTipiProviderTask( ITipiService tipiService, ITipiRefDetHistoryService tipiRefDetHistoryService )
+    {
+        super( );
+
+        _tipiService = tipiService;
+        _tipiRefDetHistoryService = tipiRefDetHistoryService;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -91,11 +115,11 @@ public abstract class AbstractTipiProviderTask extends SimpleTask
      */
     private void saveTipi( Tipi tipi )
     {
-        Tipi tipiAlredaySaved = new Tipi( ); // TODO : retrieve the TIPI object in database from its RefDet
+        Tipi tipiAlredaySaved = _tipiService.findByPrimaryKey( tipi.getRefDet( ) );
 
         if ( tipiAlredaySaved == null )
         {
-            // TODO : save the TIPI object in the table workflow_tipi_tipi
+            _tipiService.create( tipi );
         }
     }
 
@@ -109,7 +133,11 @@ public abstract class AbstractTipiProviderTask extends SimpleTask
      */
     private void saveRefDetHistory( int nIdResourceHistory, String strRefDet )
     {
-        // TODO : save the resource history id and the RefDet in the table workflow_task_tipi_refdet_history
+        TipiRefDetHistory tipiRefDetHistory = new TipiRefDetHistory( );
+        tipiRefDetHistory.setIdHistory( nIdResourceHistory );
+        tipiRefDetHistory.setRefDet( strRefDet );
+
+        _tipiRefDetHistoryService.create( tipiRefDetHistory );
     }
 
     /**
