@@ -90,7 +90,7 @@ public class TipiUrlService implements ITipiUrlService
 
         String strTimestamp = Long.toString( new Date( ).getTime( ) );
         String strSignature = _requestAuthenticator.buildSignature( listElements, strTimestamp );
-        StringBuilder sbUrl = new StringBuilder( AppPathService.getBaseUrl( request ) );
+        StringBuilder sbUrl = new StringBuilder( AppPathService.getProdUrl( request ) );
         sbUrl.append( URL_JSP_TIPI_PAYMENT );
 
         UrlItem url = new UrlItem( sbUrl.toString( ) );
