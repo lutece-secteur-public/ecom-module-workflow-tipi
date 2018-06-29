@@ -17,7 +17,8 @@
 		p:titleI18nKey="module.workflow.tipi.task_title"
 		p:beanName="workflow-tipi.tipiTask"
 		p:configBeanName="workflow-tipi.taskTipiConfig"
-		p:configRequired="true" />
+		p:configRequired="true"
+        p:taskForAutomaticAction="true" />
 
 	<bean id="workflow-tipi.taskTipiConfig"
 		class="fr.paris.lutece.plugins.workflow.modules.tipi.business.task.TaskTipiConfig"
