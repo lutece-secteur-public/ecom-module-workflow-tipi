@@ -47,6 +47,10 @@ import fr.paris.lutece.plugins.workflowcore.service.config.ITaskConfigService;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetHistoryService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiWorkflowStateService;
 
 /**
@@ -59,17 +63,22 @@ public class TipiTaskComponent extends AbstractTaskComponent
     // MARKS
     private static final String MARK_CONFIG = "config";
     private static final String MARK_LIST_STATES = "list_states";
+    private static final String MARK_TIPI = "tipi";
 
     // BEAN
     private static final String BEAN_CONFIG_SERVICE = "workflow-tipi.taskTipiConfigService";
 
     // TEMPLATE
     private static final String TEMPLATE_TASK_CONFIG = "admin/plugins/workflow/modules/tipi/tipi_task_config.html";
+    private static final String TEMPLATE_TASK_INFORMATION = "admin/plugins/workflow/modules/tipi/tipi_task_information.html";
 
     // SERVICE
     @Inject
-    @Named( ITipiWorkflowStateService.BEAN_NAME )
     private ITipiWorkflowStateService _tipiWorkFlowStateService;
+    @Inject
+    private ITipiRefDetHistoryService _tipiRefDetHistoryService;
+    @Inject
+    private ITipiService _tipiService;
     @Inject
     @Named( BEAN_CONFIG_SERVICE )
     private ITaskConfigService _taskConfigService;
@@ -103,7 +112,7 @@ public class TipiTaskComponent extends AbstractTaskComponent
      * {@inheritDoc}
      */
     @Override
-    public String getDisplayTaskForm( int arg0, String arg1, HttpServletRequest arg2, Locale arg3, ITask arg4 )
+    public String getDisplayTaskForm( int nIdResource, String strResourceType, HttpServletRequest request, Locale locale, ITask task )
     {
         return null;
     }
@@ -114,7 +123,15 @@ public class TipiTaskComponent extends AbstractTaskComponent
     @Override
     public String getDisplayTaskInformation( int nIdResource, HttpServletRequest request, Locale locale, ITask task )
     {
-        return null;
+        TipiRefDetHistory tipiRefDetHistory = _tipiRefDetHistoryService.findByPrimaryKey( nIdResource );
+        Tipi tipi = _tipiService.findByPrimaryKey( tipiRefDetHistory.getRefDet( ) );
+
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_TIPI, tipi );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TASK_INFORMATION, locale, model );
+
+        return template.getHtml( );
     }
 
     /**
