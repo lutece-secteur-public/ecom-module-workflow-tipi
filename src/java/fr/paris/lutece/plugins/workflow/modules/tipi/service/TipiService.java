@@ -98,8 +98,7 @@ public final class TipiService implements ITipiService
     @Override
     public Tipi findByIdop( String strIdop )
     {
-        // TODO : implements this method
-        return new Tipi( );
+        return _dao.loadByIdop( strIdop );
     }
 
 }

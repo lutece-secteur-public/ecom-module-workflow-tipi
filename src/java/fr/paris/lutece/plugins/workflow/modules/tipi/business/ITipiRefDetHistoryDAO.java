@@ -81,4 +81,14 @@ public interface ITipiRefDetHistoryDAO
 
     TipiRefDetHistory load( int nIdHistory );
 
+    /**
+     * Load the data from the table find by RefDet
+     * 
+     * 
+     * @param strRefDet
+     *            The refDet of the tipiRefDetHistory
+     * @return The instance of the tipiRefDetHistory
+     */
+    TipiRefDetHistory loadByRefDet( String strRefDet );
+
 }

@@ -45,6 +45,7 @@ public final class TipiRefDetHistoryDAO implements ITipiRefDetHistoryDAO
 
     // Constants
     private static final String SQL_QUERY_SELECT = "SELECT id_history, id_task, ref_det FROM workflow_task_tipi_refdet_history WHERE id_history = ?";
+    private static final String SQL_QUERY_SELECT_BY_REF_DET = "SELECT id_history, id_task, ref_det FROM workflow_task_tipi_refdet_history WHERE ref_det = ?";
     private static final String SQL_QUERY_INSERT = "INSERT INTO workflow_task_tipi_refdet_history ( id_history, id_task, ref_det ) VALUES ( ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM workflow_task_tipi_refdet_history WHERE id_history = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE workflow_task_tipi_refdet_history SET id_history = ?, id_task = ?, ref_det = ? WHERE id_history = ?";
@@ -74,6 +75,30 @@ public final class TipiRefDetHistoryDAO implements ITipiRefDetHistoryDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setInt( 1, nIdHistory );
+        daoUtil.executeQuery( );
+
+        TipiRefDetHistory tipiRefDetHistory = null;
+
+        if ( daoUtil.next( ) )
+        {
+            int nIndex = 0;
+            tipiRefDetHistory = new TipiRefDetHistory( );
+            tipiRefDetHistory.setIdHistory( daoUtil.getInt( ++nIndex ) );
+            tipiRefDetHistory.setIdTask( daoUtil.getInt( ++nIndex ) );
+            tipiRefDetHistory.setRefDet( daoUtil.getString( ++nIndex ) );
+
+        }
+
+        daoUtil.close( );
+
+        return tipiRefDetHistory;
+    }
+
+    @Override
+    public TipiRefDetHistory loadByRefDet( String strRefDet )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_REF_DET );
+        daoUtil.setString( 1, strRefDet );
         daoUtil.executeQuery( );
 
         TipiRefDetHistory tipiRefDetHistory = null;

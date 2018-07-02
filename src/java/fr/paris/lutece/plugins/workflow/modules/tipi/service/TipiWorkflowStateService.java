@@ -34,16 +34,22 @@
 package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
+import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
+import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceWorkflow;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.plugins.workflowcore.business.state.StateFilter;
 import fr.paris.lutece.plugins.workflowcore.service.action.IActionService;
+import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
+import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceWorkflowService;
 import fr.paris.lutece.plugins.workflowcore.service.state.IStateService;
+import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.util.ReferenceList;
 
 /**
@@ -65,6 +71,10 @@ public class TipiWorkflowStateService implements ITipiWorkflowStateService
     private IActionService _actionService;
     @Inject
     private IStateService _stateService;
+    @Inject
+    private IResourceWorkflowService _resourceWorkflowService;
+    @Inject
+    private IResourceHistoryService _resourceHistoryService;
 
     /**
      * {@inheritDoc }
@@ -92,7 +102,22 @@ public class TipiWorkflowStateService implements ITipiWorkflowStateService
     @Override
     public void changeState( int nIdState, int nIdResourceHistory )
     {
-        // TODO : implement this method
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+        State state = _stateService.findByPrimaryKey( nIdState );
+
+        int nIdResource = resourceHistory.getIdResource( );
+        String strResourceType = resourceHistory.getResourceType( );
+        int nIdWorkflow = resourceHistory.getWorkflow( ).getId( );
+
+        // Update Resource
+        ResourceWorkflow resourceWorkflow = _resourceWorkflowService.findByPrimaryKey( nIdResource, strResourceType, nIdWorkflow );
+        int nExternalParentId = resourceWorkflow.getExternalParentId( );
+        resourceWorkflow.setState( state );
+        _resourceWorkflowService.update( resourceWorkflow );
+
+        WorkflowService.getInstance( ).doProcessAutomaticReflexiveActions( nIdResource, strResourceType, nIdWorkflow, nExternalParentId, Locale.getDefault( ) );
+        // if new state have action automatic
+        WorkflowService.getInstance( ).executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId );
     }
 
 }

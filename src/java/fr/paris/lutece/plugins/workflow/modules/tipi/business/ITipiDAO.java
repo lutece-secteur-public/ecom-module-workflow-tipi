@@ -81,4 +81,15 @@ public interface ITipiDAO
 
     Tipi load( String strRefDet );
 
+    /**
+     * 
+     * Load the data from the table by Idop
+     * 
+     * 
+     * @param strIdop
+     *            The Idop of the tipi
+     * @return The instance of the tipi
+     */
+    Tipi loadByIdop( String strIdop );
+
 }

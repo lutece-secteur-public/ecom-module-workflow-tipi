@@ -45,6 +45,7 @@ public final class TipiDAO implements ITipiDAO
 
     // Constants
     private static final String SQL_QUERY_SELECT = "SELECT ref_det, amount, email, id_op, transaction_result FROM workflow_tipi_tipi WHERE ref_det = ?";
+    private static final String SQL_QUERY_SELECT_BY_IDOP = "SELECT ref_det, amount, email, id_op, transaction_result FROM workflow_tipi_tipi WHERE id_op = ?";
     private static final String SQL_QUERY_INSERT = "INSERT INTO workflow_tipi_tipi ( ref_det, amount, email, id_op, transaction_result ) VALUES ( ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM workflow_tipi_tipi WHERE ref_det = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE workflow_tipi_tipi SET ref_det = ?, amount = ?, email = ?, id_op = ?, transaction_result = ? WHERE ref_det = ?";
@@ -75,6 +76,34 @@ public final class TipiDAO implements ITipiDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setString( 1, strRefDet );
+        daoUtil.executeQuery( );
+
+        Tipi tipi = null;
+
+        if ( daoUtil.next( ) )
+        {
+            tipi = new Tipi( );
+            int nIndex = 0;
+            tipi.setRefDet( daoUtil.getString( ++nIndex ) );
+            tipi.setAmount( daoUtil.getInt( ++nIndex ) );
+            tipi.setEmail( daoUtil.getString( ++nIndex ) );
+            tipi.setIdOp( daoUtil.getString( ++nIndex ) );
+            tipi.setTransactionResult( daoUtil.getString( ++nIndex ) );
+        }
+
+        daoUtil.close( );
+
+        return tipi;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Tipi loadByIdop( String strIdop )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_IDOP );
+        daoUtil.setString( 1, strIdop );
         daoUtil.executeQuery( );
 
         Tipi tipi = null;

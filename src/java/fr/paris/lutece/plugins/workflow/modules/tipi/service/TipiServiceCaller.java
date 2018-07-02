@@ -44,8 +44,10 @@ import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.tipi.generated.CreerPaiementSecuriseRequest;
+import fr.paris.tipi.generated.RecupererDetailPaiementSecuriseRequest;
 import fr.paris.vdp.tipi.create.url.enumeration.PaymentType;
 import fr.paris.vdp.tipi.create.url.webservice.CreateURLWebService;
+import fr.paris.vdp.tipi.create.url.webservice.ParametresPaiementTipi;
 
 /**
  * 
@@ -106,7 +108,7 @@ public class TipiServiceCaller implements ITipiServiceCaller
         Calendar calendar = Calendar.getInstance( );
 
         request.setMel( strEmail );
-        request.setMontant( String.valueOf( ( nAmount ) ) );
+        request.setMontant( String.valueOf( nAmount ) );
         request.setRefdet( strRefDet );
         request.setNumcli( AppPropertiesService.getProperty( TipiConstants.PROPERTY_REFERENCE_CLIENT ) );
         request.setUrlnotif( AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_NOTIF ) );
@@ -135,12 +137,37 @@ public class TipiServiceCaller implements ITipiServiceCaller
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws ServiceException
+     * @throws RemoteException
+     * @throws FonctionnelleErreur
+     * @throws TechProtocolaireErreur
+     * @throws TechIndisponibiliteErreur
+     * @throws TechDysfonctionnementErreur
      */
     @Override
     public String getTransactionResult( String strIdop ) throws TransactionResultException
     {
-        // TODO : implement this method
-        return null;
+        String transactionResult = null;
+
+        final String urlWsdl = AppPropertiesService.getProperty( TipiConstants.PROPERTY_URLWDSL );
+
+        RecupererDetailPaiementSecuriseRequest request = new RecupererDetailPaiementSecuriseRequest( );
+
+        request.setIdOp( strIdop );
+
+        try
+        {
+            ParametresPaiementTipi parameters = new CreateURLWebService( ).appelWebserviceDetailPaiement( request, urlWsdl );
+            transactionResult = parameters.getResultrans( );
+
+        }
+        catch( RemoteException | ServiceException e )
+        {
+            throw new TransactionResultException( "No transaction result found" );
+        }
+
+        return transactionResult;
     }
 
     /**

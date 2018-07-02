@@ -97,8 +97,7 @@ public final class TipiRefDetHistoryService implements ITipiRefDetHistoryService
     @Override
     public TipiRefDetHistory findByRefDet( String strRefDet )
     {
-        // TODO : implement this method
-        return new TipiRefDetHistory( );
+        return _dao.loadByRefDet( strRefDet );
     }
 
 }
