@@ -57,14 +57,20 @@ public final class TipiDAO implements ITipiDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
-        daoUtil.setString( 1, tipi.getRefDet( ) );
-        daoUtil.setInt( 2, tipi.getAmount( ) );
-        daoUtil.setString( 3, tipi.getEmail( ) );
-        daoUtil.setString( 4, tipi.getIdOp( ) );
-        daoUtil.setString( 5, tipi.getTransactionResult( ) );
+        try
+        {
+            daoUtil.setString( 1, tipi.getRefDet( ) );
+            daoUtil.setInt( 2, tipi.getAmount( ) );
+            daoUtil.setString( 3, tipi.getEmail( ) );
+            daoUtil.setString( 4, tipi.getIdOp( ) );
+            daoUtil.setString( 5, tipi.getTransactionResult( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.close( );
+            daoUtil.executeUpdate( );
+        }
+        finally
+        {
+            daoUtil.close( );
+        }
     }
 
     /**
@@ -74,23 +80,22 @@ public final class TipiDAO implements ITipiDAO
     public Tipi load( String strRefDet )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strRefDet );
-        daoUtil.executeQuery( );
-
         Tipi tipi = null;
 
-        if ( daoUtil.next( ) )
+        try
         {
-            tipi = new Tipi( );
-            int nIndex = 0;
-            tipi.setRefDet( daoUtil.getString( ++nIndex ) );
-            tipi.setAmount( daoUtil.getInt( ++nIndex ) );
-            tipi.setEmail( daoUtil.getString( ++nIndex ) );
-            tipi.setIdOp( daoUtil.getString( ++nIndex ) );
-            tipi.setTransactionResult( daoUtil.getString( ++nIndex ) );
-        }
+            daoUtil.setString( 1, strRefDet );
+            daoUtil.executeQuery( );
 
-        daoUtil.close( );
+            if ( daoUtil.next( ) )
+            {
+                tipi = dataToTipi( daoUtil );
+            }
+        }
+        finally
+        {
+            daoUtil.close( );
+        }
 
         return tipi;
     }
@@ -102,9 +107,16 @@ public final class TipiDAO implements ITipiDAO
     public void delete( String strRefDet )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setString( 1, strRefDet );
-        daoUtil.executeUpdate( );
-        daoUtil.close( );
+
+        try
+        {
+            daoUtil.setString( 1, strRefDet );
+            daoUtil.executeUpdate( );
+        }
+        finally
+        {
+            daoUtil.close( );
+        }
     }
 
     /**
@@ -115,16 +127,42 @@ public final class TipiDAO implements ITipiDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
-        int nIndex = 0;
-        daoUtil.setString( ++nIndex, tipi.getRefDet( ) );
-        daoUtil.setInt( ++nIndex, tipi.getAmount( ) );
-        daoUtil.setString( ++nIndex, tipi.getEmail( ) );
-        daoUtil.setString( ++nIndex, tipi.getIdOp( ) );
-        daoUtil.setString( ++nIndex, tipi.getTransactionResult( ) );
-        daoUtil.setString( ++nIndex, tipi.getRefDet( ) );
+        try
+        {
+            int nIndex = 0;
+            daoUtil.setString( ++nIndex, tipi.getRefDet( ) );
+            daoUtil.setInt( ++nIndex, tipi.getAmount( ) );
+            daoUtil.setString( ++nIndex, tipi.getEmail( ) );
+            daoUtil.setString( ++nIndex, tipi.getIdOp( ) );
+            daoUtil.setString( ++nIndex, tipi.getTransactionResult( ) );
+            daoUtil.setString( ++nIndex, tipi.getRefDet( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.close( );
+            daoUtil.executeUpdate( );
+        }
+        finally
+        {
+            daoUtil.close( );
+        }
+    }
+
+    /**
+     * Creates a {@code Tipi} object from the data of the specified {@code DAOUtil}
+     * 
+     * @param daoUtil
+     *            the {@code DAOUtil} containing the data
+     * @return a new {@code Tipi} object
+     */
+    private Tipi dataToTipi( DAOUtil daoUtil )
+    {
+        Tipi tipi = new Tipi( );
+
+        tipi.setRefDet( daoUtil.getString( "ref_det" ) );
+        tipi.setAmount( daoUtil.getInt( "amount" ) );
+        tipi.setEmail( daoUtil.getString( "email" ) );
+        tipi.setIdOp( daoUtil.getString( "id_op" ) );
+        tipi.setTransactionResult( daoUtil.getString( "transaction_result" ) );
+
+        return tipi;
     }
 
 }
