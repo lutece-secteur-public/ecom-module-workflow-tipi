@@ -34,6 +34,9 @@
 
 package fr.paris.lutece.plugins.workflow.modules.tipi.business;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.paris.lutece.util.sql.DAOUtil;
 
 /**
@@ -44,7 +47,9 @@ public final class TipiDAO implements ITipiDAO
 {
 
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT ref_det, amount, email, id_op, transaction_result FROM workflow_tipi_tipi WHERE ref_det = ?";
+    private static final String SQL_QUERY_SELECT_ALL = "SELECT ref_det, amount, email, id_op, transaction_result FROM workflow_tipi_tipi";
+    private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE ref_det = ?";
+    private static final String SQL_QUERY_SELECT_WITHOUT_TRANSACTION_RESULT = SQL_QUERY_SELECT_ALL + " WHERE id_op IS NOT NULL AND transaction_result IS NULL";
     private static final String SQL_QUERY_INSERT = "INSERT INTO workflow_tipi_tipi ( ref_det, amount, email, id_op, transaction_result ) VALUES ( ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM workflow_tipi_tipi WHERE ref_det = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE workflow_tipi_tipi SET ref_det = ?, amount = ?, email = ?, id_op = ?, transaction_result = ? WHERE ref_det = ?";
@@ -143,6 +148,32 @@ public final class TipiDAO implements ITipiDAO
         {
             daoUtil.close( );
         }
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<Tipi> selectAllWithoutTransactionResult( )
+    {
+        List<Tipi> listTipi = new ArrayList<>( );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WITHOUT_TRANSACTION_RESULT );
+
+        try
+        {
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listTipi.add( dataToTipi( daoUtil ) );
+            }
+        }
+        finally
+        {
+            daoUtil.close( );
+        }
+
+        return listTipi;
     }
 
     /**

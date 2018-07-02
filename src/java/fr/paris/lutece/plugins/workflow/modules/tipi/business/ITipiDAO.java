@@ -34,6 +34,8 @@
 
 package fr.paris.lutece.plugins.workflow.modules.tipi.business;
 
+import java.util.List;
+
 /**
  * ITipiDAO Interface
  */
@@ -80,5 +82,12 @@ public interface ITipiDAO
      */
 
     Tipi load( String strRefDet );
+
+    /**
+     * Loads all the TIPI objects for which an idop exists but without transaction result
+     * 
+     * @return The list of TIPI objects
+     */
+    List<Tipi> selectAllWithoutTransactionResult( );
 
 }

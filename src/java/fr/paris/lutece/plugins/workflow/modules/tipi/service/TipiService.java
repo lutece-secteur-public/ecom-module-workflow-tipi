@@ -34,6 +34,8 @@
 
 package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.ITipiDAO;
@@ -100,6 +102,15 @@ public final class TipiService implements ITipiService
     {
         // TODO : implements this method
         return new Tipi( );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<Tipi> findNotNotifiedPayments( )
+    {
+        return _dao.selectAllWithoutTransactionResult( );
     }
 
 }
