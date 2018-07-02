@@ -1,0 +1,25 @@
+<#if tipi??>
+  <p>#i18n{module.workflow.tipi.task_tipi_information.refdet} : ${tipi.refDet}</p>
+  <#if tipi.idOp??>
+    <#if tipi.transactionResult??>
+      <#if tipi.transactionResult == "P">
+        <div class="alert alert-success">#i18n{module.workflow.tipi.task_tipi_information.payment.successful}</div>
+	  </#if>
+      <#if tipi.transactionResult == "R">
+        <div class="alert alert-warning">#i18n{module.workflow.tipi.task_tipi_information.payment.failed}</div>
+      </#if>
+      <#if tipi.transactionResult == "A">
+        <div class="alert alert-warning">#i18n{module.workflow.tipi.task_tipi_information.payment.canceled}</div>
+      </#if>
+      <#if tipi.transactionResult != "P" && tipi.transactionResult != "R" && tipi.transactionResult != "A" >
+        <div class="alert alert-error">#i18n{module.workflow.tipi.task_tipi_information.payment.unknown}</div>
+      </#if>
+    <#else>
+      <div class="alert alert-warning">#i18n{module.workflow.tipi.task_tipi_information.transaction_result_not_saved}</div>
+    </#if>
+  <#else>
+    <div class="alert alert-warning">#i18n{module.workflow.tipi.task_tipi_information.idop_not_generated}</div>
+  </#if>
+<#else>
+  <div class="alert alert-error">#i18n{module.workflow.tipi.task_tipi_information.no_tipi_object}</div>
+</#if>

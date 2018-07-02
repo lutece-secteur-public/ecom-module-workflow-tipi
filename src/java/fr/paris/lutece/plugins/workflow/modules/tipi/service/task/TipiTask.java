@@ -54,12 +54,29 @@ public class TipiTask extends SimpleTask
     // Message
     private static final String MESSAGE_TASK_TITLE = "module.workflow.tipi.task_title";
 
-    @Inject
-    private TaskTipiConfigDAO _taskTipiConfigDAO;
-    @Inject
-    private ITipiRefDetHistoryService _tipiRefDetHistoryService;
+    private final TaskTipiConfigDAO _taskTipiConfigDAO;
+    private final ITipiRefDetHistoryService _tipiRefDetHistoryService;
 
-    // GET
+    /**
+     * Constructor
+     * 
+     * @param taskTipiConfigDAO
+     *            the TIPI config DAO
+     * @param tipiRefDetHistoryService
+     *            the TIPI RefDet history service
+     */
+    @Inject
+    public TipiTask( TaskTipiConfigDAO taskTipiConfigDAO, ITipiRefDetHistoryService tipiRefDetHistoryService )
+    {
+        super( );
+
+        _taskTipiConfigDAO = taskTipiConfigDAO;
+        _tipiRefDetHistoryService = tipiRefDetHistoryService;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getTitle( Locale local )
     {

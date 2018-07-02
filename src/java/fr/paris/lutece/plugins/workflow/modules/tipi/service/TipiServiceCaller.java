@@ -62,15 +62,23 @@ public class TipiServiceCaller implements ITipiServiceCaller
     private static final String REAL_PAYMENT = "W";
 
     /**
+     * Constructor
+     */
+    public TipiServiceCaller( )
+    {
+        setCertificateValues( );
+    }
+
+    /**
      * {@inheritDoc }
      */
     @Override
-    public String getIdop( String strEmail, String strRefDet, int nAmount )
+    public String getIdop( String strEmail, String strRefDet, int nAmount, String strNotificationUrl )
     {
 
         final String urlWsdl = AppPropertiesService.getProperty( TipiConstants.PROPERTY_URLWDSL );
 
-        CreerPaiementSecuriseRequest request = createRequest( strEmail, strRefDet, nAmount );
+        CreerPaiementSecuriseRequest request = createRequest( strEmail, strRefDet, nAmount, strNotificationUrl );
 
         String strIdop = null;
 
@@ -99,10 +107,12 @@ public class TipiServiceCaller implements ITipiServiceCaller
      *            the RefDet
      * @param nAmount
      *            the amount
+     * @param strNotificationUrl
+     *            the notification URL
      * @return Request
      *
      */
-    private CreerPaiementSecuriseRequest createRequest( String strEmail, String strRefDet, int nAmount )
+    private CreerPaiementSecuriseRequest createRequest( String strEmail, String strRefDet, int nAmount, String strNotificationUrl )
     {
         CreerPaiementSecuriseRequest request = new CreerPaiementSecuriseRequest( );
         Calendar calendar = Calendar.getInstance( );
@@ -111,7 +121,7 @@ public class TipiServiceCaller implements ITipiServiceCaller
         request.setMontant( String.valueOf( nAmount ) );
         request.setRefdet( strRefDet );
         request.setNumcli( AppPropertiesService.getProperty( TipiConstants.PROPERTY_REFERENCE_CLIENT ) );
-        request.setUrlnotif( AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_NOTIF ) );
+        request.setUrlnotif( strNotificationUrl );
         request.setUrlredirect( AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_REDIRECT ) );
         request.setExer( String.valueOf( calendar.get( Calendar.YEAR ) ) );
         request.setObjet( AppPropertiesService.getProperty( TipiConstants.PROPERTY_TIPI_OBJET ) );
@@ -175,7 +185,6 @@ public class TipiServiceCaller implements ITipiServiceCaller
      * Method to set the certificate to TIPI
      * 
      */
-    // TODO use this method
     private void setCertificateValues( )
     {
         if ( AppPropertiesService.getProperty( TipiConstants.PROPERTY_KEYSTORE ).isEmpty( ) )

@@ -56,9 +56,11 @@ public interface ITipiServiceCaller
      *            the RefDet
      * @param nAmount
      *            the amount
+     * @param strNotificationUrl
+     *            the notification URL
      * @return the idop
      */
-    String getIdop( String strEmail, String strRefDet, int nAmount );
+    String getIdop( String strEmail, String strRefDet, int nAmount, String strNotificationUrl );
 
     /**
      * Gives the transaction result associated to the specified idop

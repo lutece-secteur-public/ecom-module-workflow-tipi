@@ -39,23 +39,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import fr.paris.lutece.plugins.rest.service.RestConstants;
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TipiNotFoundException;
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiPaymentService;
-import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiPlugin;
+import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 /**
  * This class represents a web service called by the TIPI notification mechanism
  *
  */
-@Path( RestConstants.BASE_PATH + TipiPlugin.PLUGIN_NAME + TipiCallbackRestService.PATH_SERVICE )
+@Path( "/" + TipiConstants.URL_NOTIFICATION_BASE )
 public class TipiCallbackRestService
 {
-    protected static final String PATH_SERVICE = "/callback/";
-    private static final String PATH_PAYMENT = "payment";
-
     private final ITipiPaymentService _tipiPaymentService;
 
     /**
@@ -78,7 +74,7 @@ public class TipiCallbackRestService
      * @return the response
      */
     @GET
-    @Path( PATH_PAYMENT )
+    @Path( TipiConstants.URL_NOTIFICATION_PAYMENT )
     public Response paymentNotified( @QueryParam( "IdOp" ) String strIdop )
     {
         try

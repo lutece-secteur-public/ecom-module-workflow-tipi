@@ -56,7 +56,7 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 public class TipiUrlService implements ITipiUrlService
 {
-    private static final String PARAMETER_TIPI_JSP_PAYMENT = "jsp/site/plugins/workflow/modules/tipi/DoProcessPayment.jsp";
+    private static final String URL_JSP_TIPI_PAYMENT = "jsp/site/plugins/workflow/modules/tipi/DoProcessPayment.jsp";
     private static final String PARAMETER_ID_HISTORY = "id_history";
     private static final String PARAMETER_ID_TASK = "id_task";
     private static final String PARAMETER_SIGNATURE = "signature";
@@ -90,8 +90,8 @@ public class TipiUrlService implements ITipiUrlService
 
         String strTimestamp = Long.toString( new Date( ).getTime( ) );
         String strSignature = _requestAuthenticator.buildSignature( listElements, strTimestamp );
-        StringBuilder sbUrl = new StringBuilder( AppPathService.getBaseUrl( request ) );
-        sbUrl.append( PARAMETER_TIPI_JSP_PAYMENT );
+        StringBuilder sbUrl = new StringBuilder( AppPathService.getProdUrl( request ) );
+        sbUrl.append( URL_JSP_TIPI_PAYMENT );
 
         UrlItem url = new UrlItem( sbUrl.toString( ) );
         url.addParameter( PARAMETER_ID_HISTORY, nIdHistory );
@@ -120,5 +120,14 @@ public class TipiUrlService implements ITipiUrlService
     public String generateTipiUrl( Tipi tipi )
     {
         return AppPropertiesService.getProperty( TipiConstants.PROPERTY_TIPI_URL ) + tipi.getIdOp( );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String generateNotificationUrl( HttpServletRequest request )
+    {
+        return AppPathService.getBaseUrl( request ) + TipiConstants.URL_NOTIFICATION_BASE + TipiConstants.URL_NOTIFICATION_PAYMENT;
     }
 }

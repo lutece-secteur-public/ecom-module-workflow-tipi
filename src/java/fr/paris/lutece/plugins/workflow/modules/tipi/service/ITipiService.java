@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
+import java.util.List;
+
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 
 /**
@@ -93,5 +95,12 @@ public interface ITipiService
      * @return an instance of Tipi
      */
     Tipi findByIdop( String strIdop );
+
+    /**
+     * Finds the TIPI payments for which no TIPI notiication has been sent yet
+     * 
+     * @return the list of TIPI objects
+     */
+    List<Tipi> findNotNotifiedPayments( );
 
 }

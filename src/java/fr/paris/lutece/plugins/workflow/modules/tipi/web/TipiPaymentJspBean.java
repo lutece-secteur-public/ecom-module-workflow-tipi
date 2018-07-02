@@ -79,7 +79,7 @@ public class TipiPaymentJspBean
     {
         _tipiUrlService = SpringContextService.getBean( ITipiUrlService.BEAN_NAME );
         _tipiService = SpringContextService.getBean( ITipiService.BEAN_NAME );
-        _tipiServiceCaller = SpringContextService.getBean( ITipiRefDetHistoryService.BEAN_NAME );
+        _tipiServiceCaller = SpringContextService.getBean( ITipiServiceCaller.BEAN_NAME );
         _tipiRefDetHistoryService = SpringContextService.getBean( ITipiRefDetHistoryService.BEAN_NAME );
     }
 
@@ -146,8 +146,8 @@ public class TipiPaymentJspBean
         String strEmail = tipi.getEmail( );
         int nAmount = tipi.getAmount( );
         String strRefDet = tipi.getRefDet( );
-
-        String strIdop = _tipiServiceCaller.getIdop( strEmail, strRefDet, nAmount );
+        String strNotificationUrl = _tipiUrlService.generateNotificationUrl( request );
+        String strIdop = _tipiServiceCaller.getIdop( strEmail, strRefDet, nAmount, strNotificationUrl );
 
         tipi.setIdOp( strIdop );
         _tipiService.update( tipi );

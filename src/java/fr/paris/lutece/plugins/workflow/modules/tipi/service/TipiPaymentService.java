@@ -83,14 +83,23 @@ public class TipiPaymentService implements ITipiPaymentService
      * {@inheritDoc}
      */
     @Override
-    public void paymentProcessed( String strIdop ) throws TransactionResultException, TipiNotFoundException
+    public void paymentProcessed( Tipi tipi ) throws TransactionResultException
     {
-        String strTransactionResult = findTransactionResult( strIdop );
-        Tipi tipi = findTipi( strIdop );
+        String strTransactionResult = findTransactionResult( tipi.getIdOp( ) );
         TipiRefDetHistory refDetHistory = findRefDetHistory( tipi );
 
         saveTransactionResult( tipi, strTransactionResult );
         changeWorklowState( strTransactionResult, refDetHistory );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void paymentProcessed( String strIdop ) throws TransactionResultException, TipiNotFoundException
+    {
+        Tipi tipi = findTipi( strIdop );
+        paymentProcessed( tipi );
     }
 
     /**

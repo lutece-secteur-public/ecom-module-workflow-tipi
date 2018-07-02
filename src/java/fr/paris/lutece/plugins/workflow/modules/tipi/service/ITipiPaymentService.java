@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TipiNotFoundException;
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
 
@@ -42,6 +43,19 @@ import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResult
  */
 public interface ITipiPaymentService
 {
+    // BEAN
+    String BEAN_NAME = "workflow-tipi.tipiPaymentService";
+
+    /**
+     * Method to be called when the TIPI payment is processed by the TIPI service
+     * 
+     * @param tipi
+     *            the TIPI object
+     * @throws TransactionResultException
+     *             if there is an error getting the TIPI transaction result
+     */
+    void paymentProcessed( Tipi tipi ) throws TransactionResultException;
+
     /**
      * Method to be called when the TIPI payment is processed by the TIPI service
      * 
