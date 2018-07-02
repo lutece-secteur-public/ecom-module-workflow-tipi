@@ -62,20 +62,14 @@ public final class TipiDAO implements ITipiDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
-        try
-        {
-            daoUtil.setString( 1, tipi.getRefDet( ) );
-            daoUtil.setInt( 2, tipi.getAmount( ) );
-            daoUtil.setString( 3, tipi.getEmail( ) );
-            daoUtil.setString( 4, tipi.getIdOp( ) );
-            daoUtil.setString( 5, tipi.getTransactionResult( ) );
+        daoUtil.setString( 1, tipi.getRefDet( ) );
+        daoUtil.setInt( 2, tipi.getAmount( ) );
+        daoUtil.setString( 3, tipi.getEmail( ) );
+        daoUtil.setString( 4, tipi.getIdOp( ) );
+        daoUtil.setString( 5, tipi.getTransactionResult( ) );
 
-            daoUtil.executeUpdate( );
-        }
-        finally
-        {
-            daoUtil.close( );
-        }
+        daoUtil.executeUpdate( );
+        daoUtil.close( );
     }
 
     /**
@@ -87,20 +81,15 @@ public final class TipiDAO implements ITipiDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         Tipi tipi = null;
 
-        try
-        {
-            daoUtil.setString( 1, strRefDet );
-            daoUtil.executeQuery( );
+        daoUtil.setString( 1, strRefDet );
+        daoUtil.executeQuery( );
 
-            if ( daoUtil.next( ) )
-            {
-                tipi = dataToTipi( daoUtil );
-            }
-        }
-        finally
+        if ( daoUtil.next( ) )
         {
-            daoUtil.close( );
+            tipi = dataToTipi( daoUtil );
         }
+
+        daoUtil.close( );
 
         return tipi;
     }
@@ -113,15 +102,9 @@ public final class TipiDAO implements ITipiDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
 
-        try
-        {
-            daoUtil.setString( 1, strRefDet );
-            daoUtil.executeUpdate( );
-        }
-        finally
-        {
-            daoUtil.close( );
-        }
+        daoUtil.setString( 1, strRefDet );
+        daoUtil.executeUpdate( );
+        daoUtil.close( );
     }
 
     /**
@@ -132,22 +115,16 @@ public final class TipiDAO implements ITipiDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
-        try
-        {
-            int nIndex = 0;
-            daoUtil.setString( ++nIndex, tipi.getRefDet( ) );
-            daoUtil.setInt( ++nIndex, tipi.getAmount( ) );
-            daoUtil.setString( ++nIndex, tipi.getEmail( ) );
-            daoUtil.setString( ++nIndex, tipi.getIdOp( ) );
-            daoUtil.setString( ++nIndex, tipi.getTransactionResult( ) );
-            daoUtil.setString( ++nIndex, tipi.getRefDet( ) );
+        int nIndex = 0;
+        daoUtil.setString( ++nIndex, tipi.getRefDet( ) );
+        daoUtil.setInt( ++nIndex, tipi.getAmount( ) );
+        daoUtil.setString( ++nIndex, tipi.getEmail( ) );
+        daoUtil.setString( ++nIndex, tipi.getIdOp( ) );
+        daoUtil.setString( ++nIndex, tipi.getTransactionResult( ) );
+        daoUtil.setString( ++nIndex, tipi.getRefDet( ) );
 
-            daoUtil.executeUpdate( );
-        }
-        finally
-        {
-            daoUtil.close( );
-        }
+        daoUtil.executeUpdate( );
+        daoUtil.close( );
     }
 
     /**
@@ -159,19 +136,14 @@ public final class TipiDAO implements ITipiDAO
         List<Tipi> listTipi = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WITHOUT_TRANSACTION_RESULT );
 
-        try
-        {
-            daoUtil.executeQuery( );
+        daoUtil.executeQuery( );
 
-            while ( daoUtil.next( ) )
-            {
-                listTipi.add( dataToTipi( daoUtil ) );
-            }
-        }
-        finally
+        while ( daoUtil.next( ) )
         {
-            daoUtil.close( );
+            listTipi.add( dataToTipi( daoUtil ) );
         }
+
+        daoUtil.close( );
 
         return listTipi;
     }
