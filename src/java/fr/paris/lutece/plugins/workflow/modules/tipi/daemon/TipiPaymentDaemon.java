@@ -109,7 +109,7 @@ public class TipiPaymentDaemon extends Daemon
             }
             catch( TransactionResultException e )
             {
-                AppLogService.info( "Cannot get the transaction result for the IdOp " + tipi.getIdOp( ) );
+                AppLogService.error( "Cannot get the transaction result for the IdOp " + tipi.getIdOp( ) );
             }
         }
 
