@@ -174,7 +174,12 @@ public class TipiServiceCaller implements ITipiServiceCaller
         }
         catch( RemoteException | ServiceException e )
         {
-            throw new TransactionResultException( "No transaction result found" );
+            throw new TransactionResultException( "Error when getting the transaction result", e );
+        }
+
+        if ( transactionResult == null )
+        {
+            throw new TransactionResultException( "The transaction result returned by the TIPI service is null" );
         }
 
         return transactionResult;
