@@ -44,8 +44,9 @@ public final class TipiRefDetHistoryDAO implements ITipiRefDetHistoryDAO
 {
 
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT id_history, id_task, ref_det FROM workflow_task_tipi_refdet_history WHERE id_history = ?";
-    private static final String SQL_QUERY_SELECT_BY_REF_DET = "SELECT id_history, id_task, ref_det FROM workflow_task_tipi_refdet_history WHERE ref_det = ?";
+    private static final String SQL_QUERY_SELECT_ALL = "SELECT id_history, id_task, ref_det FROM workflow_task_tipi_refdet_history";
+    private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE id_history = ?";
+    private static final String SQL_QUERY_SELECT_BY_REF_DET = SQL_QUERY_SELECT_ALL + " WHERE ref_det = ? ORDER BY id_history DESC";
     private static final String SQL_QUERY_INSERT = "INSERT INTO workflow_task_tipi_refdet_history ( id_history, id_task, ref_det ) VALUES ( ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM workflow_task_tipi_refdet_history WHERE id_history = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE workflow_task_tipi_refdet_history SET id_history = ?, id_task = ?, ref_det = ? WHERE id_history = ?";
