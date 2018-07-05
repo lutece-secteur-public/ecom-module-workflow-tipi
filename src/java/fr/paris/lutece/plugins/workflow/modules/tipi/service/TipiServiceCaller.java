@@ -92,8 +92,7 @@ public class TipiServiceCaller implements ITipiServiceCaller
         }
         catch( RemoteException | ServiceException e )
         {
-            AppLogService.debug( "url du webservice : " + urlWsdl );
-            AppLogService.debug( "parametre de la requete : " + request );
+            AppLogService.error( "Error when getting the idop", e );
         }
 
         return strIdop;
