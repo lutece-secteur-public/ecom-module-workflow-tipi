@@ -42,6 +42,8 @@ import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetHistoryService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiService;
+import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
+import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
 
 /**
@@ -50,22 +52,27 @@ import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
  */
 public abstract class AbstractTipiProviderTask extends SimpleTask
 {
+    private final IResourceHistoryService _resourceHistoryService;
     private final ITipiService _tipiService;
     private final ITipiRefDetHistoryService _tipiRefDetHistoryService;
 
     /**
      * Constructor
      * 
+     * @param resourceHistoryService
+     *            the resource history service
      * @param tipiService
      *            the TIPI service
      * @param tipiRefDetHistoryService
      *            the TIPI RefDet history service
      */
     @Inject
-    public AbstractTipiProviderTask( ITipiService tipiService, ITipiRefDetHistoryService tipiRefDetHistoryService )
+    public AbstractTipiProviderTask( IResourceHistoryService resourceHistoryService, ITipiService tipiService,
+            ITipiRefDetHistoryService tipiRefDetHistoryService )
     {
         super( );
 
+        _resourceHistoryService = resourceHistoryService;
         _tipiService = tipiService;
         _tipiRefDetHistoryService = tipiRefDetHistoryService;
     }
@@ -76,13 +83,30 @@ public abstract class AbstractTipiProviderTask extends SimpleTask
     @Override
     public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale local )
     {
-        String strRefDet = provideRefDet( nIdResourceHistory );
-        int nAmount = provideAmount( nIdResourceHistory );
-        String strEmail = provideEmail( nIdResourceHistory );
+        ResourceHistory resourceHistory = findResourceHistory( nIdResourceHistory );
 
-        Tipi tipi = createTipi( strRefDet, nAmount, strEmail );
-        saveTipi( tipi );
-        saveRefDetHistory( nIdResourceHistory, tipi.getRefDet( ) );
+        if ( resourceHistory != null )
+        {
+            String strRefDet = provideRefDet( resourceHistory );
+            int nAmount = provideAmount( resourceHistory );
+            String strEmail = provideEmail( resourceHistory );
+
+            Tipi tipi = createTipi( strRefDet, nAmount, strEmail );
+            saveTipi( tipi );
+            saveRefDetHistory( nIdResourceHistory, tipi.getRefDet( ) );
+        }
+    }
+
+    /**
+     * Finds the resource history with the specified id
+     * 
+     * @param nIdResourceHistory
+     *            the id of the resource history to find
+     * @return the resource history
+     */
+    private ResourceHistory findResourceHistory( int nIdResourceHistory )
+    {
+        return _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
     }
 
     /**
@@ -143,27 +167,27 @@ public abstract class AbstractTipiProviderTask extends SimpleTask
     /**
      * Provides the RefDet of the TIPI transaction from the resource processed by the workflow
      * 
-     * @param nIdResourceHistory
-     *            the id of the resource history used to retrieve the resource processed by the workflow
+     * @param resourceHistory
+     *            the resource history used to retrieve the resource processed by the workflow
      * @return the RefDet
      */
-    protected abstract String provideRefDet( int nIdResourceHistory );
+    protected abstract String provideRefDet( ResourceHistory resourceHistory );
 
     /**
      * Provides the amount of the TIPI transaction from the resource processed by the workflow. The amount is in centimes.
      * 
-     * @param nIdResourceHistory
-     *            the id of the resource history used to retrieve the resource processed by the workflow
+     * @param resourceHistory
+     *            the resource history used to retrieve the resource processed by the workflow
      * @return the amount
      */
-    protected abstract int provideAmount( int nIdResourceHistory );
+    protected abstract int provideAmount( ResourceHistory resourceHistory );
 
     /**
      * Provides the email used in the TIPI transaction from the resource processed by the workflow
      * 
-     * @param nIdResourceHistory
-     *            the id of the resource history used to retrieve the resource processed by the workflow
+     * @param resourceHistory
+     *            the resource history used to retrieve the resource processed by the workflow
      * @return the email
      */
-    protected abstract String provideEmail( int nIdResourceHistory );
+    protected abstract String provideEmail( ResourceHistory resourceHistory );
 }
