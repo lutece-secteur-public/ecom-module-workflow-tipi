@@ -5,19 +5,221 @@
     </properties>
     <body>
         <section name="Module workflow TIPI">
-            <!--
-            <p>
-                <img src="images/tipi.png" />
-            </p>
-            -->
             <subsection name="Introduction">
-                <p></p>
+                <p>Ce module permet d'interagir avec le service TIPI dans un workflow Lutece.</p>
+                <p>Pour cela, il contient :
+                    <ul>
+                        <li>une classe abstraite permettant de faire le lien entre les objets métier de votre application et le service TIPI. 
+                            Voir la section <strong>Création d'une tâche de workflow fournissant les données TIPI à partir d'un objet métier</strong> pour plus de détails.
+                        </li>
+                        <li>une tâche de workflow permettant de configurer les états du worklow lorsque le paiement TIPI est effectué. 
+                            Voir la section <strong>Tâche de workflow de configuration des états après paiement</strong> pour plus de détails.
+                        </li>
+                        <li>un signet permettant d'ajouter le lien utilisable par l'usager dans une notification.
+                            Voir la section <strong>Tâche de workflow de notification</strong> pour plus de détails.
+                        </li>
+                        <li>un démon permettant de récupérer les informations des transactions en attente.
+                            Voir la section <strong>Démon de mise à jour des paiements</strong> pour plus de détails.
+                        </li>
+                    </ul>
+                </p>
+                <p>Voici un cinématique type applicable avec ce module :
+                    <ul>
+                        <li>Un usager fait une demande <em>via</em> un téléservice (votre plugin métier)</li>
+                        <li>Un agent traite la demande en back-office. Il appuie sur le bouton d'action de workflow pour déclencher la procédure de paiement :
+                            <ul>
+                                <li>les informations nécessaires au paiement TIPI sont retrouvées à partir de votre objet métier (votre tâche de workflow faisant le lien entre votre plugin métier et TIPI)</li>
+                                <li>Une notification (email, crm, <em>etc.</em>) est envoyée à l'usager (tâche <em>Notifier un usager (guichet, mail et/ou SMS)</em>). Cette notification contient un lien.</li>
+                            </ul>
+                        </li>
+                        <li>L'usager clique sur le lien présent dans la notification :
+                            <ul>
+                                <li>ce module appelle le service TIPI pour obtenir un IdOp.</li>
+                                <li>l'usager est renvoyé sur la page TIPI.</li>
+                            </ul>
+                        </li>
+                        <li>L'usager renseigne sa carte bleue sur le service TIPI et valide.</li>
+                        <li>Le servce TIPI renvoie une notification vers ce module :
+                            <ul>
+                                <li>en fonction de l'état du paiement (accepté, refusé ou abandonné), l'état de workflow de votre ressource métier est mis à jour. 
+                                    Cet état correspond à l'état configuré dans la tâche de workflow <em>Tache de configuration de TIPI</em>.
+                                </li>
+                                <li>si une action automatique est présente pour cet état, elle est exécutée.
+                                    Voir la section <strong>Exécuter une action après le paiement</strong> pour plus de détails.
+                                </li>
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </p>
+            </subsection>
+            <subsection name="Création d'une tâche de workflow fournissant les données TIPI à partir d'un objet métier">
+                <p>Ce module ne peut pas deviner certaines données essentielles au paiement TIPI :
+                   <ul>
+                       <li>la référence de la dette</li>
+                       <li>le montant de la dette</li>
+                       <li>l'adresse email de l'utilisateur</li>
+                   </ul>
+                   Il faut donc créer une tâche de workflow qui fournit ces données à partir de vos objets métier.
+                </p>
+                <p>Ce module fournit une tâche de workflow abstraite que vous devez étendre pour fournir les données : <code>fr.paris.lutece.plugins.workflow.modules.tipi.service.task.AbstractTipiProviderTask</code>.
+                   Vous devez alors implémenter les méthodes suivantes :
+                   <ul>
+                        <li><code>String getTitle( Locale )</code> : fournit le titre de votre tâche en fonction de la <code>Locale</code> passée en paramètre.
+                            Cette méthode n'est pas spécifique à la classe <code>AbstractTipiProviderTask</code> mais provient de l'interface <code>fr.paris.lutece.plugins.workflowcore.service.task.ITask</code> du workflow.</li>
+                        <li><code>String provideRefDet( ResourceHistory )</code> : fournit la référence de la dette à partir de l'objet <code>ResourceHistory</code> passé en paramètre.</li>
+                        <li><code>int provideAmount( ResourceHistory )</code> : fournit le montant de la dette à partir de l'objet <code>ResourceHistory</code> passé en paramètre. Ce montant est en <strong>centimes</strong>.</li>
+                        <li><code>String provideEmail( ResourceHistory )</code> : fournit l'adresse email de l'usager à partir de l'objet <code>ResourceHistory</code> passé en paramètre.</li>
+                   </ul>
+                </p>
+                <p>Voici un exemple d'implémentation :</p>
+                <pre>
+public class MyTipiProviderTask extends AbstractTipiProviderTask
+{
+    @Inject
+    public MyTipiProviderTask( IResourceHistoryService resourceHistoryService, ITipiService tipiService, ITipiRefDetHistoryService tipiRefDetHistoryService )
+    {
+        super( resourceHistoryService, tipiService, tipiRefDetHistoryService );
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getTitle( Locale local )
+    {
+        return I18nService.getLocalizedString( MESSAGE_TASK_TITLE, local );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String provideRefDet( ResourceHistory resourceHistory )
+    {
+        return DatastoreService.getDataValue( DSKEY_REFDET, StringUtils.EMPTY );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected int provideAmount( ResourceHistory resourceHistory )
+    {
+        return NumberUtils.toInt( DatastoreService.getDataValue( DSKEY_AMOUNT, StringUtils.EMPTY ), 0 );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String provideEmail( ResourceHistory resourceHistory )
+    {
+        return DatastoreService.getDataValue( DSKEY_EMAIL, StringUtils.EMPTY );
+    }
+
+}
+                </pre>
+                <p>Vous pouvez bien sûr redéfinir les méthodes classiques des tâches de workflow, pour ajouter une configuration à la tâche par exemple.
+                </p>
+                <p>Vous devez ensuite déclarer votre tâche dans le contexte Spring, comme toute autre tâche de workflow :
+                </p>
+                <pre>
+&lt;bean id="workflow-tipimymodule.myTipiProviderTask"
+    class="fr.paris.lutece.plugins.workflow.modules.tipimymodule.service.task.myTipiProviderTask"
+    scope="prototype" /&gt;
+
+&lt;bean id="workflow-tipimymodule.myTipiProviderTypeTask"
+    class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+    p:key="myTipiProviderTypeTask"
+    p:titleI18nKey="module.workflow.tipimymodule.task_my_provider_title"
+    p:beanName="workflow-tipimymodule.myTipiProviderTask"
+    p:taskForAutomaticAction="true" /&gt;
+                </pre>
             </subsection>
             <subsection name="Configuration">
-                <p></p>
+                <p>Le fichier de configuration du module se trouve dans : <code>WEB-INF/conf/plugins/workflow-tipi.properties</code>.
+                </p>
+                <p>Surcharger ce fichier pour y indiquer votre configuration (numéro client, objet, <em>etc.</em>).</p>
             </subsection>
-            <subsection name="Usage">
+            <subsection name="Utilisation">
+                <p><strong>Tâches de workflow</strong></p>
+                <p>Pour pouvoir interagir avec le service TIPI dans le workflow Lutece, il faut utiliser 3 tâches de workflow dans l'action permettant de demander à l'usager de payer sa dette sur le service TIPI.<br/>
+                </p>
+                <p><img src="images/workflow_action.png" /></p>
+                <p><strong>Note :</strong> Les 3 tâches peuvent être utilisées dans une action automatique. Cela permet de déclencher la procédure de paiement de manière automatique.</p>
+                <p><strong>Note :</strong> Si votre workflow contient plusieurs actions permettant de demander à l'usager de payer sa dette (action de relance par exemple), il faut que les 3 tâches soient dans toutes les actions.
+                   Les états utilisés après la notification du service TIPI sont ceux de la dernière action déclenchée.
+                </p>
                 <p></p>
+                
+                <p><strong>Tâche de workflow fournissant les données TIPI à partir d'un objet métier</strong></p>
+                <p>La première tâche nécessaire est votre tâche fournissant les données TIPI à partir de votre objet métier.
+                    Voir la section <em>Création d'une tâche de workflow fournissant les données TIPI à partir d'un objet métier</em> pour implémenter cette tâche.
+                </p>
+                <p></p>
+                
+                <p><strong>Tâche de workflow de configuration des états après paiement</strong></p>
+                <p>La deuxième tâche nécessaire est la tâche nommée <em>Tache de configuration de TIPI</em>. Elle doit être configurée pour déterminer sur quel état de workflow sera positionné votre ressource métier lorsque :
+                    <ul>
+                        <li>le paiement a été réalisé avec succès par le service TIPI</li>
+                        <li>le paiement a été refusé par le service TIPI.</li>
+                        <li>le paiement a été abandonnée par l'usager.</li>
+                    </ul>
+                </p>
+                <p><img src="images/task_tipi_configuration.png" /></p>
+                <p></p>
+                
+                <p><strong>Tâche de workflow de notification</strong></p>
+                <p>La troisième tâche nécessaire est la tâche nommée <em>Notifier un usager (guichet, mail et/ou SMS)</em>. Ce module expose un signet <code>${tipi_url!}</code> permettant d'insérer l'URL de traitement de paiements.
+                   Vous pouvez ajouter ce signet dans l'attribut <code>href</code> de la balise <code>a</code> pour ajouter un lien cliquable dans la notification :
+                </p>
+                <pre>&lt;a href="${tipi_url!}"&gt;Lien de paiement&lt;/a&gt;</pre>
+                <p>Pour que ce signet soit disponible, il faut cocher les signets supplémentaires <code>TIPI</code> dans la configuration avancée.</p>
+                <p>Voir le <strong>module-workflow-notifygru</strong>  pour plus de détails.</p>
+                <p></p>
+                
+                <p><strong>Démon de mise à jour des paiements</strong></p>
+                <p>Ce démon récupère tous les paiements qui ont été initialisés par l'usager (clic sur le lien présent dans la notification) mais dont le résultat n'a pas été fourni par le service TIPI.
+                    Ce cas peut arriver s'il y a eu un problème réseau par exemple.
+                    Pour tous ces paiements, le démon interroge le service TIPI afin de les mettre à jour dans Lutece.
+                </p>
+                <p>Par défaut, ce démon n'est pas activé. Si vous décidez de l'activer, Il est conseillé de soit le désactiver après la mise à jour des paiements, soit le laisser activé mais avec un intervalle de 24h minimum, 
+                    afin de laisser le temps au service TIPI de notifier le module pour les transactions en cours. Mettre un intervalle trop court risquerait d'interférer avec le mécanisme nominal du service TIPI.
+                </p>
+                <p></p>
+                
+                <p><strong>Exécuter une action après le paiement</strong></p>
+                <p>Après la notification par le service TIPI du résultat de la transaction, il est possible d'exécuter automatiquement une action de workflow.
+                </p>
+                <p><strong>Note :</strong> L'explication ci-dessous se base sur une transaction acceptée, mais le même principe peut être appliqué sur une transaction refusée ou abandonnée.</p>
+                <p>Lorsque le service TIPI notifie ce module d'une transaction acceptée, le traitement appelle la première action automatique du workflow dont l'état initial est l'état défini dans la configuration de la tâche <em>Tache de configuration de TIPI</em> pour un paiement accepté.
+                </p>
+                <p>Par conséquent, pour exécuter automatiquement une action du workflow après la notification du service TIPI :
+                    <ul>
+                        <li>Créez un état dans le workflow. Cet état peut être utilisé uniquement pour ce but.</li>
+                        <li>Dans la configuration de la tâche TIPI, utilisez l'état créé dans le champ <code>Etat si paiement accepté</code>.</li>
+                        <li>Créez une action automatique dont l'état initial est l'état créé et l'état final est l'état de votre choix.</li>
+                        <li>Ajoutez les tâches de votre choix dans cette action.</li>
+                    </ul>
+                </p>
+                <p>Voici un exemple :</p>
+                <p>Etats du workflow. L'état <code>Paiement accepté</code> n'est utilisé que pour exécuter l'action automatique après notification par le service TIPI.</p>
+                <p><img src="images/workflow_with_action_after_paiement_states.png" /></p>
+                <p>Actions du workflow.</p>
+                <p><img src="images/workflow_with_action_after_paiement_actions.png" /></p>
+                <p>L'action <code>Payer</code> contient les 3 tâches de workflow nécessaires au paiement de la dette. La tâche <em>Tache de configuration de TIPI</em> est configurée pour pointer sur l'état <code>Paiement accepté</code> lorsque le paiement est accepté.</p>
+                <p>L'action <code>Notifier paiement accepté</code> est une action <strong>automatique</strong>. C'est cette action qui sera exécutée automatiquement après notification d'un paiement accepté par le service TIPI.
+                   Elle contient les tâches souhaitées. Par exemple, on peut notifier l'usager que son paiement a été accepté : 
+                </p>
+                <p><img src="images/workflow_with_action_after_paiement_action_configuration.png" /></p>
+                <p></p>
+                
+                <p><strong>Lien dans la notification</strong></p>
+                <p>Lorsque l'usager clique sur le lien présent dans la notification, il est renvoyé vers le service TIPI uniquement si le paiement ne s'est pas déjà effectué avec succès.
+                    Dans le cas où le paiement s'est déjà effectué avec succès, un message d'information s'affiche pour avertir l'usager qu'il ne peut pas payer une deuxième fois.
+                </p>
             </subsection>
         </section>
     </body>
