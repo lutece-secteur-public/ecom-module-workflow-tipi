@@ -119,7 +119,7 @@ public class TipiUrlService implements ITipiUrlService
     @Override
     public String generateTipiUrl( Tipi tipi )
     {
-        return AppPropertiesService.getProperty( TipiConstants.PROPERTY_TIPI_URL ) + tipi.getIdOp( );
+        return AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_TIPI_FRONTOFFICE ) + tipi.getIdOp( );
     }
 
     /**
@@ -128,6 +128,18 @@ public class TipiUrlService implements ITipiUrlService
     @Override
     public String generateNotificationUrl( HttpServletRequest request )
     {
-        return AppPathService.getBaseUrl( request ) + TipiConstants.URL_NOTIFICATION_BASE + TipiConstants.URL_NOTIFICATION_PAYMENT;
+        String strNotificationUrl = null;
+        String strNotificationUrlInPropoerties = AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_NOTIFICATION );
+
+        if ( StringUtils.isNotBlank( strNotificationUrlInPropoerties ) )
+        {
+            strNotificationUrl = strNotificationUrlInPropoerties;
+        }
+        else
+        {
+            strNotificationUrl = AppPathService.getBaseUrl( request ) + TipiConstants.URL_NOTIFICATION_BASE + TipiConstants.URL_NOTIFICATION_PAYMENT;
+        }
+
+        return strNotificationUrl;
     }
 }

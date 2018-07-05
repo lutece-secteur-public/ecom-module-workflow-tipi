@@ -76,7 +76,7 @@ public class TipiServiceCaller implements ITipiServiceCaller
     public String getIdop( String strEmail, String strRefDet, int nAmount, String strNotificationUrl )
     {
 
-        final String urlWsdl = AppPropertiesService.getProperty( TipiConstants.PROPERTY_URLWDSL );
+        final String strUrlTipiWebservice = AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_TIPI_WEBSERVICE );
 
         CreerPaiementSecuriseRequest request = createRequest( strEmail, strRefDet, nAmount, strNotificationUrl );
 
@@ -85,7 +85,7 @@ public class TipiServiceCaller implements ITipiServiceCaller
         try
         {
 
-            strIdop = new CreateURLWebService( ).appelWebServiceCreerPaiement( urlWsdl, request );
+            strIdop = new CreateURLWebService( ).appelWebServiceCreerPaiement( strUrlTipiWebservice, request );
 
         }
         catch( RemoteException | ServiceException e )
@@ -124,7 +124,7 @@ public class TipiServiceCaller implements ITipiServiceCaller
         request.setUrlnotif( strNotificationUrl );
         request.setUrlredirect( AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_REDIRECT ) );
         request.setExer( String.valueOf( calendar.get( Calendar.YEAR ) ) );
-        request.setObjet( AppPropertiesService.getProperty( TipiConstants.PROPERTY_TIPI_OBJET ) );
+        request.setObjet( AppPropertiesService.getProperty( TipiConstants.PROPERTY_TIPI_SUBJECT ) );
 
         String saisie = AppPropertiesService.getProperty( TipiConstants.PROPERTY_PAYMENT_TYPE );
 
@@ -160,7 +160,7 @@ public class TipiServiceCaller implements ITipiServiceCaller
     {
         String transactionResult = null;
 
-        final String urlWsdl = AppPropertiesService.getProperty( TipiConstants.PROPERTY_URLWDSL );
+        String strUrlWebservice = AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_TIPI_WEBSERVICE );
 
         RecupererDetailPaiementSecuriseRequest request = new RecupererDetailPaiementSecuriseRequest( );
 
@@ -168,7 +168,7 @@ public class TipiServiceCaller implements ITipiServiceCaller
 
         try
         {
-            ParametresPaiementTipi parameters = new CreateURLWebService( ).appelWebserviceDetailPaiement( request, urlWsdl );
+            ParametresPaiementTipi parameters = new CreateURLWebService( ).appelWebserviceDetailPaiement( request, strUrlWebservice );
             transactionResult = parameters.getResultrans( );
 
         }

@@ -48,17 +48,17 @@ public final class TipiConstants
     public static final String URL_NOTIFICATION_PAYMENT = "payment";
 
     // PROPERTIES
-    public static final String PROPERTY_TRUSTSTORE = "tipi.ssl.truststore";
-    public static final String PROPERTY_TRUSTSTORE_PASSWORD = "tipi.ssl.truststore.password";
-    public static final String PROPERTY_KEYSTORE = "tipi.ssl.keystore";
-    public static final String PROPERTY_KEYSTORE_PASSWORD = "tipi.ssl.keystore.password";
-    public static final String PROPERTY_URLWDSL = "tipi.urlwsdl";
-    public static final String PROPERTY_REFERENCE_CLIENT = "tipi.numcli";
-    public static final String PROPERTY_TIPI_OBJET = "tipi.objet";
-    public static final String PROPERTY_URL_NOTIF = "tipi.urlnotif";
-    public static final String PROPERTY_URL_REDIRECT = "tipi.urlredirect";
-    public static final String PROPERTY_PAYMENT_TYPE = "tipi.saisie";
-    public static final String PROPERTY_TIPI_URL = "tipi.url";
+    public static final String PROPERTY_REFERENCE_CLIENT = "workflow-tipi.numcli";
+    public static final String PROPERTY_TIPI_SUBJECT = "workflow-tipi.subject";
+    public static final String PROPERTY_PAYMENT_TYPE = "workflow-tipi.saisie";
+    public static final String PROPERTY_URL_TIPI_WEBSERVICE = "workflow-tipi.url.tipi.webservice";
+    public static final String PROPERTY_URL_TIPI_FRONTOFFICE = "workflow-tipi.url.tipi.frontoffice";
+    public static final String PROPERTY_URL_NOTIFICATION = "workflow-tipi.url.notification";
+    public static final String PROPERTY_URL_REDIRECT = "workflow-tipi.url.redirect";
+    public static final String PROPERTY_TRUSTSTORE = "workflow-tipi.ssl.truststore";
+    public static final String PROPERTY_TRUSTSTORE_PASSWORD = "workflow-tipi.ssl.truststore.password";
+    public static final String PROPERTY_KEYSTORE = "workflow-tipi.ssl.keystore";
+    public static final String PROPERTY_KEYSTORE_PASSWORD = "workflow-tipi.ssl.keystore.password";
 
     /**
      * 
