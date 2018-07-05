@@ -39,6 +39,8 @@ import java.util.Calendar;
 
 import javax.xml.rpc.ServiceException;
 
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
 import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -80,7 +82,7 @@ public class TipiServiceCaller implements ITipiServiceCaller
 
         CreerPaiementSecuriseRequest request = createRequest( strEmail, strRefDet, nAmount, strNotificationUrl );
 
-        String strIdop = null;
+        String strIdop = StringUtils.EMPTY;
 
         try
         {
