@@ -195,14 +195,14 @@ Lorsque le service TIPI notifie ce module d'une transaction accept&eacute;e, le 
 Par cons&eacute;quent, pour ex&eacute;cuter automatiquement une action du workflow apr&egrave;s la notification du service TIPI :
  
 * Cr&eacute;ez un&eacute;tat dans le workflow. Cet&eacute;tat peut&ecirc;tre utilis&eacute; uniquement pour ce but.
-* Dans la configuration de la t&acirc;che TIPI, utilisez l'&eacute;tat cr&eacute;&eacute; dans le champ `Etat si paiement accept&eacute;` .
+* Dans la configuration de la t&acirc;che TIPI, utilisez l'&eacute;tat cr&eacute;&eacute; dans le champ `Etat si paiement accepte` .
 * Cr&eacute;ez une action automatique dont l'&eacute;tat initial est l'&eacute;tat cr&eacute;&eacute; et l'&eacute;tat final est l'&eacute;tat de votre choix.
 * Ajoutez les t&acirc;ches de votre choix dans cette action.
 
 
 Voici un exemple :
 
-Etats du workflow. L'&eacute;tat `Paiement accept&eacute;` n'est utilis&eacute; que pour ex&eacute;cuter l'action automatique apr&egrave;s notification par le service TIPI.
+Etats du workflow. L'&eacute;tat `Paiement accepte` n'est utilis&eacute; que pour ex&eacute;cuter l'action automatique apr&egrave;s notification par le service TIPI.
 
 ![](http://dev.lutece.paris.fr/plugins/module-workflow-tipi/images/workflow_with_action_after_paiement_states.png)
 
@@ -210,9 +210,9 @@ Actions du workflow.
 
 ![](http://dev.lutece.paris.fr/plugins/module-workflow-tipi/images/workflow_with_action_after_paiement_actions.png)
 
-L'action `Payer` contient les 3 t&acirc;ches de workflow n&eacute;cessaires au paiement de la dette. La t&acirc;che *Tache de configuration de TIPI* est configur&eacute;e pour pointer sur l'&eacute;tat `Paiement accept&eacute;` lorsque le paiement est accept&eacute;.
+L'action `Payer` contient les 3 t&acirc;ches de workflow n&eacute;cessaires au paiement de la dette. La t&acirc;che *Tache de configuration de TIPI* est configur&eacute;e pour pointer sur l'&eacute;tat `Paiement accepte` lorsque le paiement est accept&eacute;.
 
-L'action `Notifier paiement accept&eacute;` est une action **automatique** . C'est cette action qui sera ex&eacute;cut&eacute;e automatiquement apr&egrave;s notification d'un paiement accept&eacute; par le service TIPI. Elle contient les t&acirc;ches souhait&eacute;es. Par exemple, on peut notifier l'usager que son paiement a&eacute;t&eacute; accept&eacute; :
+L'action `Notifier paiement accepte` est une action **automatique** . C'est cette action qui sera ex&eacute;cut&eacute;e automatiquement apr&egrave;s notification d'un paiement accept&eacute; par le service TIPI. Elle contient les t&acirc;ches souhait&eacute;es. Par exemple, on peut notifier l'usager que son paiement a&eacute;t&eacute; accept&eacute; :
 
 ![](http://dev.lutece.paris.fr/plugins/module-workflow-tipi/images/workflow_with_action_after_paiement_action_configuration.png)
 
