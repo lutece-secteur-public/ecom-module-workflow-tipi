@@ -75,7 +75,7 @@ public class TipiCallbackRestService
      */
     @GET
     @Path( TipiConstants.URL_NOTIFICATION_PAYMENT )
-    public Response paymentNotified( @QueryParam( "IdOp" ) String strIdop )
+    public Response paymentNotified( @QueryParam( "idop" ) String strIdop )
     {
         try
         {
