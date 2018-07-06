@@ -68,9 +68,9 @@ public class TipiPaymentJspBean
 
     // Services
     private final ITipiUrlService _tipiUrlService;
-    private ITipiService _tipiService;
-    private ITipiRefDetHistoryService _tipiRefDetHistoryService;
-    private ITipiServiceCaller _tipiServiceCaller;
+    private final ITipiService _tipiService;
+    private final ITipiRefDetHistoryService _tipiRefDetHistoryService;
+    private final ITipiServiceCaller _tipiServiceCaller;
 
     /**
      * Constructor
@@ -88,10 +88,20 @@ public class TipiPaymentJspBean
      * 
      * @param tipiUrlService
      *            the TIPI URL service
+     * @param tipiService
+     *            the TIPI service
+     * @param tipiRefDetHistoryService
+     *            the RefDet history service
+     * @param tipiServiceCaller
+     *            the TIPI service caller
      */
-    public TipiPaymentJspBean( ITipiUrlService tipiUrlService )
+    public TipiPaymentJspBean( ITipiUrlService tipiUrlService, ITipiService tipiService, ITipiRefDetHistoryService tipiRefDetHistoryService,
+            ITipiServiceCaller tipiServiceCaller )
     {
         _tipiUrlService = tipiUrlService;
+        _tipiService = tipiService;
+        _tipiRefDetHistoryService = tipiRefDetHistoryService;
+        _tipiServiceCaller = tipiServiceCaller;
     }
 
     /**

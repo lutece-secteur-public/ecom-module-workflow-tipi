@@ -31,35 +31,34 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflowcore.service.task;
+package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
-import java.util.Locale;
+import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
+import fr.paris.vdp.tipi.create.url.enumeration.TransactionResult;
 
-import fr.paris.lutece.plugins.workflow.modules.tipi.util.IdGenerator;
-
-public class MockTask extends SimpleTask
+public class SpyTipiServiceCaller implements ITipiServiceCaller
 {
+    public String _strIdOp = StringUtils.EMPTY;
+    public String _strTransactionResult = TransactionResult.PAYMENT_SUCCEEDED.getValueStr( );
+    public boolean _bMustThrowTransactionResultException = false;
 
     @Override
-    public String getTitle( Locale locale )
+    public String getIdop( String strEmail, String strRefDet, int nAmount, String strNotificationUrl )
     {
-        return null;
+        return _strIdOp;
     }
 
     @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
+    public String getTransactionResult( String strIdop ) throws TransactionResultException
     {
+        if ( _bMustThrowTransactionResultException )
+        {
+            throw new TransactionResultException( );
+        }
 
-    }
-
-    public static ITask create( )
-    {
-        ITask task = new MockTask( );
-        task.setId( IdGenerator.generateId( ) );
-
-        return task;
+        return _strTransactionResult;
     }
 
 }

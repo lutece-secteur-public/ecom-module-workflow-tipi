@@ -31,35 +31,83 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflowcore.service.task;
+package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 
-import fr.paris.lutece.plugins.workflow.modules.tipi.util.IdGenerator;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 
-public class MockTask extends SimpleTask
+public class MockTipiService implements ITipiService
 {
+    private final Map<String, Tipi> _map = new HashMap<>( );
 
     @Override
-    public String getTitle( Locale locale )
+    public Tipi create( Tipi tipi )
     {
-        return null;
+        _map.put( tipi.getRefDet( ), tipi );
+
+        return tipi;
     }
 
     @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
+    public Tipi update( Tipi tipi )
     {
+        _map.put( tipi.getRefDet( ), tipi );
+
+        return tipi;
+    }
+
+    @Override
+    public void remove( String strRefDet )
+    {
+        _map.remove( strRefDet );
 
     }
 
-    public static ITask create( )
+    @Override
+    public Tipi findByPrimaryKey( String strRefDet )
     {
-        ITask task = new MockTask( );
-        task.setId( IdGenerator.generateId( ) );
+        return _map.get( strRefDet );
+    }
 
-        return task;
+    @Override
+    public Tipi findByIdop( String strIdop )
+    {
+        Tipi tipi = null;
+
+        for ( Entry<String, Tipi> entry : _map.entrySet( ) )
+        {
+            if ( entry.getValue( ).getIdOp( ).equals( strIdop ) )
+            {
+                tipi = entry.getValue( );
+            }
+        }
+
+        return tipi;
+    }
+
+    @Override
+    public List<Tipi> findNotNotifiedPayments( )
+    {
+        List<Tipi> listTipi = new ArrayList<>( );
+
+        for ( Entry<String, Tipi> entry : _map.entrySet( ) )
+        {
+            Tipi tipi = entry.getValue( );
+
+            if ( StringUtils.isNotEmpty( tipi.getIdOp( ) ) && StringUtils.isEmpty( tipi.getTransactionResult( ) ) )
+            {
+                listTipi.add( tipi );
+            }
+        }
+
+        return listTipi;
     }
 
 }

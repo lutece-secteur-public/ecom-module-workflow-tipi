@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.plugins.workflowcore.business.resource;
 
-import fr.paris.lutece.plugins.workflow.modules.unittree.util.IdGenerator;
+import fr.paris.lutece.plugins.workflow.modules.tipi.util.IdGenerator;
 
 public class MockResourceHistory
 {

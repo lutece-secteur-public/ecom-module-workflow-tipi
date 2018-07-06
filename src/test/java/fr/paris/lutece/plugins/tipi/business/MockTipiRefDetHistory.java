@@ -31,35 +31,22 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflowcore.service.task;
+package fr.paris.lutece.plugins.tipi.business;
 
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
 import fr.paris.lutece.plugins.workflow.modules.tipi.util.IdGenerator;
 
-public class MockTask extends SimpleTask
+public class MockTipiRefDetHistory
 {
+    private static final String REFDET_PREFIX = "refdet";
 
-    @Override
-    public String getTitle( Locale locale )
+    public static TipiRefDetHistory create( )
     {
-        return null;
+        TipiRefDetHistory tipiRefDetHistory = new TipiRefDetHistory( );
+        tipiRefDetHistory.setIdHistory( IdGenerator.generateId( ) );
+        tipiRefDetHistory.setRefDet( REFDET_PREFIX + IdGenerator.generateId( ) );
+        tipiRefDetHistory.setIdTask( IdGenerator.generateId( ) );
+
+        return tipiRefDetHistory;
     }
-
-    @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
-    {
-
-    }
-
-    public static ITask create( )
-    {
-        ITask task = new MockTask( );
-        task.setId( IdGenerator.generateId( ) );
-
-        return task;
-    }
-
 }

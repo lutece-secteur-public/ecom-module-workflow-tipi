@@ -31,35 +31,21 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflowcore.service.task;
+package fr.paris.lutece.plugins.tipi.business.task;
 
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.task.TaskTipiConfig;
 import fr.paris.lutece.plugins.workflow.modules.tipi.util.IdGenerator;
 
-public class MockTask extends SimpleTask
+public class MockTaskTipiConfig
 {
-
-    @Override
-    public String getTitle( Locale locale )
+    public static TaskTipiConfig create( )
     {
-        return null;
+        TaskTipiConfig taskTipiConfig = new TaskTipiConfig( );
+        taskTipiConfig.setIdTask( IdGenerator.generateId( ) );
+        taskTipiConfig.setIdStateAfterSuccessPayment( IdGenerator.generateId( ) );
+        taskTipiConfig.setIdStateAfterCanceledPayment( IdGenerator.generateId( ) );
+        taskTipiConfig.setIdStateAfterFailurePayment( IdGenerator.generateId( ) );
+
+        return taskTipiConfig;
     }
-
-    @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
-    {
-
-    }
-
-    public static ITask create( )
-    {
-        ITask task = new MockTask( );
-        task.setId( IdGenerator.generateId( ) );
-
-        return task;
-    }
-
 }

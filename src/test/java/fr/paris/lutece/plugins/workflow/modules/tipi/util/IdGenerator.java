@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.unittree.util;
+package fr.paris.lutece.plugins.workflow.modules.tipi.util;
 
 import java.util.Random;
 

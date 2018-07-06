@@ -35,6 +35,13 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.web;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.plugins.tipi.business.MockTipi;
+import fr.paris.lutece.plugins.tipi.business.MockTipiRefDetHistory;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.MockTipiRefDetHistoryService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.MockTipiService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.SpyTipiServiceCaller;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.SpyTipiUrlService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import junit.framework.TestCase;
@@ -44,8 +51,13 @@ import static org.junit.Assert.assertThat;
 
 public class TipiPaymentJspBeanTest extends TestCase
 {
+    private static final String PARAMETER_ID_HISTORY = "id_history";
+
     private MockHttpServletRequest _request;
     private SpyTipiUrlService _tipiUrlService;
+    private MockTipiService _tipiService;
+    private MockTipiRefDetHistoryService _tipiRefDetHistoryService;
+    private SpyTipiServiceCaller _tipiServiceCaller;
     private TipiPaymentJspBean _jspBean;
 
     public void setUp( ) throws Exception
@@ -54,7 +66,10 @@ public class TipiPaymentJspBeanTest extends TestCase
 
         _request = new MockHttpServletRequest( );
         _tipiUrlService = new SpyTipiUrlService( );
-        _jspBean = new TipiPaymentJspBean( _tipiUrlService );
+        _tipiService = new MockTipiService( );
+        _tipiRefDetHistoryService = new MockTipiRefDetHistoryService( );
+        _tipiServiceCaller = new SpyTipiServiceCaller( );
+        _jspBean = new TipiPaymentJspBean( _tipiUrlService, _tipiService, _tipiRefDetHistoryService, _tipiServiceCaller );
     }
 
     public void testProcessPaymentWithUnauthenticatedUrl( )
@@ -74,6 +89,13 @@ public class TipiPaymentJspBeanTest extends TestCase
 
     public void testProcessPaymentWithNewPayment( ) throws SiteMessageException
     {
+        TipiRefDetHistory tipiRefDetHistory = MockTipiRefDetHistory.create( );
+        Tipi tipi = MockTipi.create( );
+        tipi.setRefDet( tipiRefDetHistory.getRefDet( ) );
+        _tipiRefDetHistoryService.create( tipiRefDetHistory );
+        _tipiService.create( tipi );
+        _request.addParameter( PARAMETER_ID_HISTORY, String.valueOf( tipiRefDetHistory.getIdHistory( ) ) );
+
         String strUrl = _jspBean.doProcessPayment( _request );
 
         assertThat( strUrl, is( _tipiUrlService._strGeneratedTipiUrl ) );
@@ -81,23 +103,56 @@ public class TipiPaymentJspBeanTest extends TestCase
 
     public void testProcessPaymentWithAlreadyPaidPayment( )
     {
-        // try
-        // {
-        // _jspBean.doProcessPayment( _request );
-        // fail( "Expected a SiteMessageException to be thrown" );
-        // } catch ( SiteMessageException e )
-        // {
-        // // correct behavior
-        // }
+        TipiRefDetHistory tipiRefDetHistory = MockTipiRefDetHistory.create( );
+        Tipi tipi = MockTipi.createAcceptedPayment( );
+        tipi.setRefDet( tipiRefDetHistory.getRefDet( ) );
+        _tipiRefDetHistoryService.create( tipiRefDetHistory );
+        _tipiService.create( tipi );
+        _request.addParameter( PARAMETER_ID_HISTORY, String.valueOf( tipiRefDetHistory.getIdHistory( ) ) );
+        String strIdOpBeforeProcessPayment = tipi.getIdOp( );
+
+        try
+        {
+            _jspBean.doProcessPayment( _request );
+            fail( "Expected a SiteMessageException to be thrown" );
+        }
+        catch( SiteMessageException e )
+        {
+            // correct behavior
+        }
+
+        assertThat( tipi.getIdOp( ), is( strIdOpBeforeProcessPayment ) );
     }
 
-    public void testProcessPaymentWithCancelPayment( )
+    public void testProcessPaymentWithCanceledPayment( ) throws SiteMessageException
     {
+        TipiRefDetHistory tipiRefDetHistory = MockTipiRefDetHistory.create( );
+        Tipi tipi = MockTipi.createCanceledPayment( );
+        tipi.setRefDet( tipiRefDetHistory.getRefDet( ) );
+        _tipiRefDetHistoryService.create( tipiRefDetHistory );
+        _tipiService.create( tipi );
+        _tipiServiceCaller._strIdOp = "testProcessPaymentWithCanceledPayment";
+        _request.addParameter( PARAMETER_ID_HISTORY, String.valueOf( tipiRefDetHistory.getIdHistory( ) ) );
 
+        String strUrl = _jspBean.doProcessPayment( _request );
+
+        assertThat( tipi.getIdOp( ), is( "testProcessPaymentWithCanceledPayment" ) );
+        assertThat( strUrl, is( _tipiUrlService._strGeneratedTipiUrl ) );
     }
 
-    public void testProcessPaymentWithRefusePayment( )
+    public void testProcessPaymentWithRefusedPayment( ) throws SiteMessageException
     {
+        TipiRefDetHistory tipiRefDetHistory = MockTipiRefDetHistory.create( );
+        Tipi tipi = MockTipi.createRefusedPayment( );
+        tipi.setRefDet( tipiRefDetHistory.getRefDet( ) );
+        _tipiRefDetHistoryService.create( tipiRefDetHistory );
+        _tipiService.create( tipi );
+        _tipiServiceCaller._strIdOp = "testProcessPaymentWithRefusedPayment";
+        _request.addParameter( PARAMETER_ID_HISTORY, String.valueOf( tipiRefDetHistory.getIdHistory( ) ) );
 
+        String strUrl = _jspBean.doProcessPayment( _request );
+
+        assertThat( tipi.getIdOp( ), is( "testProcessPaymentWithRefusedPayment" ) );
+        assertThat( strUrl, is( _tipiUrlService._strGeneratedTipiUrl ) );
     }
 }

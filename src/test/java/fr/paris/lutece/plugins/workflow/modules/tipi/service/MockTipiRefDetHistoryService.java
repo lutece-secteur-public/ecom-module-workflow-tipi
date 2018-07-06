@@ -31,35 +31,60 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflowcore.service.task;
+package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
 
-import fr.paris.lutece.plugins.workflow.modules.tipi.util.IdGenerator;
-
-public class MockTask extends SimpleTask
+public class MockTipiRefDetHistoryService implements ITipiRefDetHistoryService
 {
+    private final Map<Integer, TipiRefDetHistory> _map = new HashMap<>( );
 
     @Override
-    public String getTitle( Locale locale )
+    public TipiRefDetHistory create( TipiRefDetHistory tipiRefDetHistory )
     {
-        return null;
+        _map.put( tipiRefDetHistory.getIdHistory( ), tipiRefDetHistory );
+
+        return tipiRefDetHistory;
     }
 
     @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
+    public TipiRefDetHistory update( TipiRefDetHistory tipiRefDetHistory )
     {
+        _map.put( tipiRefDetHistory.getIdHistory( ), tipiRefDetHistory );
 
+        return tipiRefDetHistory;
     }
 
-    public static ITask create( )
+    @Override
+    public void remove( int nIdHistory )
     {
-        ITask task = new MockTask( );
-        task.setId( IdGenerator.generateId( ) );
+        _map.remove( nIdHistory );
+    }
 
-        return task;
+    @Override
+    public TipiRefDetHistory findByPrimaryKey( int nIdHistory )
+    {
+        return _map.get( nIdHistory );
+    }
+
+    @Override
+    public TipiRefDetHistory findByRefDet( String strRefDet )
+    {
+        TipiRefDetHistory tipiRefDetHistory = null;
+
+        for ( Entry<Integer, TipiRefDetHistory> entry : _map.entrySet( ) )
+        {
+            if ( entry.getValue( ).getRefDet( ).equals( strRefDet ) )
+            {
+                tipiRefDetHistory = entry.getValue( );
+            }
+        }
+
+        return tipiRefDetHistory;
     }
 
 }

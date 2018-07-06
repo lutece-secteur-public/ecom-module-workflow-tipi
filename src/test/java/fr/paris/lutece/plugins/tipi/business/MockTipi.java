@@ -31,35 +31,55 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflowcore.service.task;
+package fr.paris.lutece.plugins.tipi.business;
 
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 import fr.paris.lutece.plugins.workflow.modules.tipi.util.IdGenerator;
+import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
+import fr.paris.vdp.tipi.create.url.enumeration.TransactionResult;
 
-public class MockTask extends SimpleTask
+public class MockTipi
 {
+    private static final String REFDET_PREFIX = "refdet";
+    private static final String REFDET_IDOP = "idop";
 
-    @Override
-    public String getTitle( Locale locale )
+    public static Tipi create( )
     {
-        return null;
+        Tipi tipi = new Tipi( );
+        tipi.setRefDet( REFDET_PREFIX + IdGenerator.generateId( ) );
+
+        return tipi;
     }
 
-    @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
+    public static Tipi createWithIdOp( )
     {
+        Tipi tipi = create( );
+        tipi.setIdOp( REFDET_IDOP + IdGenerator.generateId( ) );
 
+        return tipi;
     }
 
-    public static ITask create( )
+    public static Tipi createAcceptedPayment( )
     {
-        ITask task = new MockTask( );
-        task.setId( IdGenerator.generateId( ) );
+        Tipi tipi = createWithIdOp( );
+        tipi.setTransactionResult( TransactionResult.PAYMENT_SUCCEEDED.getValueStr( ) );
 
-        return task;
+        return tipi;
     }
 
+    public static Tipi createRefusedPayment( )
+    {
+        Tipi tipi = createWithIdOp( );
+        tipi.setTransactionResult( TransactionResult.PAYMENT_FAILED.getValueStr( ) );
+
+        return tipi;
+    }
+
+    public static Tipi createCanceledPayment( )
+    {
+        Tipi tipi = createWithIdOp( );
+        tipi.setTransactionResult( TipiConstants.TRANSACTION_RESULT_PAYMENT_CANCELED );
+
+        return tipi;
+    }
 }

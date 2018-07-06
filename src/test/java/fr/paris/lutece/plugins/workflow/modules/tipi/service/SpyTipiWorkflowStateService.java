@@ -31,35 +31,24 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflowcore.service.task;
+package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
-import java.util.Locale;
+import fr.paris.lutece.util.ReferenceList;
 
-import javax.servlet.http.HttpServletRequest;
-
-import fr.paris.lutece.plugins.workflow.modules.tipi.util.IdGenerator;
-
-public class MockTask extends SimpleTask
+public class SpyTipiWorkflowStateService implements ITipiWorkflowStateService
 {
+    public int _nIdState = -1;
 
     @Override
-    public String getTitle( Locale locale )
+    public ReferenceList getListStates( int nIdAction )
     {
         return null;
     }
 
     @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
+    public void changeState( int nIdState, int nIdResourceHistory )
     {
-
-    }
-
-    public static ITask create( )
-    {
-        ITask task = new MockTask( );
-        task.setId( IdGenerator.generateId( ) );
-
-        return task;
+        _nIdState = nIdState;
     }
 
 }
