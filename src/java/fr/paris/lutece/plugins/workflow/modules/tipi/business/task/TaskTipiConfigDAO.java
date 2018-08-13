@@ -75,7 +75,7 @@ public class TaskTipiConfigDAO implements ITaskConfigDAO<TaskTipiConfig>
         daoUtil.setInt( nIndex++, config.getIdStateAfterFailurePayment( ) );
 
         daoUtil.executeUpdate( );
-        daoUtil.free( );
+        daoUtil.close( );
     }
 
     /**
@@ -103,6 +103,8 @@ public class TaskTipiConfigDAO implements ITaskConfigDAO<TaskTipiConfig>
 
         }
 
+        daoUtil.close( );
+
         return config;
     }
 
@@ -123,7 +125,7 @@ public class TaskTipiConfigDAO implements ITaskConfigDAO<TaskTipiConfig>
         daoUtil.setInt( nIndex++, config.getIdTask( ) );
 
         daoUtil.executeUpdate( );
-        daoUtil.free( );
+        daoUtil.close( );
     }
 
     /**
@@ -136,7 +138,7 @@ public class TaskTipiConfigDAO implements ITaskConfigDAO<TaskTipiConfig>
 
         daoUtil.setInt( 1, nIdTask );
         daoUtil.executeUpdate( );
-        daoUtil.free( );
+        daoUtil.close( );
 
     }
 
