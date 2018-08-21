@@ -32,6 +32,22 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>luteceTMMA</id>
+            <name>luteceRepository</name>
+            <url>http://dev.lutece.paris.fr/tmma_nexus/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>luteceTMMASnapshot</id>
+            <name>luteceSnapshot</name>
+            <url>http://dev.lutece.paris.fr/tmma_nexus/content/repositories/snapshots/</url>
+        </repository>
 	</repositories>
 	<dependencies>
 		<dependency>
