@@ -41,6 +41,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+
 import fr.paris.lutece.plugins.workflow.web.task.AbstractTaskComponent;
 import fr.paris.lutece.plugins.workflowcore.business.config.ITaskConfig;
 import fr.paris.lutece.plugins.workflowcore.service.config.ITaskConfigService;
@@ -123,15 +125,23 @@ public class TipiTaskComponent extends AbstractTaskComponent
     @Override
     public String getDisplayTaskInformation( int nIdResource, HttpServletRequest request, Locale locale, ITask task )
     {
+        String strResult = StringUtils.EMPTY;
+
         TipiRefDetHistory tipiRefDetHistory = _tipiRefDetHistoryService.findByPrimaryKey( nIdResource );
-        Tipi tipi = _tipiService.findByPrimaryKey( tipiRefDetHistory.getRefDet( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_TIPI, tipi );
+        if ( tipiRefDetHistory != null )
+        {
+            Tipi tipi = _tipiService.findByPrimaryKey( tipiRefDetHistory.getRefDet( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TASK_INFORMATION, locale, model );
+            Map<String, Object> model = new HashMap<String, Object>( );
+            model.put( MARK_TIPI, tipi );
 
-        return template.getHtml( );
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TASK_INFORMATION, locale, model );
+
+            strResult = template.getHtml( );
+        }
+
+        return strResult;
     }
 
     /**
