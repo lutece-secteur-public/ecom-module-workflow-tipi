@@ -40,14 +40,19 @@ import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
+import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TipiNotFoundException;
+import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiPaymentService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetHistoryService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiServiceCaller;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiPaymentService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.ITipiUrlService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.vdp.tipi.create.url.enumeration.TransactionResult;
 
@@ -62,6 +67,7 @@ public class TipiPaymentJspBean
 
     // Messages
     private static final String MESSAGE_REFDET_ALREADY_PAID = "module.workflow.tipi.message.refdet.already.paid";
+    private static final String MESSAGE_REFDET_ = "module.workflow.tipi.message.refdet.already.paid";
 
     // Other constants
     private static final int ID_NOT_SET = -1;
@@ -71,6 +77,7 @@ public class TipiPaymentJspBean
     private final ITipiService _tipiService;
     private final ITipiRefDetHistoryService _tipiRefDetHistoryService;
     private final ITipiServiceCaller _tipiServiceCaller;
+    private final ITipiPaymentService _tipiPaymentService;
 
     /**
      * Constructor
@@ -81,6 +88,8 @@ public class TipiPaymentJspBean
         _tipiService = SpringContextService.getBean( ITipiService.BEAN_NAME );
         _tipiServiceCaller = SpringContextService.getBean( ITipiServiceCaller.BEAN_NAME );
         _tipiRefDetHistoryService = SpringContextService.getBean( ITipiRefDetHistoryService.BEAN_NAME );
+        _tipiPaymentService=SpringContextService.getBean( ITipiPaymentService.BEAN_NAME );
+    
     }
 
     /**
@@ -96,12 +105,13 @@ public class TipiPaymentJspBean
      *            the TIPI service caller
      */
     public TipiPaymentJspBean( ITipiUrlService tipiUrlService, ITipiService tipiService, ITipiRefDetHistoryService tipiRefDetHistoryService,
-            ITipiServiceCaller tipiServiceCaller )
+            ITipiServiceCaller tipiServiceCaller,TipiPaymentService tipiPaymentService )
     {
         _tipiUrlService = tipiUrlService;
         _tipiService = tipiService;
         _tipiRefDetHistoryService = tipiRefDetHistoryService;
         _tipiServiceCaller = tipiServiceCaller;
+        _tipiPaymentService=tipiPaymentService;
     }
 
     /**
@@ -148,6 +158,25 @@ public class TipiPaymentJspBean
 
         Tipi tipi = _tipiService.findByPrimaryKey( refDetHistory );
 
+        
+        if( tipi.getIdOp( ) != null  && !StringUtils.isEmpty( tipi.getIdOp( )))
+        {
+            //an IdOp already exist, Call tipi for updating  payment information 
+            try
+            {
+                _tipiPaymentService.paymentProcessed( tipi.getIdOp( ) );
+            }
+            catch( TransactionResultException e )
+            {
+                AppLogService.error( "Cannot get the transaction result for the IdOp " + tipi.getIdOp( ), e );
+            }
+            catch( TipiNotFoundException e )
+            {
+                AppLogService.error( "There is no TIPI object associated to the IdOp " + tipi.getIdOp( ), e );
+            }
+                
+        }
+        
         if ( isTipiPaymentAlreadyPaid( tipi ) )
         {
             SiteMessageService.setMessage( request, MESSAGE_REFDET_ALREADY_PAID, SiteMessage.TYPE_INFO );
