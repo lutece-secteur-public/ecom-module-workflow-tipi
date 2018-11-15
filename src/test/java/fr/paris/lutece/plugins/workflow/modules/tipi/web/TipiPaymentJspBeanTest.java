@@ -39,9 +39,13 @@ import fr.paris.lutece.plugins.tipi.business.MockTipi;
 import fr.paris.lutece.plugins.tipi.business.MockTipiRefDetHistory;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiPaymentService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiWorkflowStateService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.MockTipiRefDetHistoryService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.MockTipiService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.SpyTipiServiceCaller;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.SpyTipiWorkflowStateService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiPaymentService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.SpyTipiUrlService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import junit.framework.TestCase;
@@ -58,6 +62,10 @@ public class TipiPaymentJspBeanTest extends TestCase
     private MockTipiService _tipiService;
     private MockTipiRefDetHistoryService _tipiRefDetHistoryService;
     private SpyTipiServiceCaller _tipiServiceCaller;
+    private final ITipiPaymentService _tipiPaymentService;
+
+    
+    
     private TipiPaymentJspBean _jspBean;
 
     public void setUp( ) throws Exception
@@ -69,7 +77,10 @@ public class TipiPaymentJspBeanTest extends TestCase
         _tipiService = new MockTipiService( );
         _tipiRefDetHistoryService = new MockTipiRefDetHistoryService( );
         _tipiServiceCaller = new SpyTipiServiceCaller( );
-        _jspBean = new TipiPaymentJspBean( _tipiUrlService, _tipiService, _tipiRefDetHistoryService, _tipiServiceCaller );
+        
+       
+        _tipiPaymentService = new TipiPaymentService( _tipiService, _tipiRefDetHistoryService, new SpyTipiWorkflowStateService( ), _tipiServiceCaller );
+        _jspBean = new TipiPaymentJspBean( _tipiUrlService, _tipiService, _tipiRefDetHistoryService, _tipiServiceCaller,_tipiPaymentService );
     }
 
     public void testProcessPaymentWithUnauthenticatedUrl( )

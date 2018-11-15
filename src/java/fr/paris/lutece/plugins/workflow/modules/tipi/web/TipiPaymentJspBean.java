@@ -54,6 +54,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.vdp.tipi.create.url.enumeration.TransactionResult;
 
 /**
@@ -159,27 +160,30 @@ public class TipiPaymentJspBean
         Tipi tipi = _tipiService.findByPrimaryKey( refDetHistory );
 
         
-        if( tipi.getIdOp( ) != null  && !StringUtils.isEmpty( tipi.getIdOp( )))
+        if( tipi.getIdOp( ) != null  && !StringUtils.isEmpty( tipi.getIdOp( )) && StringUtils.isEmpty(tipi.getTransactionResult( )))
         {
             //an IdOp already exist, Call tipi for updating  payment information 
             try
             {
-                _tipiPaymentService.paymentProcessed( tipi.getIdOp( ) );
+                _tipiPaymentService.paymentProcessed( tipi );
             }
             catch( TransactionResultException e )
             {
                 AppLogService.error( "Cannot get the transaction result for the IdOp " + tipi.getIdOp( ), e );
             }
-            catch( TipiNotFoundException e )
+            catch(Exception e)
             {
-                AppLogService.error( "There is no TIPI object associated to the IdOp " + tipi.getIdOp( ), e );
-            }
+                AppLogService.error( "Error when calling tipi " + tipi.getIdOp( ), e );
+
+             }
                 
         }
         
         if ( isTipiPaymentAlreadyPaid( tipi ) )
         {
             SiteMessageService.setMessage( request, MESSAGE_REFDET_ALREADY_PAID, SiteMessage.TYPE_INFO );
+            AppLogService.info( "RefDet already paid: " + tipi.getRefDet( ) );
+       
         }
 
         String strEmail = tipi.getEmail( );

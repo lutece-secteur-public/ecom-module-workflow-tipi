@@ -171,6 +171,9 @@ public class TipiServiceCaller implements ITipiServiceCaller
         {
             ParametresPaiementTipi parameters = new CreateURLWebService( ).appelWebserviceDetailPaiement( request, strUrlWebservice );
             transactionResult = parameters.getResultrans( );
+            
+            AppLogService.debug("Debug Tipi parameters for Idop " +strIdop +"-->" + parameters!=null?parameters.toString( ):"No Tipi Parameters" );
+            
 
         }
         catch( RemoteException | ServiceException e )
