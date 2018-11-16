@@ -35,21 +35,18 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.web;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
-import fr.paris.lutece.plugins.workflow.modules.tipi.business.ITipiRefDetIdOpHistoryDAO;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetIdOpHistory;
-import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TipiNotFoundException;
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiPaymentService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetHistoryService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetIdOpHistoryService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiServiceCaller;
-import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiPaymentService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.ITipiUrlService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
@@ -57,7 +54,6 @@ import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Messages;
-import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.vdp.tipi.create.url.enumeration.TransactionResult;
 
 /**
