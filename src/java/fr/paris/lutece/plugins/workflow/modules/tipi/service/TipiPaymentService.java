@@ -119,7 +119,7 @@ public class TipiPaymentService implements ITipiPaymentService
         TipiRefDetHistory refDetHistory = findRefDetHistory( tipi );
         List<TipiRefDetIdOpHistory> listRefDetIdopHistory=_tipiRefDetIdOpHistoryService.getByRefDet( tipi.getRefDet( ) );
         //update transaction the payment is succeded or if ther is only ine transaction for a refDet
-        if(TransactionResult.PAYMENT_SUCCEEDED.equals( transactionResult.getTransactionResult( ))||listRefDetIdopHistory.isEmpty( )|| listRefDetIdopHistory.size( )==1)
+        if(TransactionResult.PAYMENT_SUCCEEDED.getValueStr( ).equals( transactionResult.getTransactionResult( ))||listRefDetIdopHistory.isEmpty( )|| listRefDetIdopHistory.size( )==1)
         {
             saveTransactionResult( tipi, transactionResult.getTransactionResult( ) );
             changeWorklowState( transactionResult.getTransactionResult( ), refDetHistory );
