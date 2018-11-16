@@ -31,47 +31,51 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
-import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiTransactionResult;
-import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
+package fr.paris.lutece.plugins.workflow.modules.tipi.business;
+
+import java.util.List;
 
 /**
- * 
- * Interface for communication whit the TIPI web service
- *
+ * ITipiRefDetIdopHistoryDAO Interface
  */
-public interface ITipiServiceCaller
+
+public interface ITipiRefDetIdOpHistoryDAO
 {
 
-    // BEAN
-    String BEAN_NAME = "workflow-tipi.tipiServiceCaller";
+    /**
+     * Insert a new record in the table.
+     * 
+     * @param tipiRefDetHistory
+     *            instance of the TipiRefDetHistory object to inssert
+     */
+
+    void insert( TipiRefDetIdOpHistory tipiRefDetHistory );
 
     /**
+   
+    /**
+     * Delete a record from the table
      * 
-     * Gives the idop
+     * @param nIdHistory
+     *            int identifier of the TipiRefDetHistory to delete
+     */
+
+    void deleteByIdop( String strIdOp );
+
+    // /////////////////////////////////////////////////////////////////////////
+    // Finders
+
+    
+
+    /**
+     * Load the data from the table find by RefDet
      * 
-     * @param strEmail
-     *            the email
+     * 
      * @param strRefDet
-     *            the RefDet
-     * @param nAmount
-     *            the amount
-     * @param strNotificationUrl
-     *            the notification URL
-     * @return the idop
+     *            The refDet of the tipiRefDetHistory
+     * @return The instance of the tipiRefDetHistory
      */
-    String getIdop( String strEmail, String strRefDet, int nAmount, String strNotificationUrl );
-
-    /**
-     * Gives the transaction result associated to the specified idop
-     * 
-     * @param strIdop
-     *            the idop
-     * @return the transaction result
-     * @throws TransactionResultException
-     *             if there is an error getting the TIPI transaction result
-     */
-    TipiTransactionResult getTransactionResult( String strIdop ) throws TransactionResultException;
+    List<TipiRefDetIdOpHistory> getByRefDet( String strRefDet );
 
 }

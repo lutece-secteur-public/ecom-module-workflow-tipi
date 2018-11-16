@@ -41,11 +41,14 @@ import javax.xml.rpc.ServiceException;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiTransactionResult;
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
+import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultFunctinalException;
 import fr.paris.lutece.plugins.workflow.modules.tipi.util.TipiConstants;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.tipi.generated.CreerPaiementSecuriseRequest;
+import fr.paris.tipi.generated.FonctionnelleErreur;
 import fr.paris.tipi.generated.RecupererDetailPaiementSecuriseRequest;
 import fr.paris.vdp.tipi.create.url.enumeration.PaymentType;
 import fr.paris.vdp.tipi.create.url.webservice.CreateURLWebService;
@@ -157,10 +160,10 @@ public class TipiServiceCaller implements ITipiServiceCaller
      * @throws TechDysfonctionnementErreur
      */
     @Override
-    public String getTransactionResult( String strIdop ) throws TransactionResultException
+    public TipiTransactionResult getTransactionResult( String strIdop ) throws TransactionResultException
     {
-        String transactionResult = null;
 
+        TipiTransactionResult tipiTransactionResult=null;
         String strUrlWebservice = AppPropertiesService.getProperty( TipiConstants.PROPERTY_URL_TIPI_WEBSERVICE );
 
         RecupererDetailPaiementSecuriseRequest request = new RecupererDetailPaiementSecuriseRequest( );
@@ -170,23 +173,24 @@ public class TipiServiceCaller implements ITipiServiceCaller
         try
         {
             ParametresPaiementTipi parameters = new CreateURLWebService( ).appelWebserviceDetailPaiement( request, strUrlWebservice );
-            transactionResult = parameters.getResultrans( );
+            tipiTransactionResult = new TipiTransactionResult( parameters.getIdOp( ), parameters.getRefDet( ), parameters.getResultrans( ) ); 
             
-            AppLogService.debug("Debug Tipi parameters for Idop " +strIdop +"-->" + parameters!=null?parameters.toString( ):"No Tipi Parameters" );
-            
-
+        }
+        catch( FonctionnelleErreur e )
+        {
+            throw new TransactionResultFunctinalException( e.getCode( ),"Functionnal error "+e.getCode( )+"  when getting the transaction result", e );
         }
         catch( RemoteException | ServiceException e )
         {
             throw new TransactionResultException( "Error when getting the transaction result", e );
         }
 
-        if ( transactionResult == null )
+        if ( tipiTransactionResult == null || tipiTransactionResult.getTransactionResult( )==null)
         {
             throw new TransactionResultException( "The transaction result returned by the TIPI service is null" );
         }
 
-        return transactionResult;
+        return tipiTransactionResult;
     }
 
     /**

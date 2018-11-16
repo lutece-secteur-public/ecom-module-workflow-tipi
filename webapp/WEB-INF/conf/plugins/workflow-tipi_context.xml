@@ -61,6 +61,8 @@
 	<bean id="workflow-tipi.tipiRefDetHistoryService"
 		class="fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiRefDetHistoryService"/>
 
+<bean id="workflow-tipi.tipiRefDetIdOpHistoryService"
+		class="fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiRefDetIdOpHistoryService"/>
     <bean id="workflow-tipi.tipiCallbackRestService"
         class="fr.paris.lutece.plugins.workflow.modules.tipi.web.rs.TipiCallbackRestService"/>
 
@@ -76,6 +78,10 @@
 	<bean id="workflow-tipi.tipiRefDetHistoryDAO"
 		class="fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistoryDAO"
 		scope="prototype" />
+	<bean id="workflow-tipi.tipiRefDetIdOpHistoryDAO"
+		class="fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetIdOpHistoryDAO"
+		scope="prototype" />
+		
 	
 	<!-- SignRequest -->
 	<bean id="workflow-tipi.hashService"

@@ -35,13 +35,16 @@ package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiTransactionResult;
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
 import fr.paris.vdp.tipi.create.url.enumeration.TransactionResult;
 
 public class SpyTipiServiceCaller implements ITipiServiceCaller
 {
     public String _strIdOp = StringUtils.EMPTY;
-    public String _strTransactionResult = TransactionResult.PAYMENT_SUCCEEDED.getValueStr( );
+    
+    
+    public TipiTransactionResult _transactionResult = new TipiTransactionResult( _strIdOp, StringUtils.EMPTY,TransactionResult.PAYMENT_SUCCEEDED.getValueStr( ));
     public boolean _bMustThrowTransactionResultException = false;
 
     @Override
@@ -51,14 +54,14 @@ public class SpyTipiServiceCaller implements ITipiServiceCaller
     }
 
     @Override
-    public String getTransactionResult( String strIdop ) throws TransactionResultException
+    public TipiTransactionResult getTransactionResult( String strIdop ) throws TransactionResultException
     {
         if ( _bMustThrowTransactionResultException )
         {
             throw new TransactionResultException( );
         }
 
-        return _strTransactionResult;
+        return _transactionResult;
     }
 
 }

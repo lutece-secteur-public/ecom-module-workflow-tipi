@@ -31,47 +31,47 @@
  *
  * License 1.0
  */
+
 package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
-import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiTransactionResult;
-import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.ITipiRefDetIdOpHistoryDAO;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetIdOpHistory;
 
 /**
- * 
- * Interface for communication whit the TIPI web service
- *
+ * This class provides instances management methods (create, find, ...) for TipiRefDetHistory objects
  */
-public interface ITipiServiceCaller
+
+public final class TipiRefDetIdOpHistoryService implements ITipiRefDetIdOpHistoryService
 {
+    @Inject
+    private ITipiRefDetIdOpHistoryDAO _dao;
 
-    // BEAN
-    String BEAN_NAME = "workflow-tipi.tipiServiceCaller";
+    @Override
+    public void create( TipiRefDetIdOpHistory tipiRefDetHistory )
+    {
+        _dao.insert( tipiRefDetHistory );
 
-    /**
-     * 
-     * Gives the idop
-     * 
-     * @param strEmail
-     *            the email
-     * @param strRefDet
-     *            the RefDet
-     * @param nAmount
-     *            the amount
-     * @param strNotificationUrl
-     *            the notification URL
-     * @return the idop
-     */
-    String getIdop( String strEmail, String strRefDet, int nAmount, String strNotificationUrl );
+        
+    }
 
-    /**
-     * Gives the transaction result associated to the specified idop
-     * 
-     * @param strIdop
-     *            the idop
-     * @return the transaction result
-     * @throws TransactionResultException
-     *             if there is an error getting the TIPI transaction result
-     */
-    TipiTransactionResult getTransactionResult( String strIdop ) throws TransactionResultException;
+    @Override
+    public void removeByIdop( String strIdOp )
+    {
+        _dao.deleteByIdop( strIdOp );
+        
+    }
+
+    @Override
+    public List<TipiRefDetIdOpHistory> getByRefDet( String strRefDet )
+    {
+        // TODO Auto-generated method stub
+        return _dao.getByRefDet( strRefDet );
+    }
+
+    
 
 }

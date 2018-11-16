@@ -38,12 +38,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.ITipiRefDetIdOpHistoryDAO;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetIdOpHistory;
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TipiNotFoundException;
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TransactionResultException;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiPaymentService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetHistoryService;
+import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiRefDetIdOpHistoryService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiService;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.ITipiServiceCaller;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.TipiPaymentService;
@@ -68,8 +71,7 @@ public class TipiPaymentJspBean
 
     // Messages
     private static final String MESSAGE_REFDET_ALREADY_PAID = "module.workflow.tipi.message.refdet.already.paid";
-    private static final String MESSAGE_REFDET_ = "module.workflow.tipi.message.refdet.already.paid";
-
+  
     // Other constants
     private static final int ID_NOT_SET = -1;
 
@@ -79,6 +81,7 @@ public class TipiPaymentJspBean
     private final ITipiRefDetHistoryService _tipiRefDetHistoryService;
     private final ITipiServiceCaller _tipiServiceCaller;
     private final ITipiPaymentService _tipiPaymentService;
+    private final ITipiRefDetIdOpHistoryService _tipiRefDetIdOpHistoryService;
 
     /**
      * Constructor
@@ -90,7 +93,7 @@ public class TipiPaymentJspBean
         _tipiServiceCaller = SpringContextService.getBean( ITipiServiceCaller.BEAN_NAME );
         _tipiRefDetHistoryService = SpringContextService.getBean( ITipiRefDetHistoryService.BEAN_NAME );
         _tipiPaymentService=SpringContextService.getBean( ITipiPaymentService.BEAN_NAME );
-    
+        _tipiRefDetIdOpHistoryService=SpringContextService.getBean( ITipiRefDetIdOpHistoryService.BEAN_NAME );
     }
 
     /**
@@ -106,13 +109,14 @@ public class TipiPaymentJspBean
      *            the TIPI service caller
      */
     public TipiPaymentJspBean( ITipiUrlService tipiUrlService, ITipiService tipiService, ITipiRefDetHistoryService tipiRefDetHistoryService,
-            ITipiServiceCaller tipiServiceCaller,TipiPaymentService tipiPaymentService )
+            ITipiServiceCaller tipiServiceCaller,ITipiPaymentService tipiPaymentService ,ITipiRefDetIdOpHistoryService tipiRefDetIdOpHistoryService)
     {
         _tipiUrlService = tipiUrlService;
         _tipiService = tipiService;
         _tipiRefDetHistoryService = tipiRefDetHistoryService;
         _tipiServiceCaller = tipiServiceCaller;
         _tipiPaymentService=tipiPaymentService;
+        _tipiRefDetIdOpHistoryService=tipiRefDetIdOpHistoryService;
     }
 
     /**
@@ -193,7 +197,11 @@ public class TipiPaymentJspBean
         String strIdop = _tipiServiceCaller.getIdop( strEmail, strRefDet, nAmount, strNotificationUrl );
 
         tipi.setIdOp( strIdop );
+        tipi.setTransactionResult( null );
         _tipiService.update( tipi );
+        //insert history refdet idop
+        TipiRefDetIdOpHistory tipiRefDetIdOpHistory=new TipiRefDetIdOpHistory( strRefDet, strIdop );
+        _tipiRefDetIdOpHistoryService.create( tipiRefDetIdOpHistory );
 
         return _tipiUrlService.generateTipiUrl( tipi );
     }

@@ -38,3 +38,15 @@ id_task INT DEFAULT 0 NOT NULL,
 ref_det VARCHAR(50) NOT NULL,
 PRIMARY KEY (id_history)
 );
+
+
+--
+-- Create table workflow_task_tipi_refdet_idop_history
+--
+
+CREATE TABLE workflow_task_tipi_refdet_idop_history(
+ref_det VARCHAR(50) NOT NULL,
+id_op VARCHAR(50),
+PRIMARY KEY (id_op)
+);
+

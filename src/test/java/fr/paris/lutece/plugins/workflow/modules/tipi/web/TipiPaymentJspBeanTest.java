@@ -62,7 +62,7 @@ public class TipiPaymentJspBeanTest extends TestCase
     private MockTipiService _tipiService;
     private MockTipiRefDetHistoryService _tipiRefDetHistoryService;
     private SpyTipiServiceCaller _tipiServiceCaller;
-    private final ITipiPaymentService _tipiPaymentService;
+    private ITipiPaymentService _tipiPaymentService;
 
     
     

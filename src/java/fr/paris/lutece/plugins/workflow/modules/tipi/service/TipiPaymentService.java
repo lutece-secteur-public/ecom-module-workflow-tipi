@@ -33,10 +33,14 @@
  */
 package fr.paris.lutece.plugins.workflow.modules.tipi.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetHistory;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiRefDetIdOpHistory;
+import fr.paris.lutece.plugins.workflow.modules.tipi.business.TipiTransactionResult;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.task.TaskTipiConfig;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.task.TaskTipiConfigDAO;
 import fr.paris.lutece.plugins.workflow.modules.tipi.exception.TipiNotFoundException;
@@ -55,6 +59,7 @@ public class TipiPaymentService implements ITipiPaymentService
     private final ITipiWorkflowStateService _tipiWorkflowStateService;
     private final ITipiServiceCaller _tipiServiceCaller;
     private final TaskTipiConfigDAO _taskTipiConfigDAO;
+    private final ITipiRefDetIdOpHistoryService _tipiRefDetIdOpHistoryService;
 
     /**
      * Constructor
@@ -70,13 +75,14 @@ public class TipiPaymentService implements ITipiPaymentService
      */
     @Inject
     public TipiPaymentService( ITipiService tipiService, ITipiRefDetHistoryService tipiRefDetHistoryService,
-            ITipiWorkflowStateService tipiWorkflowStateService, ITipiServiceCaller tipiServiceCaller )
+            ITipiWorkflowStateService tipiWorkflowStateService, ITipiServiceCaller tipiServiceCaller,ITipiRefDetIdOpHistoryService tipiRefDetIdOpHistoryService )
     {
         _tipiService = tipiService;
         _tipiRefDetHistoryService = tipiRefDetHistoryService;
         _tipiWorkflowStateService = tipiWorkflowStateService;
         _tipiServiceCaller = tipiServiceCaller;
         _taskTipiConfigDAO = new TaskTipiConfigDAO( );
+        _tipiRefDetIdOpHistoryService=tipiRefDetIdOpHistoryService;
     }
 
     /**
@@ -85,12 +91,11 @@ public class TipiPaymentService implements ITipiPaymentService
     @Override
     public void paymentProcessed( Tipi tipi ) throws TransactionResultException
     {
-        String strTransactionResult = findTransactionResult( tipi.getIdOp( ) );
-        TipiRefDetHistory refDetHistory = findRefDetHistory( tipi );
-
-        saveTransactionResult( tipi, strTransactionResult );
-        changeWorklowState( strTransactionResult, refDetHistory );
+        TipiTransactionResult transactionResult = findTransactionResult( tipi.getIdOp( ) );
+        paymentProcessed( tipi, transactionResult );
     }
+    
+    
 
     /**
      * {@inheritDoc}
@@ -98,8 +103,28 @@ public class TipiPaymentService implements ITipiPaymentService
     @Override
     public void paymentProcessed( String strIdop ) throws TransactionResultException, TipiNotFoundException
     {
-        Tipi tipi = findTipi( strIdop );
-        paymentProcessed( tipi );
+        
+        TipiTransactionResult transactionResult = findTransactionResult( strIdop );
+        //Multiple idop can be generated for the same refDet
+        //Get the RefDet in the transactionResult
+        Tipi tipi = findTipiByRefDet( transactionResult.getRefDet( ) );
+        tipi.setIdOp( transactionResult.getIdop( ) );
+        
+        paymentProcessed( tipi,transactionResult );
+    }
+    
+   
+    private void paymentProcessed(Tipi tipi,TipiTransactionResult transactionResult) throws TransactionResultException
+    {
+        TipiRefDetHistory refDetHistory = findRefDetHistory( tipi );
+        List<TipiRefDetIdOpHistory> listRefDetIdopHistory=_tipiRefDetIdOpHistoryService.getByRefDet( tipi.getRefDet( ) );
+        //update transaction the payment is succeded or if ther is only ine transaction for a refDet
+        if(TransactionResult.PAYMENT_SUCCEEDED.equals( transactionResult.getTransactionResult( ))||listRefDetIdopHistory.isEmpty( )|| listRefDetIdopHistory.size( )==1)
+        {
+            saveTransactionResult( tipi, transactionResult.getTransactionResult( ) );
+            changeWorklowState( transactionResult.getTransactionResult( ), refDetHistory );
+        }
+        _tipiRefDetIdOpHistoryService.removeByIdop( tipi.getIdOp( ) );
     }
 
     /**
@@ -111,13 +136,13 @@ public class TipiPaymentService implements ITipiPaymentService
      * @throws TransactionResultException
      *             if there is an error getting the TIPI transaction result
      */
-    private String findTransactionResult( String strIdop ) throws TransactionResultException
+    private TipiTransactionResult findTransactionResult( String strIdop ) throws TransactionResultException
     {
         return _tipiServiceCaller.getTransactionResult( strIdop );
     }
 
     /**
-     * Finds the TIPI object associated to the specified idop
+     * Finds the TIPI object associated to the specified RefDet
      * 
      * @param strIdop
      *            the idop
@@ -125,13 +150,13 @@ public class TipiPaymentService implements ITipiPaymentService
      * @throws TipiNotFoundException
      *             if there is no TIPI object associated to the specified idop
      */
-    private Tipi findTipi( String strIdop ) throws TipiNotFoundException
+    private Tipi findTipiByRefDet( String strRefDet ) throws TipiNotFoundException
     {
-        Tipi tipi = _tipiService.findByIdop( strIdop );
+        Tipi tipi = _tipiService.findByPrimaryKey( strRefDet );
 
         if ( tipi == null )
         {
-            throw new TipiNotFoundException( "There is no TIPI object associated to the IdOp " + strIdop );
+            throw new TipiNotFoundException( "There is no TIPI object associated to the RefDet " + strRefDet );
         }
 
         return tipi;
@@ -173,6 +198,10 @@ public class TipiPaymentService implements ITipiPaymentService
      */
     private void changeWorklowState( String strTransactionResult, TipiRefDetHistory refDetHistory )
     {
+        
+        
+        
+        
         TaskTipiConfig taskTipiConfig = _taskTipiConfigDAO.load( refDetHistory.getIdTask( ) );
         int nIdResourceHistory = refDetHistory.getIdHistory( );
 
