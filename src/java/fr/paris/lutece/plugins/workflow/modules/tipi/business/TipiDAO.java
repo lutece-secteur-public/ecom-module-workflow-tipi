@@ -49,7 +49,7 @@ public final class TipiDAO implements ITipiDAO
     // Constants
     private static final String SQL_QUERY_SELECT_ALL = "SELECT ref_det, amount, email, id_op, transaction_result FROM workflow_tipi_tipi";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE ref_det = ?";
-    private static final String SQL_QUERY_SELECT_WITHOUT_TRANSACTION_RESULT = SQL_QUERY_SELECT_ALL + " WHERE id_op IS NOT NULL AND id_op <> "" AND (transaction_result IS NULL or transaction_result = '')";
+    private static final String SQL_QUERY_SELECT_WITHOUT_TRANSACTION_RESULT = SQL_QUERY_SELECT_ALL + " WHERE id_op IS NOT NULL AND id_op <> '' AND (transaction_result IS NULL or transaction_result = '')";
     private static final String SQL_QUERY_SELECT_BY_IDOP = SQL_QUERY_SELECT_ALL + " WHERE id_op = ?";
     private static final String SQL_QUERY_INSERT = "INSERT INTO workflow_tipi_tipi ( ref_det, amount, email, id_op, transaction_result ) VALUES ( ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM workflow_tipi_tipi WHERE ref_det = ? ";
