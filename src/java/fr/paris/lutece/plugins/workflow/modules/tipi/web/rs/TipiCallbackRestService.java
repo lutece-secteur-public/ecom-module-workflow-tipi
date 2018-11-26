@@ -73,7 +73,7 @@ public class TipiCallbackRestService
      *            the idop
      * @return the response
      */
-    @GET
+    @POST
     @Path( TipiConstants.URL_NOTIFICATION_PAYMENT )
     public Response paymentNotified( @QueryParam( "idop" ) String strIdop )
     {
