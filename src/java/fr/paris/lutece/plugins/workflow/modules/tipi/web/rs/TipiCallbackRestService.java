@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.workflow.modules.tipi.web.rs;
 
 import javax.inject.Inject;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
@@ -75,7 +76,7 @@ public class TipiCallbackRestService
      */
     @POST
     @Path( TipiConstants.URL_NOTIFICATION_PAYMENT )
-    public Response paymentNotified( @QueryParam( "idop" ) String strIdop )
+    public Response paymentNotified( @FormParam( "idop" ) String strIdop )
     {
         try
         {
