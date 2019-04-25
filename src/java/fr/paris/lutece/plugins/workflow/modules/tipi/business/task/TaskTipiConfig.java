@@ -49,6 +49,7 @@ public class TaskTipiConfig extends TaskConfig
     private int _nIdStateAfterSuccessPayment;
     private int _nIdStateAfterFailurePayment;
     private int _nIdStateAfterCanceledPayment;
+    private int _nIdStateForProcessingStateModif;
 
     /**
      * Get the state after a success payment
@@ -112,5 +113,28 @@ public class TaskTipiConfig extends TaskConfig
     {
         _nIdStateAfterCanceledPayment = idStateAfterCanceledPayment;
     }
+
+    /**
+     * Get the starting state for state modification
+     * @return the id of start state
+     */
+    public int getIdStateForProcessingStateModif( ) 
+    {
+        return _nIdStateForProcessingStateModif;
+    }
+
+    /**
+     * Set the starting state for state modification
+     * @param nIdStateForProcessingStateModif
+     *                      The id of starting state
+     */
+    public void setIdStateForProcessingStateModif( int nIdStateForProcessingStateModif ) 
+    {
+        _nIdStateForProcessingStateModif = nIdStateForProcessingStateModif;
+    }
+
+
+    
+    
 
 }

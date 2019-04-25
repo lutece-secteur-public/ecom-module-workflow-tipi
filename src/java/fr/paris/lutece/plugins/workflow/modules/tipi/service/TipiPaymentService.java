@@ -207,17 +207,17 @@ public class TipiPaymentService implements ITipiPaymentService
 
         if ( TransactionResult.PAYMENT_SUCCEEDED.getValueStr( ).equals( strTransactionResult ) )
         {
-            _tipiWorkflowStateService.changeState( taskTipiConfig.getIdStateAfterSuccessPayment( ), nIdResourceHistory );
+            _tipiWorkflowStateService.changeState( taskTipiConfig.getIdStateForProcessingStateModif(), taskTipiConfig.getIdStateAfterSuccessPayment( ), nIdResourceHistory );
         }
 
         if ( TransactionResult.PAYMENT_FAILED.getValueStr( ).equals( strTransactionResult ) )
         {
-            _tipiWorkflowStateService.changeState( taskTipiConfig.getIdStateAfterFailurePayment( ), nIdResourceHistory );
+            _tipiWorkflowStateService.changeState( taskTipiConfig.getIdStateForProcessingStateModif(), taskTipiConfig.getIdStateAfterFailurePayment( ), nIdResourceHistory );
         }
 
         if ( TipiConstants.TRANSACTION_RESULT_PAYMENT_CANCELED.equals( strTransactionResult ) )
         {
-            _tipiWorkflowStateService.changeState( taskTipiConfig.getIdStateAfterCanceledPayment( ), nIdResourceHistory );
+            _tipiWorkflowStateService.changeState( taskTipiConfig.getIdStateForProcessingStateModif(), taskTipiConfig.getIdStateAfterCanceledPayment( ), nIdResourceHistory );
         }
     }
 

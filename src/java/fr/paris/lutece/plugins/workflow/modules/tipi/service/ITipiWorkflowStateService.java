@@ -59,11 +59,13 @@ public interface ITipiWorkflowStateService
     /**
      * Changes the workflow state of a workflow resource
      * 
+     * @param nIdStartState
+     *            the start state
      * @param nIdState
      *            the id of the target state
      * @param nIdResourceHistory
      *            the id of the resource history associated to the workflow resource
      */
-    void changeState( int nIdState, int nIdResourceHistory );
+    void changeState( int nIdStartState, int nIdState, int nIdResourceHistory );
 
 }

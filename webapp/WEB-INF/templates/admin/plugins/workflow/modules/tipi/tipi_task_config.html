@@ -1,4 +1,7 @@
 <div class="row">
+    <@formGroup labelFor="idStateForProcessingStateModif" labelKey="#i18n{module.workflow.tipi.task_tipi_config.label_state_for_state_modif}" helpKey="#i18n{module.workflow.tipi.task_tipi_config.label_state_for_state_modif.help}" >
+      <@select name="idStateForProcessingStateModif" items=list_states default_value=(config.idStateForProcessingStateModif?string)!'' />
+    </@formGroup>
     <@formGroup labelFor="idStateAfterSuccessPayment" labelKey="#i18n{module.workflow.tipi.task_tipi_config.label_accepted}" helpKey="#i18n{module.workflow.tipi.task_tipi_config.label_accepted.help}" >
       <@select name="idStateAfterSuccessPayment" items=list_states default_value=(config.idStateAfterSuccessPayment?string)!'' />
     </@formGroup>

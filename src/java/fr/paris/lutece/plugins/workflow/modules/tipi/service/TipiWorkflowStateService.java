@@ -100,17 +100,24 @@ public class TipiWorkflowStateService implements ITipiWorkflowStateService
      * {@inheritDoc}
      */
     @Override
-    public void changeState( int nIdState, int nIdResourceHistory )
+    public void changeState( int nIdStartState, int nIdState, int nIdResourceHistory )
     {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
-        State state = _stateService.findByPrimaryKey( nIdState );
-
+        
         int nIdResource = resourceHistory.getIdResource( );
         String strResourceType = resourceHistory.getResourceType( );
         int nIdWorkflow = resourceHistory.getWorkflow( ).getId( );
-
-        // Update Resource
         ResourceWorkflow resourceWorkflow = _resourceWorkflowService.findByPrimaryKey( nIdResource, strResourceType, nIdWorkflow );
+        
+        //First check if the ressource is on state = start state
+        if ( resourceWorkflow.getState( ).getId( ) != nIdStartState )
+        {
+            return;
+        }
+
+        State state = _stateService.findByPrimaryKey( nIdState );
+        // Update Resource
+        
         int nExternalParentId = resourceWorkflow.getExternalParentId( );
         resourceWorkflow.setState( state );
         _resourceWorkflowService.update( resourceWorkflow );

@@ -48,13 +48,13 @@ public class TaskTipiConfigDAO implements ITaskConfigDAO<TaskTipiConfig>
 
     // SQL QUERY
     private static final String SQL_QUERY_INSERT = " INSERT INTO workflow_task_tipi_cf ( id_task,  id_state_after_success_payment, "
-            + " id_state_after_canceled_payment, id_state_after_failure_payment)  VALUES ( ?,?,?,? ) ";
+            + " id_state_after_canceled_payment, id_state_after_failure_payment, id_state_for_processing_state_modif )  VALUES ( ?,?,?,?, ? ) ";
 
     private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = " SELECT id_task, id_state_after_success_payment, "
-            + " id_state_after_canceled_payment, id_state_after_failure_payment FROM workflow_task_tipi_cf  WHERE id_task = ? ";
+            + " id_state_after_canceled_payment, id_state_after_failure_payment, id_state_for_processing_state_modif FROM workflow_task_tipi_cf  WHERE id_task = ? ";
 
     private static final String SQL_QUERY_UPDATE = "UPDATE workflow_task_tipi_cf SET id_State_After_Success_Payment = ?, "
-            + " id_state_after_canceled_payment = ?,  id_state_after_failure_payment = ?  WHERE id_task = ? ";
+            + " id_state_after_canceled_payment = ?,  id_state_after_failure_payment = ?, id_state_for_processing_state_modif = ?  WHERE id_task = ? ";
 
     private static final String SQL_QUERY_DELETE = " DELETE FROM workflow_task_tipi_cf WHERE id_task = ? ";
 
@@ -73,6 +73,7 @@ public class TaskTipiConfigDAO implements ITaskConfigDAO<TaskTipiConfig>
         daoUtil.setInt( nIndex++, config.getIdStateAfterSuccessPayment( ) );
         daoUtil.setInt( nIndex++, config.getIdStateAfterCanceledPayment( ) );
         daoUtil.setInt( nIndex++, config.getIdStateAfterFailurePayment( ) );
+        daoUtil.setInt( nIndex++, config.getIdStateForProcessingStateModif( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.close( );
@@ -100,6 +101,7 @@ public class TaskTipiConfigDAO implements ITaskConfigDAO<TaskTipiConfig>
             config.setIdStateAfterSuccessPayment( daoUtil.getInt( nIndex++ ) );
             config.setIdStateAfterCanceledPayment( daoUtil.getInt( nIndex++ ) );
             config.setIdStateAfterFailurePayment( daoUtil.getInt( nIndex++ ) );
+            config.setIdStateForProcessingStateModif( daoUtil.getInt( nIndex++ ) );
 
         }
 
@@ -121,6 +123,7 @@ public class TaskTipiConfigDAO implements ITaskConfigDAO<TaskTipiConfig>
         daoUtil.setInt( nIndex++, config.getIdStateAfterSuccessPayment( ) );
         daoUtil.setInt( nIndex++, config.getIdStateAfterCanceledPayment( ) );
         daoUtil.setInt( nIndex++, config.getIdStateAfterFailurePayment( ) );
+        daoUtil.setInt( nIndex++, config.getIdStateForProcessingStateModif( ) );
 
         daoUtil.setInt( nIndex++, config.getIdTask( ) );
 

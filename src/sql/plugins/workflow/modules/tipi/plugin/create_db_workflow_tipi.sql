@@ -11,6 +11,7 @@ id_task INT DEFAULT 0 NOT NULL,
 id_state_after_success_payment INT DEFAULT 0 NOT NULL,
 id_state_after_failure_payment INT DEFAULT 0 NOT NULL,
 id_state_after_canceled_payment INT DEFAULT 0 NOT NULL,
+id_state_for_processing_state_modif INT DEFAULT 0 NOT NULL,
 PRIMARY KEY (id_task)
 );
 

@@ -1,0 +1,1 @@
+ALTER TABLE workflow_task_tipi_cf ADD COLUMN id_state_for_processing_state_modif INT DEFAULT 0 NOT NULL;
