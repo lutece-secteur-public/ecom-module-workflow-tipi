@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.workflow.modules.tipi.service.provider.impl;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -40,10 +41,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.plugins.workflow.modules.notifygru.service.provider.IMarkerProvider;
-import fr.paris.lutece.plugins.workflow.modules.notifygru.service.provider.NotifyGruMarker;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.ITipiUrlService;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
+import fr.paris.lutece.plugins.workflowcore.service.provider.IMarkerProvider;
+import fr.paris.lutece.plugins.workflowcore.service.provider.InfoMarker;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 
 /**
@@ -97,11 +98,11 @@ public class TipiMarkerProvider implements IMarkerProvider
      * {@inheritDoc}
      */
     @Override
-    public Collection<NotifyGruMarker> provideMarkerDescriptions( )
+    public Collection<InfoMarker> provideMarkerDescriptions( )
     {
-        List<NotifyGruMarker> listMarkers = new ArrayList<>( );
+        List<InfoMarker> listMarkers = new ArrayList<>( );
 
-        NotifyGruMarker notifyGruMarker = new NotifyGruMarker( MARK_TIPI_URL );
+        InfoMarker notifyGruMarker = new InfoMarker( MARK_TIPI_URL );
         notifyGruMarker.setDescription( MESSAGE_TIPI_URL_DESCRIPTION );
         listMarkers.add( notifyGruMarker );
 
@@ -112,11 +113,11 @@ public class TipiMarkerProvider implements IMarkerProvider
      * {@inheritDoc}
      */
     @Override
-    public Collection<NotifyGruMarker> provideMarkerValues( ResourceHistory resourceHistory, ITask task, HttpServletRequest request )
+    public Collection<InfoMarker> provideMarkerValues( ResourceHistory resourceHistory, ITask task, HttpServletRequest request )
     {
-        List<NotifyGruMarker> listMarkers = new ArrayList<>( );
+        List<InfoMarker> listMarkers = new ArrayList<>( );
 
-        NotifyGruMarker notifyGruMarker = new NotifyGruMarker( MARK_TIPI_URL );
+        InfoMarker notifyGruMarker = new InfoMarker( MARK_TIPI_URL );
         notifyGruMarker.setValue( _tipiUrlService.generatePaymentUrl( resourceHistory, task, request ) );
         listMarkers.add( notifyGruMarker );
 

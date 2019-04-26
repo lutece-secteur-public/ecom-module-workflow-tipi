@@ -38,9 +38,9 @@ import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.plugins.workflow.modules.notifygru.service.provider.NotifyGruMarker;
 import fr.paris.lutece.plugins.workflow.modules.tipi.business.Tipi;
 import fr.paris.lutece.plugins.workflow.modules.tipi.service.url.SpyTipiUrlService;
+import fr.paris.lutece.plugins.workflowcore.service.provider.InfoMarker;
 import junit.framework.TestCase;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -65,27 +65,27 @@ public class TipiMarkerProviderTest extends TestCase
 
     public void testMarkerDescriptions( )
     {
-        Collection<NotifyGruMarker> collectionMarkers = _markerProvider.provideMarkerDescriptions( );
+        Collection<InfoMarker> collectionMarkers = _markerProvider.provideMarkerDescriptions( );
 
         assertThat( collectionMarkers.size( ), is( 1 ) );
-        NotifyGruMarker tipiMarker = extractTipiMarker( collectionMarkers );
+        InfoMarker tipiMarker = extractTipiMarker( collectionMarkers );
         assertThat( tipiMarker.getMarker( ), is( MARK_TIPI_URL ) );
         assertThat( tipiMarker.getDescription( ), is( not( nullValue( ) ) ) );
     }
 
-    private NotifyGruMarker extractTipiMarker( Collection<NotifyGruMarker> collectionMarkers )
+    private InfoMarker extractTipiMarker( Collection<InfoMarker> collectionMarkers )
     {
-        Iterator<NotifyGruMarker> iterator = collectionMarkers.iterator( );
+        Iterator<InfoMarker> iterator = collectionMarkers.iterator( );
 
         return iterator.next( );
     }
 
     public void testMarkerValues( )
     {
-        Collection<NotifyGruMarker> collectionMarkers = _markerProvider.provideMarkerDescriptions( );
+        Collection<InfoMarker> collectionMarkers = _markerProvider.provideMarkerDescriptions( );
 
         assertThat( collectionMarkers.size( ), is( 1 ) );
-        NotifyGruMarker tipiMarker = extractTipiMarker( collectionMarkers );
+        InfoMarker tipiMarker = extractTipiMarker( collectionMarkers );
         assertThat( tipiMarker.getMarker( ), is( MARK_TIPI_URL ) );
         assertThat( tipiMarker.getValue( ), is( _tipiUrlService._strGeneratedPaymentUrl ) );
     }
